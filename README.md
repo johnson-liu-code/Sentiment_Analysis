@@ -3,17 +3,42 @@
 Diablo Valley College\
 Project Bracket
 
+---
+#### Authors
 
 Heidi\
-[heidi415D](https://github.com/heidi415D)\
-Bryan\
-[hBrymiri](https://github.com/hBrymiri)\
+[@heidi415D](https://github.com/heidi415D)
+
+Brymiri\
+[@hBrymiri](https://github.com/hBrymiri)
+
 Johnson Liu\
-[johnson-liu-code](https://github.com/johnson-liu-code)
+[@johnson-liu-code](https://github.com/johnson-liu-code)
 
 ---
 ### Resources
 
+#### Data
+
+Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic.
+1. https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv
+
+#### Theoretical Foundations
+Natural language processing –
+1. https://en.wikipedia.org/wiki/Natural_language_processing
+2. https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/
+
+word2vec model –
+1. https://en.wikipedia.org/wiki/Word2vec
+2. https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/
+
+GloVe model –
+1. https://en.wikipedia.org/wiki/GloVe
+
+
+#### Sample Work
+Project applying word2vec and GloVe to classifying news headlines. Trained using headlines from _The Onion_ and the _The Huffington Post_.
+1. https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy
 
 
 
@@ -33,9 +58,9 @@ At this point **groups should be more than halfway done with their project** or 
 
 ### Records
 
-#### 20250404
+##### 20250404
 
-#### Notes
+###### Notes
 — Johnson
 1. Heidi and Brymiri, I will be using this file to keep track of out progress and to assign tasks amongst the team members.
 2. I will also use this file to keep track of important dates specified by the club.
@@ -43,9 +68,19 @@ At this point **groups should be more than halfway done with their project** or 
 4. You can also use this file to add important notes that you want the team to remember.
 
 
-#### To-do
+###### To-do
 For Johnson:
 - [x] Create Github repository.
-- [ ] Look up relavant resources.
-- [ ] Look up relavant data.
+- [x] Look up relavant resources.
+- [x] Look up relavant data.
 - [ ] Plan out our timeline and general to-do's / tasks for each team member.
+
+##### 20250408
+
+###### To-do
+For Heidi:
+- [ ] Review the theoretical resources and begin drafting a short write-up for our team to reference?
+- [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
+
+For Bryan:
+- [ ] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted. 
