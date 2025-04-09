@@ -5,9 +5,17 @@ Project Bracket
 
 
 Heidi\
-Brymiri\
+[heidi415D](https://github.com/heidi415D)\
+Bryan\
+[hBrymiri](https://github.com/hBrymiri)\
 Johnson Liu\
-[@johnson-liu-code](https://github.com/johnson-liu-code)
+[johnson-liu-code](https://github.com/johnson-liu-code)
+
+---
+### Resources
+
+
+
 
 ---
 ### Important Dates ( taken from club-provided syllabus )
