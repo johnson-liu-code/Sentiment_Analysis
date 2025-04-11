@@ -4,6 +4,7 @@ Diablo Valley College\
 Project Bracket
 
 ---
+
 #### Authors
 
 Heidi\
@@ -16,6 +17,7 @@ Johnson Liu\
 [@johnson-liu-code](https://github.com/johnson-liu-code)
 
 ---
+
 ### Resources
 
 #### Data
@@ -35,14 +37,12 @@ word2vec model –
 GloVe model –
 1. https://en.wikipedia.org/wiki/GloVe
 
-
 #### Sample Work
 Project applying word2vec and GloVe to classifying news headlines. Trained using headlines from _The Onion_ and the _The Huffington Post_.
 1. https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy
 
-
-
 ---
+
 ### Important Dates ( taken from club-provided syllabus )
 
 ##### Week 5/6 — April 16 & April 23, 2025
@@ -53,6 +53,15 @@ At this point **groups should be more than halfway done with their project** or 
 
 ##### Week 8 — May 7, 2025
 **Groups should be close to wrapping up their projects** or should be completely done with the projects. This week will be focused mainly on the final project showcase in which judges will determine who has the best project. Groups may want to **prepare ahead of time with presentations**, graphics, and props to enhance their presentations.
+
+---
+### Data Visualization
+
+#### Word cloud - Not Sarcastic
+![placeholder-text](wordcloud_not_sarcastic.png)
+
+#### Word cloud - Sarcastic
+![placeholder-text](wordcloud_sarcastic.png)
 
 ---
 
@@ -66,7 +75,6 @@ At this point **groups should be more than halfway done with their project** or 
 2. I will also use this file to keep track of important dates specified by the club.
 3. Please use this file to record any important thoughts that you come up with during the course of the project.
 4. You can also use this file to add important notes that you want the team to remember.
-
 
 ###### To-do
 For Johnson:
