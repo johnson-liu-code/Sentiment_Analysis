@@ -11,6 +11,7 @@ import nltk
 import string
 
 
+
 if __name__ == "__main__":
     # Extract data
     data = extract_data.extract_data( csv_file_name = 'train-balanced-sarcasm.csv' )
