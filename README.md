@@ -9,29 +9,26 @@ Project Bracket
 
 ### __Authors__
 
-Heidi\
-[@heidi415D](https://github.com/heidi415D)
+Heidi - [@heidi415D](https://github.com/heidi415D)
 
-Brymiri\
-[@hBrymiri](https://github.com/hBrymiri)
+Bryan - [@hBrymiri](https://github.com/hBrymiri)
 
-Johnson Liu ( project manager ) \
-[@johnson-liu-code](https://github.com/johnson-liu-code)
+Johnson Liu ( project manager )\
+[@johnson-liu-code](https://github.com/johnson-liu-code)\
+[liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 
 ---
 
 ### __Project Overview__
 
-#### __Introduction__
-\
-\
-\
-\
-\
-\
-\
-\
-\
+#### __Introduction / Background__
+... text here ...
+
+#### __Purpose__
+... text here ...
+
+#### __Data Used__
+... text here ...
 
 #### __Variable Definitions__
 
@@ -43,6 +40,18 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 1. ...
 1. ....
 1. more stuff ...
+
+#### __Mathematical Foundations__
+... text here ...
+
+#### __Workflow / Pipeline__
+... text here ...
+
+#### __Results__
+... text here ...
+
+#### __Future Direction / Possible Improvements__
+... text here ...
 
 ---
 
@@ -144,6 +153,23 @@ At this point **groups should be more than halfway done with their project** or 
 4. Generated figures to help us better understand the data.
 
 ---
+
+#### <ins>20250413</ins>
+
+##### Notes
+— Johnson
+1. Enhanced `extract_data.py` with docstring and example usage.
+1. Updated comments in `get_relevant_data.py`.
+1. Added `cooccurrence_matrix_heatmap.png` for visualization.
+1. Refactored `generate_wordcloud.py` and `visualize_comment_length.py` to include main guard and improved comments.
+1. Introduced `cooccurrence_matrix.py` for creating and plotting co-occurrence matrices.
+1. Added `cooccurrence_probability.py` for calculating co-occurrence probabilities.
+1. Implemented `word_vectors.py` for generating random word vectors.
+1. Added `test.py` for testing co-occurrence matrix functionality.
+1. Removed obsolete `word2vec.py`.
+
+---
+
 \
 \
 \
@@ -155,7 +181,7 @@ At this point **groups should be more than halfway done with their project** or 
 \
 
 ---
-## __. . . Test\Miscellaneous  . . .__
+### __. . . Test / Miscellaneous  . . .__
 
 #### Markdown supports LaTeX formatting! :D
 
