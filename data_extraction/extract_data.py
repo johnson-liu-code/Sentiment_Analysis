@@ -5,6 +5,13 @@ import pandas as pd
 
 
 def extract_data( csv_file_name ):
+    """
+    Extracts the relevant data from the CSV file and returns a DataFrame.
+
+    Args:
+        csv_file_name (str): The name of the CSV file to extract data from.
+    """
+
     # Load the CSV file into a DataFrame.
     data_all_columns = pd.read_csv( csv_file_name, encoding = "utf-8" )
     # print(f"Data columns: {data_all_columns}")
@@ -27,3 +34,5 @@ def extract_data( csv_file_name ):
 
 
     return data_redux
+
+# Example usage:

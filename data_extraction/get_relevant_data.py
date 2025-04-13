@@ -13,13 +13,13 @@ import string
 
 
 if __name__ == "__main__":
-    # Extract data
+    # Extract data.
     data = extract_data.extract_data( csv_file_name = 'train-balanced-sarcasm.csv' )
 
-    # Define the output CSV file name
+    # Define the output CSV file name.
     output_file = 'training_data.csv'
 
-    # Write data to CSV
+    # Write data to CSV.
     data.to_csv( output_file, index = False )
 
     # Open .csv file and extract data into dataframe using pandas.
