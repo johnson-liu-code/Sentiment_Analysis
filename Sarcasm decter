@@ -1,54 +1,86 @@
-import speech_recognition as sr
 import json
-from datetime import datetime
 from transformers import pipeline
 
-# Load sarcasm classifier model (you could fine-tune your own later)
+# Load the sarcasm detection model
 sarcasm_detector = pipeline("text-classification", model="mrm8488/t5-base-finetuned-sarcasm-twitter")
 
-# Store sarcastic comments
-sarcasm_log = []
+COMMENTS_FILE = "comments.json"
+TEXT_FILE = "sarcasmfile.txt"
 
-def transcribe_audio():
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("🎙️ Listening... Say something sarcastic or not!")
-        audio = recognizer.listen(source)
-        try:
-            text = recognizer.recognize_google(audio)
-            print(f"📝 Transcribed: {text}")
-            return text
-        except sr.UnknownValueError:
-            print("😵 Speech Recognition could not understand audio")
-            return None
-        except sr.RequestError as e:
-            print(f"⚠️ Could not request results; {e}")
-            return None
+# Load existing comments from JSON
+def load_comments():
+    try:
+        with open(COMMENTS_FILE, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
 
-def detect_sarcasm(text):
-    result = sarcasm_detector(text)[0]
-    label = result['label']
-    score = result['score']
-    print(f"🎭 Sarcasm Detected: {label} (Confidence: {score:.2f})")
-    return label == "sarcasm", score
+# Save updated comments to JSON
+def save_comments(comments):
+    with open(COMMENTS_FILE, "w") as f:
+        json.dump(comments, f, indent=4)
 
-def save_comment(text, is_sarcastic, confidence):
-    timestamp = datetime.now().isoformat()
-    entry = {
-        "timestamp": timestamp,
-        "comment": text,
-        "sarcastic": is_sarcastic,
-        "confidence": confidence
-    }
-    sarcasm_log.append(entry)
-    with open("sarcasm_comments.json", "w") as f:
-        json.dump(sarcasm_log, f, indent=4)
-    print("✅ Comment saved to sarcasm_comments.json")
+# Add a single comment (manual input)
+def add_comment(text):
+    comments = load_comments()
+    comments.append({"text": text, "sarcastic": None, "confidence": None})
+    save_comments(comments)
+    print("📝 Comment added.")
 
-# Main loop
+# Load comments from a .txt file
+def load_comments_from_txt(file_path):
+    comments = []
+    with open(file_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):  # skip empty or comment lines
+                continue
+            if ":" in line:
+                _, comment = line.split(":", 1)
+                comments.append({"text": comment.strip(), "sarcastic": None, "confidence": None})
+    return comments
+
+# Analyze a list of comments
+def analyze_comments(comments):
+    for comment in comments:
+        if comment["sarcastic"] is None:
+            result = sarcasm_detector(comment["text"])[0]
+            comment["sarcastic"] = result["label"].lower() == "sarcasm"
+            comment["confidence"] = round(result["score"], 3)
+            print(f"🎭 '{comment['text']}' → Sarcastic: {comment['sarcastic']} (Confidence: {comment['confidence']})")
+    return comments
+
+# CLI menu
 if __name__ == "__main__":
+    print("💬 Sarcasm Detector")
     while True:
-        text = transcribe_audio()
-        if text:
-            is_sarcastic, confidence = detect_sarcasm(text)
-            save_comment(text, is_sarcastic, confidence)
+        print("\nOptions:\n1. Add single comment\n2. Analyze all stored (JSON) comments\n3. Show all stored comments\n4. Analyze from .txt file\n5. Exit")
+        choice = input("Select an option: ").strip()
+
+        if choice == "1":
+            text = input("Enter your comment: ")
+            add_comment(text)
+
+        elif choice == "2":
+            comments = load_comments()
+            comments = analyze_comments(comments)
+            save_comments(comments)
+
+        elif choice == "3":
+            comments = load_comments()
+            for c in comments:
+                print(f"- {c['text']} | Sarcastic: {c['sarcastic']} | Confidence: {c['confidence']}")
+
+        elif choice == "4":
+            print(f"📂 Reading from {TEXT_FILE}...")
+            new_comments = load_comments_from_txt(TEXT_FILE)
+            analyzed = analyze_comments(new_comments)
+            save_comments(load_comments() + analyzed)  # merge with existing
+            print("✅ Done analyzing and saving new comments!")
+
+        elif choice == "5":
+            print("👋 Byeee!")
+            break
+
+        else:
+            print("⚠️ Invalid option, try again.")
