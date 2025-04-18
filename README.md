@@ -34,9 +34,13 @@ Bryan - [@hBrymiri](https://github.com/hBrymiri)
 
 See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Functions section.
 1. $V$ is the set of all unique words that appear in the corpus.
+
 1. $X$ is the co-occurrence matrix for every possible pair of words $i$ and $j$ from $V$.
+
 1. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $j$ appears in the context of word $i$.
-1. $X_i = \sum_{k \in V} X_{ik}$ is the sum of the number of times every word $k$ appears in the context of word $i$, with the exception of word $i$. Although repeated instances of word $i$ are also counted in the context of word $i$. 
+
+1. $X_i = \sum_{k \in V} X_{ik}$ is the sum of the number of times every word $k$ appears in the context of word $i$, with the exception of word $i$. Although repeated instances of word $i$ are also counted in the context of word $i$.
+
 1. ...
 1. ....
 1. more stuff ...
@@ -61,41 +65,74 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 
 #### __Data__
 1. [Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic.](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
-1. [Gensim's word2vec model containing pre-trained word vectors (documentation).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
 
 #### __Theoretical Foundations__
-##### <ins>Natural language processing</ins> –
+
+##### <ins>Natural language processing</ins>
 1. [Natural language processing (Wikipedia article).](https://en.wikipedia.org/wiki/Natural_language_processing)
+
 1. [Text classification and sentiment analysis (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
+
 1. [Word embedding (blog post).](https://towardsdatascience.com/text-embeddings-comprehensive-guide-afd97fce8fb5/)
+
 1. [Word embedding (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
 
-##### <ins>word2vec model</ins> –
-1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
-1. [Word2vec and GloVe models (blog post).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
-1. [Continous bag of words and word2vec models (blog post).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
-1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
-1. [---](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
+##### <ins>word2vec model</ins>
+1. [Theoretical guide for word2vec models (blog post).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
 
-##### <ins>GloVe model</ins> –
+1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
+
+1. [Word2vec and GloVe models (blog post).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
+
+1. [Continous bag of words and word2vec models (blog post).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+
+1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
+
+##### <ins>GloVe model</ins>
 1. [GloVe model (Wikipedia article).](https://en.wikipedia.org/wiki/GloVe)
+
 1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
 
 #### __Sample Works__
 1. [Project applying the word2vec and GloVe models to classifying news headlines. Models were trained using headlines from _The Onion_ and the _The Huffington Post_.](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
 
+#### __Documentation and Tutorials__
+
+##### <ins>Neural Networks</ins>
+1. [Building and training a neural network in Python with Keras (blog post on a machine learning blog).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
+
+1. [Another tutorial on building neural networks in Python (GeeksforGeeks).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
+
+1. [Tutorial on building your own neural network in Python from scratch (Real Python).](https://realpython.com/python-ai-neural-network/#python-ai-starting-to-build-your-first-neural-network) 
+
+#### Gensim
+1. [Gensim word2vec tutorial (notebook posted on Kaggle by one of the developers of Gensim).](https://www.kaggle.com/code/pierremegret/gensim-word2vec-tutorial)
+
+1. [Word2vec module (documation from the Gensim website).](https://radimrehurek.com/gensim/models/word2vec.html)
+
+1. [Gensim word2vec tutorial (documentation from the Gensim website).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
+
 #### __Other Theoretical Backgrounds__
+1. [General overview on machine learning (GeeksforGeeks).](https://www.geeksforgeeks.org/machine-learning/)
+
+1. [General overview on artificial intelligence, machine learning, and data science (GeeksforGeeks).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model (Wikipedia article).](https://en.wikipedia.org/wiki/Bag-of-words_model)
+
 1. [Logistic regression (Wikipedia article).](https://en.wikipedia.org/wiki/Logistic_regression)
+
 1. [Multinomial logistic regression (Wikipedia article).](https://en.wikipedia.org/wiki/Multinomial_logistic_regression)
+
 1. [Least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Least_squares)
+
 1. [Tf-idf [ term frequency-inverse document frequency ] (Wikipedia article).](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
 #### __Mathematical References__
 
 1. [Dot product (Wikipedia article).](https://en.wikipedia.org/wiki/Dot_product)
+
 1. [Cosine similarity (Wikipedia article).](https://en.wikipedia.org/wiki/Cosine_similarity)
+
 1. [Linear least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Linear_least_squares)
 
 ---
@@ -151,7 +188,7 @@ At this point **groups should be more than halfway done with their project** or 
 
 ##### To-do —
 ###### For Heidi:
-- [ ] Review the theoretical resources and begin drafting a short write-up for our team to reference.
+- [x] Review the theoretical resources and begin drafting a short write-up for our team to reference.
 - [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
 
 ###### For Bryan:
@@ -183,6 +220,20 @@ At this point **groups should be more than halfway done with their project** or 
 1. Implemented `word_vectors.py` for generating random word vectors.
 1. Added `test.py` for testing co-occurrence matrix functionality.
 1. Removed obsolete `word2vec.py`.
+
+---
+
+#### <ins>20250418</ins>
+
+##### To-do —
+###### For Heidi:
+- [ ] Experiment / explore with creating and training neural networks.
+- [ ] Familiarize yourself with the use of the Gensim Python module for word vectors.
+- [ ] Start building and training neural networks to take in word vectors as input and outputs a binary classification ( sarcastic or not sarcastic ).
+
+###### For Bryan:
+- [ ] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
+- [ ] Possible future feature: create an app that can be used in the browser to predict whether a selected comment is sarcastic or not.
 
 ---
 
