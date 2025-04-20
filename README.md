@@ -3,8 +3,8 @@
 Diablo Valley College\
 Project Bracket
 
-<!-- ![placeholder-text](gifs/kitty-stuck.gif)
-![placeholder-text](gifs/matrix-cat.gif) -->
+![placeholder-text](gifs/kitty-stuck.gif)
+![placeholder-text](gifs/matrix-cat.gif)
 
 <sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
 
