@@ -1,9 +1,12 @@
-
-
 # Sarcasm Detector
 2025 Spring\
 Diablo Valley College\
 Project Bracket
+
+<!-- ![placeholder-text](gifs/kitty-stuck.gif)
+![placeholder-text](gifs/matrix-cat.gif) -->
+
+<sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
 
 ---
 
@@ -19,9 +22,41 @@ Bryan - [@hBrymiri](https://github.com/hBrymiri)
 
 ---
 
+### __Contents__
+
+1. [Project Overview](#project-overview)\
+    1.1. [Introduction](#background)\
+    1.2. [Purpose](#purpose)\
+    1.3. [Data Used](#data-used)\
+    1.4. [Variable Definitions](#variable-definitions)\
+    1.5. [Mathematical Foundations](#mathematical-foundations)\
+    1.6. [Workflow](#workflow)
+2. [Resources](#resources)\
+    2.1. [Data](#data)\
+    2.2. [Theoretical Foundations](#theoretical-foundations)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1 [Natural Language Processing](#natural-language-processing)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.2 [word2vec Model](#word2vec-model)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.3 [GloVe Model](#glove-model)\
+    2.3. [Sample Works](#sample-works)\
+    2.4. [Documentation and Tutorials](#documentation-and-tutorials)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.1. [Neural Networks](#neural-networks)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.2. [Gensim](#gensim)\
+    2.5. [Other Theoretical Backgrounds](#other-theoretical-backgrounds)\
+    2.6. [Mathematical References](#mathematical-references)\
+    2.7. [Data Visualization Guides](#data-visualization-guides)
+3. [Data Visualization](#data-visualization)
+4. [Machine Learning Visualization](#machine-learning-visualization)
+5. [Results](#results)
+6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+7. [Important Dates](#important-dates)
+8. [Records](#records)
+9. [Test / Miscellaneous](#test--miscellaneous)
+
+---
+
 ### __Project Overview__
 
-#### __Introduction / Background__
+#### __Background__
 ... text here ...
 
 #### __Purpose__
@@ -42,80 +77,70 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 1. $X_i = \sum_{k \in V} X_{ik}$ is the sum of the number of times every word $k$ appears in the context of word $i$, with the exception of word $i$. Although repeated instances of word $i$ are also counted in the context of word $i$.
 
 1. ...
-1. ....
+1. .... 
 1. more stuff ...
 
 #### __Mathematical Foundations__
 ... text here ...
 
-#### __Workflow / Pipeline__
+#### __Workflow__
 ... text here ...
-
-#### __Results__
-... text here ...
-
-#### __Future Direction / Possible Improvements__
-... text here ...
-1. Extend project to sentiment and tone classificaiton of text.
-1. 
 
 ---
 
 ### __Resources__
 
 #### __Data__
-1. [Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic.](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
+1. [*Sarcasm on Reddit* (Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic).](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
 
 #### __Theoretical Foundations__
 
-##### <ins>Natural language processing</ins>
+##### <ins>Natural Language Processing</ins>
 1. [Natural language processing (Wikipedia article).](https://en.wikipedia.org/wiki/Natural_language_processing)
 
-1. [Text classification and sentiment analysis (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
+1. [*Text Classification & Sentiment Analysis* (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
 
-1. [Word embedding (blog post).](https://towardsdatascience.com/text-embeddings-comprehensive-guide-afd97fce8fb5/)
+1. [*Text Embeddings: Comprehensive Guide* (blog post).](https://towardsdatascience.com/text-embeddings-comprehensive-guide-afd97fce8fb5/)
 
-1. [Word embedding (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
+1. [*Word Embeddings – Explained!* (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
 
-##### <ins>word2vec model</ins>
-1. [Theoretical guide for word2vec models (blog post).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
+##### <ins>word2vec Model</ins>
+1. [*Word2Vec: NLP with Contextual Understanding* (theoretical guide for word2vec and GloVe models).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
 
 1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
 
-1. [Word2vec and GloVe models (blog post).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
-
-1. [Continous bag of words and word2vec models (blog post).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+1. [*CBOW — Word2Vec* (continous bag of words and word2vec models).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
 
 1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
 
-##### <ins>GloVe model</ins>
+##### <ins>GloVe Model</ins>
 1. [GloVe model (Wikipedia article).](https://en.wikipedia.org/wiki/GloVe)
 
 1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
 
 #### __Sample Works__
-1. [Project applying the word2vec and GloVe models to classifying news headlines. Models were trained using headlines from _The Onion_ and the _The Huffington Post_.](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
+1. [*Sarcasm Detection with GloVe/Word2Vec* (project applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_).](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
 
 #### __Documentation and Tutorials__
 
 ##### <ins>Neural Networks</ins>
-1. [Building and training a neural network in Python with Keras (blog post on a machine learning blog).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
+1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (building and training a neural network in Python with Keras).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
 
-1. [Another tutorial on building neural networks in Python (GeeksforGeeks).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
+1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (tutorial on building neural networks in Python (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
 
-1. [Tutorial on building your own neural network in Python from scratch (Real Python).](https://realpython.com/python-ai-neural-network/#python-ai-starting-to-build-your-first-neural-network) 
+1. [*Python AI: How to Build a Neural Network & Make Predictions* (tutorial on building your own neural network in Python from scratch (_Real Python_)).](https://realpython.com/python-ai-neural-network/) 
 
-#### Gensim
-1. [Gensim word2vec tutorial (notebook posted on Kaggle by one of the developers of Gensim).](https://www.kaggle.com/code/pierremegret/gensim-word2vec-tutorial)
+#### <ins>Gensim</ins>
+1. [*Gensim Word2Vec Tutorial* (notebook posted on Kaggle by one of the developers of Gensim).](https://www.kaggle.com/code/pierremegret/gensim-word2vec-tutorial)
 
-1. [Word2vec module (documation from the Gensim website).](https://radimrehurek.com/gensim/models/word2vec.html)
+1. [*Word2vec embeddings* (word2vec module documation from the Gensim website).](https://radimrehurek.com/gensim/models/word2vec.html)
 
-1. [Gensim word2vec tutorial (documentation from the Gensim website).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
+1. [*Word2Vec Model* (word2vec tutorial from the Gensim website).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
 
 #### __Other Theoretical Backgrounds__
-1. [General overview on machine learning (GeeksforGeeks).](https://www.geeksforgeeks.org/machine-learning/)
+1. [*Machine Learning Tutorial* (general overview/tutorial on machine learning (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/machine-learning/)
 
-1. [General overview on artificial intelligence, machine learning, and data science (GeeksforGeeks).](https://www.geeksforgeeks.org/ai-ml-ds/)
+1. [*Machine Learning Tutorial* (general overview on artificial intelligence, machine learning, and data science (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model (Wikipedia article).](https://en.wikipedia.org/wiki/Bag-of-words_model)
 
@@ -135,6 +160,44 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 
 1. [Linear least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Linear_least_squares)
 
+#### __Data Visualization Guides__
+1. [*The Art of Effective Visualization of Multi-dimensional Data* (guide on plotting multidimensional data).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
+
+---
+
+### __Data Visualization__
+
+#### Word cloud - Sarcastic
+![placeholder-text](figures/data_visualization/wordcloud_sarcastic.png)
+
+#### Word cloud - Not Sarcastic
+![placeholder-text](figures/data_visualization/wordcloud_not_sarcastic.png)
+
+#### Word frequency within comments
+![placeholder-text](figures/data_visualization/words_in_comments.png)
+
+#### Co-occurrence probabilities
+![placeholder-text](figures/testing_02/cooccurrence_probability_heatmap.png)
+
+---
+
+### __Machine Learning Visualization__
+![placeholder-text](figures/testing_01/J_and_log_J_over_time_animation.gif)
+
+![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
+
+---
+
+### __Results__
+... text here ...
+
+---
+
+### __Future Direction and Possible Improvements__
+... text here ...
+1. Extend project to sentiment and tone classificaiton of text.
+1. 
+
 ---
 
 ### __Important Dates ( taken from club-provided syllabus )__
@@ -149,22 +212,8 @@ At this point **groups should be more than halfway done with their project** or 
 **Groups should be close to wrapping up their projects** or should be completely done with the projects. This week will be focused mainly on the final project showcase in which judges will determine who has the best project. Groups may want to **prepare ahead of time with presentations**, graphics, and props to enhance their presentations.
 
 ---
-### __Preliminary Data Visualization__
-
-#### Word cloud - Sarcastic
-![placeholder-text](data_visualization/wordcloud_sarcastic.png)
-
-#### Word cloud - Not Sarcastic
-![placeholder-text](data_visualization/wordcloud_not_sarcastic.png)
-
-#### Word frequency in comments
-![placeholder-text](data_visualization/words_in_comments.png)
-
----
 
 ### __Records__
-
----
 
 #### <ins>20250404</ins>
 

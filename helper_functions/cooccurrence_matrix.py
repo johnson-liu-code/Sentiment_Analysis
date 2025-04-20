@@ -3,7 +3,7 @@ import pandas as pd
 import csv
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import numpy as np  # Add this import
 
 
 def create_cooccurrence_matrix( text, window_size ):
@@ -11,12 +11,12 @@ def create_cooccurrence_matrix( text, window_size ):
     Creates a co-occurrence matrix from the given text.
     
     Args:
-        text (str): The input text from which to create the co-occurrence matrix.
-        window_size (int): The size of the context window.
+        1. text (str): The input text from which to create the co-occurrence matrix.
+        2. window_size (int): The size of the context window.
     
     Returns:
-        unique_words (list): A list of unique words in the vocabulary.
-        cooccurrence_matrix (list of lists representing a 2D matrix): The co-occurrence matrix.
+        1. unique_words (list): A list of unique words in the vocabulary.
+        2. cooccurrence_matrix (list of lists representing a 2D matrix): The co-occurrence matrix.
     """
     # Remove punctuation from the text and convert everything to lowercase.
     text = ''.join([char for char in text if char not in string.punctuation]).lower()
@@ -29,7 +29,7 @@ def create_cooccurrence_matrix( text, window_size ):
     unique_words = sorted( set(words) )
 
     # Print the number of unique words in the vocabulary.
-    print( f"Number of unique words in the vocabulary: {len(unique_words)}" )
+    # print( f"Number of unique words in the vocabulary: {len(unique_words)}" )
 
     # Create a dictionary to map each word to its index in the vocabulary.
     word_to_index = { word: index for index, word in enumerate(unique_words) }
@@ -49,8 +49,8 @@ def create_cooccurrence_matrix( text, window_size ):
 
         # Iterate through the context words within the window.
         for j in range( start_index, end_index ):
-
-            if j != i:  # Avoid counting the word itself.
+            # Avoid counting the word itself.
+            if j != i:
                 context_word = words[j]
                 context_word_index = word_to_index[context_word]
                 # Increment the co-occurrence count for the pair of words.
@@ -59,29 +59,34 @@ def create_cooccurrence_matrix( text, window_size ):
     return unique_words, cooccurrence_matrix
 
 
-def plot_cooccurrence_heatmap( unique_words, cooccurrence_matrix ):
+def plot_cooccurrence_heatmap( unique_words, cooccurrence_matrix, savefig_file_name = "cooccurrence_heatmap.png" ):
     """
     Plots a heatmap for the co-occurrence matrix.
 
     Parameters:
-        unique_words (list): List of unique words in the vocabulary.
-        cooccurrence_matrix (list of lists): The co-occurrence matrix.
+        1. unique_words (list): List of unique words in the vocabulary.
+        2. cooccurrence_matrix (list of lists): The co-occurrence matrix.
+        3. savefig_file_name (str): The filename to save the heatmap image.
     """
     # Convert the co-occurrence matrix to a DataFrame for better visualization.
 
     df = pd.DataFrame( cooccurrence_matrix, index = unique_words, columns = unique_words )
 
     # Create the heatmap.
-    plt.figure(figsize=(10, 8))  # Set the figure size.
+    # Set the figure size.
+    plt.figure(figsize=(10, 8))
     sns.heatmap(df, cmap="YlGnBu", annot=False, cbar=True, xticklabels=True, yticklabels=True,
-                cbar_kws={'ticks': range(int(df.values.min()), int(df.values.max()) + 1)})
+                cbar_kws={'ticks': np.linspace(df.values.min(), df.values.max(), num=5)})  # Generate 5 evenly spaced ticks
     plt.title("Co-occurrence Matrix Heatmap")
     plt.xlabel("Context Words")
     plt.ylabel("Target Words")
-    plt.xticks(rotation=90)  # Rotate x-axis labels for better readability.
-    plt.tight_layout()  # Adjust layout to prevent clipping.
+    # Rotate x-axis labels for better readability.
+    plt.xticks(rotation=90)
+    # Adjust layout to prevent clipping.
+    plt.tight_layout()
 
-    plt.savefig("cooccurrence_matrix_heatmap.png")  # Save the heatmap as an image.
+    # Save the heatmap as an image.
+    plt.savefig(savefig_file_name)
 
 
 def create_cooccurrence_heatmap_from_csv(input_file):
@@ -89,23 +94,29 @@ def create_cooccurrence_heatmap_from_csv(input_file):
     Reads a co-occurrence matrix from a CSV file and plots a heatmap.
 
     Parameters:
-        input_file (str): Path to the CSV file containing the co-occurrence matrix.
+        1. input_file (str): Path to the CSV file containing the co-occurrence matrix.
     """
 
     # Read the CSV file into a DataFrame.
     df = pd.read_csv(input_file, index_col=0)
 
+    # print(df)
+
     # Create the heatmap.
-    plt.figure(figsize=(10, 8))  # Set the figure size.
+    # Set the figure size.
+    plt.figure(figsize=(10, 8))
     sns.heatmap(df, cmap="YlGnBu", annot=False, cbar=True, xticklabels=True, yticklabels=True,
-                cbar_kws={'ticks': range(int(df.values.min()), int(df.values.max()) + 1)})
+                cbar_kws={'ticks': np.linspace(df.values.min(), df.values.max(), num=5)})  # Generate 5 evenly spaced ticks
     plt.title("Co-occurrence Matrix Heatmap")
     plt.xlabel("Context Words")
     plt.ylabel("Target Words")
-    plt.xticks(rotation=90)  # Rotate x-axis labels for better readability.
-    plt.tight_layout()  # Adjust layout to prevent clipping.
+    # Rotate x-axis labels for better readability.
+    plt.xticks(rotation=90)
+    # Adjust layout to prevent clipping.
+    plt.tight_layout()
 
-    plt.savefig("cooccurrence_matrix_heatmap.png")  # Save the heatmap as an image.
+    # Save the heatmap as an image.
+    plt.savefig("test02.png")
 
 
 # Example usage:

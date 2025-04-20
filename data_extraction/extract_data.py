@@ -9,7 +9,7 @@ def extract_data( csv_file_name ):
     Extracts the relevant data from the CSV file and returns a DataFrame.
 
     Args:
-        csv_file_name (str): The name of the CSV file to extract data from.
+        1. csv_file_name (str): The name of the CSV file to extract data from.
     """
 
     # Load the CSV file into a DataFrame.
@@ -32,7 +32,10 @@ def extract_data( csv_file_name ):
     # num_missing_rows = data_redux.isna().sum()
     # print(f"Number of missing values in each column:\n{ num_missing_rows }")
 
-
     return data_redux
 
 # Example usage:
+if __name__ == "__main__":
+    csv_file_name = "data/sentences.csv"
+    data_redux = extract_data( csv_file_name )
+    print(data_redux.head())

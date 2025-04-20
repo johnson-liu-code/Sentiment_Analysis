@@ -9,9 +9,11 @@ def cooccurrence_probability(cooccurrence_matrix):
     Calculate the co-occurrence probability of terms in a given co-occurrence matrix.
 
     Args:
-        cooccurrence_matrix (dict): A dictionary representing the co-occurrence matrix.
+        1. cooccurrence_matrix (dict): A dictionary representing the co-occurrence matrix.
 
     Returns:
+        1. totals: A dictionary with the total counts of each term.
+        2. probabilities: A dictionary with the probabilities of each term given the row.
     """
     
     totals = {}

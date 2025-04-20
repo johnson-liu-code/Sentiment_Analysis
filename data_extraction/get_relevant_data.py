@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # Write data to CSV.
     data.to_csv( output_file, index = False )
 
-    # Open .csv file and extract data into dataframe using pandas.
+    # Open CSV file and extract data into dataframe using pandas.
     csv_file_name = 'training_data.csv'
     data = pd.read_csv( csv_file_name, encoding = "utf-8" )
     
