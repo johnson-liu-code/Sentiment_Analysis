@@ -6,17 +6,25 @@ import matplotlib.pyplot as plt
 import numpy as np  # Add this import
 
 
-def create_cooccurrence_matrix( text, window_size ):
+def create_cooccurrence_matrix(text, window_size):
     """
-    Creates a co-occurrence matrix from the given text.
-    
+    Creates a co-occurrence matrix for the given text.
+
     Args:
-        1. text (str): The input text from which to create the co-occurrence matrix.
+        1. text (str): The input text.
         2. window_size (int): The size of the context window.
-    
+
+    The Function:
+        1. Removes punctuation from the text and converts it to lowercase.
+        2. Splits the text into words.
+        3. Creates a list of unique words (vocabulary).
+        4. Initializes a co-occurrence matrix with zeros.
+        5. Iterates through each word in the text and counts co-occurrences within the specified window size.
+        6. Returns the unique words and the co-occurrence matrix.
+        
     Returns:
-        1. unique_words (list): A list of unique words in the vocabulary.
-        2. cooccurrence_matrix (list of lists representing a 2D matrix): The co-occurrence matrix.
+        1. unique_words (list): List of unique words in the text.
+        2. cooccurrence_matrix (numpy.ndarray): The co-occurrence matrix.
     """
     # Remove punctuation from the text and convert everything to lowercase.
     text = ''.join([char for char in text if char not in string.punctuation]).lower()
@@ -26,29 +34,26 @@ def create_cooccurrence_matrix( text, window_size ):
     
     # Remove duplicates from the list of words and sort them alphabetically.
     # This is the vocabulary V.
-    unique_words = sorted( set(words) )
-
-    # Print the number of unique words in the vocabulary.
-    # print( f"Number of unique words in the vocabulary: {len(unique_words)}" )
+    unique_words = sorted(set(words))
 
     # Create a dictionary to map each word to its index in the vocabulary.
-    word_to_index = { word: index for index, word in enumerate(unique_words) }
+    word_to_index = {word: index for index, word in enumerate(unique_words)}
 
     # Initialize the co-occurrence matrix with zeros.
-    cooccurrence_matrix = [ [0] * len(unique_words) for _ in range( len(unique_words) ) ]
+    cooccurrence_matrix = np.zeros((len(unique_words), len(unique_words)), dtype=int)
 
     # Iterate through each word in the text.
-    for i, word in enumerate( words ):
+    for i, word in enumerate(words):
 
         # Get the index of the current word.
-        word_index = word_to_index[ word ]
+        word_index = word_to_index[word]
 
         # Define the window of context words.
-        start_index = max( 0, i - window_size )
-        end_index = min( len(words), i + window_size + 1 )
+        start_index = max(0, i - window_size)
+        end_index = min(len(words), i + window_size + 1)
 
         # Iterate through the context words within the window.
-        for j in range( start_index, end_index ):
+        for j in range(start_index, end_index):
             # Avoid counting the word itself.
             if j != i:
                 context_word = words[j]
@@ -59,18 +64,25 @@ def create_cooccurrence_matrix( text, window_size ):
     return unique_words, cooccurrence_matrix
 
 
-def plot_cooccurrence_heatmap( unique_words, cooccurrence_matrix, savefig_file_name = "cooccurrence_heatmap.png" ):
+def plot_cooccurrence_heatmap(unique_words, cooccurrence_matrix, savefig_file_name="cooccurrence_heatmap.png"):
     """
-    Plots a heatmap for the co-occurrence matrix.
+    Plots a heatmap of the co-occurrence matrix.
 
-    Parameters:
-        1. unique_words (list): List of unique words in the vocabulary.
-        2. cooccurrence_matrix (list of lists): The co-occurrence matrix.
-        3. savefig_file_name (str): The filename to save the heatmap image.
+    Args:
+        unique_words (list): List of unique words.
+        cooccurrence_matrix (numpy.ndarray): The co-occurrence matrix.
+        savefig_file_name (str): The name of the file to save the heatmap. Default is "cooccurrence_heatmap.png".
+    
+    The Function:
+        1. Converts the co-occurrence matrix to a DataFrame for better visualization.
+        2. Creates a heatmap using seaborn.
+        3. Saves the heatmap as an image.
+
+    Returns:
+        1. None
     """
     # Convert the co-occurrence matrix to a DataFrame for better visualization.
-
-    df = pd.DataFrame( cooccurrence_matrix, index = unique_words, columns = unique_words )
+    df = pd.DataFrame(cooccurrence_matrix, index=unique_words, columns=unique_words)
 
     # Create the heatmap.
     # Set the figure size.
@@ -91,16 +103,21 @@ def plot_cooccurrence_heatmap( unique_words, cooccurrence_matrix, savefig_file_n
 
 def create_cooccurrence_heatmap_from_csv(input_file):
     """
-    Reads a co-occurrence matrix from a CSV file and plots a heatmap.
+    Creates a co-occurrence heatmap from a CSV file.
 
-    Parameters:
-        1. input_file (str): Path to the CSV file containing the co-occurrence matrix.
+    Args:
+        1. input_file (str): Path to the input CSV file.
+    
+    The Function:
+        1. Reads the CSV file into a DataFrame.
+        2. Creates a heatmap using seaborn.
+        3. Saves the heatmap as an image.
+    
+    Returns:
+        1. None
     """
-
     # Read the CSV file into a DataFrame.
     df = pd.read_csv(input_file, index_col=0)
-
-    # print(df)
 
     # Create the heatmap.
     # Set the figure size.
@@ -126,22 +143,22 @@ if __name__ == "__main__":
 
     window_size = 6
 
-    unique_words, cooccurrence_matrix = create_cooccurrence_matrix( lorem_ipsum, window_size )
+    unique_words, cooccurrence_matrix = create_cooccurrence_matrix(lorem_ipsum, window_size)
 
     # Save the co-occurrence matrix to a CSV file.
     output_file = 'cooccurrence_matrix.csv'
 
-    with open( output_file, mode = 'w', newline = '', encoding = 'utf-8' ) as file:
+    with open(output_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         
         # Write the header row (unique words).
-        writer.writerow( [''] + unique_words )
+        writer.writerow([''] + unique_words)
         
         # Write each row of the matrix with the corresponding word.
-        for word, row in zip( unique_words, cooccurrence_matrix ):
-            writer.writerow( [word] + row )
+        for word, row in zip(unique_words, cooccurrence_matrix):
+            writer.writerow([word] + row)
 
-    print( f"Co-occurrence matrix saved to {output_file}." )
+    print(f"Co-occurrence matrix saved to {output_file}.")
 
     input_file = 'cooccurrence_matrix.csv'
 

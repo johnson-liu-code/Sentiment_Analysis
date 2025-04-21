@@ -8,17 +8,19 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
     """
     Plots the values of J_over_time and log(J_over_time) over iterations as an animated graph.
 
-    Parameters:
-    data_file (str): Path to the .npy file containing the J_over_time data. Default is 'data/J_over_time.npy'.
-    show (bool): If True, displays the plot after creating the animation. Default is False.
+    Args:
+        1. data_file (str): Path to the .npy file containing the J_over_time data. Default is 'data/J_over_time.npy'.
+        2. show (bool): If True, displays the plot after creating the animation. Default is False.
 
-    The function:
-    - Loads J_over_time data from the specified .npy file.
-    - Computes the logarithm of J_over_time and scales it for visibility.
-    - Creates an animated plot showing both J_over_time and the scaled log(J_over_time) over iterations.
-    - Saves the animation as a GIF file named 'J_and_log_J_over_time_animation.gif'.
+    The Function:
+        1. Loads J_over_time data from the specified .npy file.
+        2. Computes the logarithm of J_over_time and scales it for visibility.
+        3. Creates an animated plot showing both J_over_time and the scaled log(J_over_time) over iterations.
+        4. Saves the animation as a GIF file named 'J_and_log_J_over_time_animation.gif'.
+
+    Returns:
+        1. None
     """
-
     # Get J_over_time from the npy file.
     J_over_time = np.load(data_file)
 
@@ -66,18 +68,20 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
     """
     Animates the word_vectors_over_time as a heatmap.
 
-    Parameters:
-    data_file (str): Path to the .npy file containing the word_vectors_over_time data. Default is 'data/word_vectors_over_time.npy'.
-    show (bool): If True, displays the animation after creating it. Default is False.
+    Args:
+        1. data_file (str): Path to the .npy file containing the word_vectors_over_time data. Default is 'data/word_vectors_over_time.npy'.
+        2. show (bool): If True, displays the animation after creating it. Default is False.
 
-    The function:
-    - Loads word_vectors_over_time data from the specified .npy file.
-    - Converts each dictionary in the list to a 2D array.
-    - Calculates global min and max values to ensure consistent color scale across all frames.
-    - Creates an animated heatmap showing the evolution of word vectors over time with a smooth color gradient.
-    - Saves the animation as a GIF file named 'word_vectors_over_time_animation.gif'.
+    The Function:
+        1. Loads word_vectors_over_time data from the specified .npy file.
+        2. Converts each dictionary in the list to a 2D array.
+        3. Calculates global min and max values to ensure consistent color scale across all frames.
+        4. Creates an animated heatmap showing the evolution of word vectors over time with a smooth color gradient.
+        5. Saves the animation as a GIF file named 'word_vectors_over_time_animation.gif'.
+
+    Returns:
+        1. None
     """
-
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
     
@@ -177,18 +181,20 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
     """
     Animates the difference between consecutive frames of word_vectors_over_time as a heatmap.
 
-    Parameters:
-    data_file (str): Path to the .npy file containing the word_vectors_over_time data.
-    show (bool): If True, displays the animation after creating it.
+    Args:
+        1. data_file (str): Path to the .npy file containing the word_vectors_over_time data.
+        2. show (bool): If True, displays the animation after creating it.
 
-    The function:
-    - Loads word_vectors_over_time data from the specified .npy file.
-    - Preprocesses the data to store every 10th frame.
-    - Calculates the difference between consecutive frames.
-    - Creates an animated heatmap showing the differences over time.
-    - Saves the animation as a GIF file named 'word_vectors_difference_animation.gif'.
+    The Function:
+        1. Loads word_vectors_over_time data from the specified .npy file.
+        2. Preprocesses the data to store every 10th frame.
+        3. Calculates the difference between consecutive frames.
+        4. Creates an animated heatmap showing the differences over time.
+        5. Saves the animation as a GIF file named 'word_vectors_difference_animation.gif'.
+
+    Returns:
+        1. None
     """
-
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
 
@@ -252,10 +258,10 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
 
 if __name__ == "__main__":
     # Call the function to plot J_over_time.
-    plot_J_over_time(data_file='J_over_time.npy', show=False)
+    plot_J_over_time(data_file='J_over_time_02.npy', show=False)
 
     # Call the function to animate word_vectors_over_time.
-    plot_word_vectors_over_time(data_file='word_vectors_over_time.npy', show=False)
+    plot_word_vectors_over_time(data_file='word_vectors_over_time_02.npy', show=False)
 
     # Call the function to animate word_vectors_over_time differences.
-    plot_word_vectors_difference(data_file='word_vectors_over_time.npy', show=False)
+    # plot_word_vectors_difference(data_file='word_vectors_over_time.npy', show=False)

@@ -11,6 +11,12 @@ def cooccurrence_probability(cooccurrence_matrix):
     Args:
         1. cooccurrence_matrix (dict): A dictionary representing the co-occurrence matrix.
 
+    The Function:
+        1. Iterates through each row of the co-occurrence matrix.
+        2. Calculates the total count of terms in each row.
+        3. Computes the probability of each term given the row by dividing the count of each term by the total count.
+        4. Stores the total counts and probabilities in separate dictionaries.
+
     Returns:
         1. totals: A dictionary with the total counts of each term.
         2. probabilities: A dictionary with the probabilities of each term given the row.

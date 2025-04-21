@@ -140,7 +140,7 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 #### __Other Theoretical Backgrounds__
 1. [*Machine Learning Tutorial* (general overview/tutorial on machine learning (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/machine-learning/)
 
-1. [*Machine Learning Tutorial* (general overview on artificial intelligence, machine learning, and data science (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/ai-ml-ds/)
+1. [*AI ML DS - How To Get Started?* (general overview on artificial intelligence, machine learning, and data science (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model (Wikipedia article).](https://en.wikipedia.org/wiki/Bag-of-words_model)
 

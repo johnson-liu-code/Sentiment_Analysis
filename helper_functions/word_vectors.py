@@ -9,11 +9,17 @@ def create_word_vectors(word_list, word_vector_size):
     Create a dictionary of word vectors for the given list of words.
     
     Args:
-        word_list (list): A list of words to create vectors for.
-        word_vector_size (int): The size of each word vector.
-        
+        1. word_list (list): A list of words to create vectors for.
+        2. word_vector_size (int): The size of each word vector.
+    
+    The Function:
+        1. Iterates through each word in the word_list.
+        2. Generates a random vector of size word_vector_size for each word.
+        3. Stores the word and its corresponding vector in a dictionary.
+        4. Returns the dictionary of word vectors.
+
     Returns:
-        dict: A dictionary mapping each word to its corresponding vector.
+        1. word_vectors: A dictionary mapping each word to its corresponding vector.
     """
     import numpy as np
     
