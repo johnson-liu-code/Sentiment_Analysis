@@ -19,17 +19,34 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
         4. Saves the animation as a GIF file named 'J_and_log_J_over_time_animation.gif'.
 
     Returns:
-        1. None
+        To terminal:
+            1. None
+        To file:
+            1. Saves the animation as a GIF file named 'J_and_log_J_over_time_animation.gif'.
     """
     # Get J_over_time from the npy file.
     J_over_time = np.load(data_file)
 
+    trajectory_length = len(J_over_time)
+
     # Compute log(J_over_time) and normalize it.
+
+    min_J_over_time = min(J_over_time)
+    max_J_over_time = max(J_over_time)
     log_J_over_time = np.log(J_over_time)
+    min_log_J_over_time = min(log_J_over_time)
+    max_log_J_over_time = max(log_J_over_time)
+    
+    # log_J_over_time_normalized = (
+    #                                 ( log_J_over_time - min(log_J_over_time) ) / 
+    #                                 ( max(log_J_over_time) - min(log_J_over_time) ) *
+    #                                 ( max(J_over_time) - min(J_over_time) ) + min(J_over_time)
+    #                             )
+
     log_J_over_time_normalized = (
-                                    ( log_J_over_time - min(log_J_over_time) ) / 
-                                    ( max(log_J_over_time) -min(log_J_over_time) ) *
-                                    ( max(J_over_time) - min(J_over_time) ) + min(J_over_time)
+                                    (log_J_over_time - min_log_J_over_time) /
+                                    (max_log_J_over_time - min_log_J_over_time) *
+                                    (max_J_over_time - min_J_over_time) + min_J_over_time
                                 )
 
     # Create a figure and axis.
@@ -46,7 +63,7 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
 
     # Set axis limits.
     ax.set_xlim(0, len(J_over_time))
-    ax.set_ylim(min(J_over_time) - 100, max(J_over_time) + 100)
+    ax.set_ylim(min_J_over_time - 100, max_J_over_time + 100)
 
     # Update function for the animation.
     def update(frame):
@@ -55,7 +72,7 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
         return line_J, line_log_J
 
     # Create the animation.
-    ani = FuncAnimation(fig, update, frames=len(J_over_time), interval=50, blit=True)
+    ani = FuncAnimation(fig, update, frames=trajectory_length, interval=50, blit=True)
 
     # Save the animation as a GIF.
     ani.save('J_and_log_J_over_time_animation.gif', writer='imagemagick')
@@ -80,19 +97,26 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
         5. Saves the animation as a GIF file named 'word_vectors_over_time_animation.gif'.
 
     Returns:
-        1. None
+        To terminal:
+            1. None
+        To file:
+            1. Saves the animation as a GIF file named 'word_vectors_over_time_animation.gif'.
     """
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
     
+    trajectory_length = len(word_vectors_over_time)
+
     # Function to convert a dictionary to a 2D array
     def dict_to_2d_array(word_vectors_dict):
         # Get all words (keys)
         words = sorted(list(word_vectors_dict.keys()))
         
+        number_of_words = len(words)
+
         # Create an empty 2D array with shape (num_words, vector_dimension)
         vector_dim = len(word_vectors_dict[words[0]])
-        array_2d = np.zeros((len(words), vector_dim))
+        array_2d = np.zeros(number_of_words, vector_dim)
         
         # Fill the array with vector values
         for i, word in enumerate(words):
@@ -141,13 +165,13 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
     
     # Add word labels on y-axis (if not too many)
     if len(words) <= 30:  # Only show labels if there aren't too many
-        ax.set_yticks(range(len(words)))
+        ax.set_yticks(range(number_of_words))
         ax.set_yticklabels(words)
     
     # Add a text annotation for iteration counter
-    iteration_text = ax.text(0.02, 0.98, 'Iteration: 1', transform=ax.transAxes,
-                            fontsize=12, verticalalignment='top', 
-                            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    iteration_text = ax.text(   0.02, 0.98, 'Iteration: 1', transform=ax.transAxes,
+                                fontsize=12, verticalalignment='top', 
+                                bbox=dict(boxstyle='round', facecolor='white', alpha=0.8)   )
     
     # Update function for the animation
     def update(frame):
@@ -167,7 +191,7 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
         return [heatmap, iteration_text]
     
     # Create the animation with longer interval for better observation
-    ani = FuncAnimation(fig, update, frames=range(0, len(word_vectors_over_time), 10), 
+    ani = FuncAnimation(fig, update, frames=range(0, trajectory_length, 10), 
                         interval=300, blit=True)
     
     # Save the animation as a GIF
@@ -192,10 +216,15 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
         4. Saves the animation as a GIF file named 'word_vectors_difference_animation.gif'.
 
     Returns:
-        1. None
+        To terminal:
+            1. None
+        To file:
+            1. Saves the animation as a GIF file named 'word_vectors_difference_animation.gif'.
     """
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
+
+    trajectory_length = len(word_vectors_over_time)
 
     # Function to convert a dictionary to a 2D array
     def dict_to_2d_array(word_vectors_dict):
@@ -206,53 +235,263 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
             array_2d[i] = word_vectors_dict[word]
         return array_2d, words
 
-    # Preprocess the data to store every 10th frame
-    sampled_frames = [word_vectors_over_time[i] for i in range(0, len(word_vectors_over_time), 10)]
+    # Preprocess the data to store every 10th frame.
+    sampled_frames = [word_vectors_over_time[i] for i in range(0, trajectory_length, 10)]
     all_arrays = [dict_to_2d_array(frame_dict)[0] for frame_dict in sampled_frames]
 
-    # Calculate the differences between consecutive frames
-    differences = [all_arrays[i] - all_arrays[i - 1] for i in range(1, len(all_arrays))]
+    trimmed_length = len(all_arrays)
 
-    # Get global min and max values for consistent color scale
+    # Calculate the differences between consecutive frames (after the trimming).
+    differences = [all_arrays[i] - all_arrays[i - 1] for i in range(1, trimmed_length)]
+
+    #############################################################################
+    ### This doesn't seem to be working for getting a consistent color scale. ###
+    #############################################################################
+    # Get global min and max values for consistent color scale.
     global_min = min(np.min(diff) for diff in differences)
     global_max = max(np.max(diff) for diff in differences)
 
-    # Create a figure and axis
+    # Create a figure and axis.
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.set_title('Difference Between Frames', fontsize=14)
 
-    # Initialize the heatmap
+    # Initialize the heatmap.
     heatmap = ax.imshow(differences[0], cmap='coolwarm', aspect='auto',
                         vmin=global_min, vmax=global_max, interpolation='bilinear')
 
-    # Add a colorbar
+    # Add a colorbar.
     cbar = plt.colorbar(heatmap, ax=ax, label='Difference Value',
                         ticks=np.linspace(global_min, global_max, 10))
     cbar.ax.tick_params(labelsize=10)
+    
+    #############################################################################
 
-    # Set axis labels
+    # Set axis labels.
     ax.set_xlabel('Vector Dimension', fontsize=12)
     ax.set_ylabel('Words', fontsize=12)
 
-    # Add a text annotation for iteration counter
+    # Add a text annotation for iteration counter.
     iteration_text = ax.text(0.02, 0.98, 'Iteration: 1', transform=ax.transAxes,
                              fontsize=12, verticalalignment='top',
                              bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-    # Update function for the animation
+    # Update function for the animation.
     def update(frame):
         heatmap.set_array(differences[frame])
         iteration_text.set_text(f'Iteration: {frame + 1}')
         return [heatmap, iteration_text]
 
-    # Create the animation
-    ani = FuncAnimation(fig, update, frames=len(differences), interval=300, blit=True)
+    # Create the animation.
+    ani = FuncAnimation(fig, update, frames=trimmed_length, interval=300, blit=True)
 
-    # Save the animation as a GIF
+    # Save the animation as a GIF.
     ani.save('word_vectors_difference_animation.gif', writer='imagemagick')
 
     if show:
         plt.show()
+
+
+def plot_single_word_vector_over_time(word, data_file='word_vectors_over_time.npy', show=False):
+    """
+    Plots the evolution of a single word vector over time.
+
+    Args:
+        1. word (str): The word whose vector evolution is to be plotted.
+        2. data_file (str): Path to the .npy file containing the word_vectors_over_time data. Default is 'word_vectors_over_time.npy'.
+        3. show (bool): If True, displays the plot after creating it. Default is False.
+
+    The Function:
+        1. Loads word_vectors_over_time data from the specified .npy file.
+        2. Extracts the vector for the specified word across all frames.
+        3. Plots the evolution of the word vector over time.
+
+    Returns:
+        To terminal:
+            1. None
+        To file:
+            1. Saves the plot as a PNG file named '{word}_vector_evolution.png'.
+    """
+
+    # Convert the word to all lowercase.
+    word = word.lower()
+
+    # Load the word_vectors_over_time data from the .npy file.
+    word_vectors_over_time = np.load(data_file, allow_pickle=True)
+
+    trajectory_length = len(word_vectors_over_time)
+
+    # Load the first frame to check for the word.
+    first_frame = word_vectors_over_time[0]
+    if word not in first_frame:
+        print(f"The word '{word}' is not present in the dictionary.")
+        return
+
+    # Extract the vector for the specified word across all frames
+    single_word_vector_over_time = [frame_dict[word] for frame_dict in word_vectors_over_time]
+
+    # Create a figure and axis.
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.set_title(f'Evolution of "{word}" Vector Over Time', fontsize=14)
+    ax.set_xlabel('Iteration', fontsize=12)
+    ax.set_ylabel('Vector Value', fontsize=12)
+
+    dimensionality = len(single_word_vector_over_time[0])
+
+    # Plot each dimension of the vector separately.
+    for dim in range(dimensionality):
+        ax.plot( range(trajectory_length),
+                 [vec[dim] for vec in single_word_vector_over_time],
+                 label=f'Dimension {dim + 1}' )
+
+    # ax.legend()
+    ax.grid(True)
+
+    if show:
+        plt.show()
+    
+    # Save the plot as a PNG file.
+    plt.savefig(f'{word}_vector_evolution.png')
+
+
+def plot_single_word_vector_diffence_over_time(word, data_file='word_vectors_over_time.npy', show=True):
+    """
+    Plots the difference between the current frame's word vector and the previous frame's word vector for each dimension.
+
+    Args:
+        1. word (str): The word whose vector evolution is to be plotted.
+        2. data_file (str): Path to the .npy file containing the word_vectors_over_time data. Default is 'word_vectors_over_time.npy'.
+        3. show (bool): If True, displays the plot after creating it. Default is False.
+
+    The Function:
+        1. Loads word_vectors_over_time data from the specified .npy file.
+        2. Extracts the vector for the specified word across all frames.
+        3. Plots the change in each dimension of the word vector over time.
+
+    Returns:
+        To terminal:
+            1. None
+        To file:
+            1. Saves the plot as a PNG file named '{word}_vector_change_per_dimension.png'.
+    """
+
+    # Convert the word to all lowercase.
+    word = word.lower()
+
+    # Load the word_vectors_over_time data from the .npy file.
+    word_vectors_over_time = np.load(data_file, allow_pickle=True)
+
+    trajectory_length = len(word_vectors_over_time)
+
+    # Load the first frame to check for the word.
+    first_frame = word_vectors_over_time[0]
+    if word not in first_frame:
+        print(f"The word '{word}' is not present in the dictionary.")
+        return
+
+    # Extract the vector for the specified word across all frames.
+    single_word_vector_over_time = [frame_dict[word] for frame_dict in word_vectors_over_time]
+
+    # Calculate differences between consecutive frames for each dimension.
+    dimensionality = len(single_word_vector_over_time[0])
+    differences = [
+        [single_word_vector_over_time[i][dim] - single_word_vector_over_time[i - 1][dim]
+         for i in range(1, trajectory_length)]
+        for dim in range(dimensionality)
+    ]
+
+    # Create a figure and axis.
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.set_title(f'Change in "{word}" Vector Over Time (Per Dimension)', fontsize=14)
+    ax.set_xlabel('Iteration', fontsize=12)
+    ax.set_ylabel('Change in Vector Value', fontsize=12)
+
+    # Plot the change for each dimension.
+    for dim in range(dimensionality):
+        # Plot the regular differences.
+        ax.plot(range(1, trajectory_length), differences[dim], label=f'Dimension {dim + 1}')
+        
+        # # Normalize the log differences to fit in the same range as the regular differences.
+        # # Add a small value to avoid log(0).
+        # log_differences = np.log(np.abs(differences[dim]) + 1e-10)
+        # log_differences_normalized = (
+        #     (log_differences - np.min(log_differences)) /
+        #     (np.max(log_differences) - np.min(log_differences)) *
+        #     (np.max(differences[dim]) - np.min(differences[dim])) +
+        #     np.min(differences[dim])
+        # )
+        
+        # Plot the normalized log differences.
+        # ax.plot(range(1, trajectory_length), log_differences_normalized, linestyle='--', label=f'Log Dimension {dim + 1}')
+
+    # ax.legend()
+    ax.grid(True)
+
+    if show:
+        plt.show()
+
+    # Save the plot as a PNG file.
+    plt.savefig(f'{word}_vector_change_per_dimension.png')
+
+
+def plot_single_vector_dimension_change_over_time(dimension, data_file='word_vectors_over_time.npy', show=True):
+    """
+    Plots the change in a single vector dimension over time.
+
+    Args:
+        1. dimension (int): The index of the vector dimension to be plotted.
+        2. data_file (str): Path to the .npy file containing the word_vectors_over_time data. Default is 'word_vectors_over_time.npy'.
+        3. show (bool): If True, displays the plot after creating it. Default is False.
+
+    The Function:
+        1. Loads word_vectors_over_time data from the specified .npy file.
+        2. Extracts the vector for the specified word across all frames.
+        3. Plots the change in a single dimension of the word vector over time.
+
+    Returns:
+        To terminal:
+            1. None
+        To file:
+            1. Saves the plot as a PNG file named '{word}_vector_change_per_dimension.png'.
+    """
+    # Load the word_vectors_over_time data from the .npy file.
+    word_vectors_over_time = np.load(data_file, allow_pickle=True)
+
+    trajectory_length = len(word_vectors_over_time)
+
+    words = word_vectors_over_time[0].keys()
+    # print(words)
+
+    element_over_time = [frame[word][dimension] for frame in word_vectors_over_time for word in words]
+
+    # print(element_over_time)
+    # for frame in word_vectors_over_time[-2:]:
+    #     # print(type(frame))
+    #     for word in words:
+    #         # print(frame[word])
+    #         element = frame[word][dimension]
+    #         print(element)
+
+    '''
+    differences = [
+        single_word_vector_over_time[i][dimension] - single_word_vector_over_time[i - 1][dimension]
+        for i in range(1, trajectory_length)
+    ]
+
+    # Create a figure and axis.
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.set_title(f'Change in Vector Dimension {dimension + 1} Over Time', fontsize=14)
+    ax.set_xlabel('Iteration', fontsize=12)
+    ax.set_ylabel('Change in Vector Value', fontsize=12)
+
+    # Plot the change for the specified dimension.
+    ax.plot(range(1, trajectory_length), differences, label=f'Dimension {dimension + 1}')
+
+    if show:
+        plt.show()
+
+    # Save the plot as a PNG file.
+    plt.savefig(f'dimension_{dimension + 1}_change.png')
+    '''
 
 
 if __name__ == "__main__":
@@ -260,8 +499,16 @@ if __name__ == "__main__":
     # plot_J_over_time(show=True)
 
     # Call the function to animate word_vectors_over_time.
-    plot_word_vectors_over_time()
+    # plot_word_vectors_over_time()
 
     # Call the function to animate word_vectors_over_time differences.
-    plot_word_vectors_difference()
+    # plot_word_vectors_difference()
 
+    # plot_single_word_vector_over_time(word='dolorem', data_file='word_vectors_over_time_02.npy', show=True)
+    # plot_single_word_vector_over_time(word='ut', data_file='word_vectors_over_time_02.npy', show=False)
+
+    # plot_single_word_vector_diffence_over_time(word='dolorem', data_file='word_vectors_over_time_02.npy', show=True)
+    # plot_single_word_vector_diffence_over_time(word='ut', data_file='word_vectors_over_time_02.npy', show=True)
+
+    plot_single_vector_dimension_change_over_time(dimension=0, data_file='word_vectors_over_time_02.npy', show=True)
+    # plot_single_vector_dimension_change_over_time(dimension=1, data_file='word_vectors_over_time_02.npy', show=True)

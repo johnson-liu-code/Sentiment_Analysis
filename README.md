@@ -226,10 +226,10 @@ At this point **groups should be more than halfway done with their project** or 
 
 ##### To-do —
 ###### For Johnson:
-- [x] Create Github repository.
-- [x] Look up relavant resources.
-- [x] Look up relavant data.
-- [ ] Plan out our timeline and general to-do's / tasks for each team member.
+1. [x] Create Github repository.
+1. [x] Look up relavant resources.
+1. [x] Look up relavant data.
+1. [ ] Plan out our timeline and general to-do's / tasks for each team member.
 
 ---
 
@@ -237,11 +237,11 @@ At this point **groups should be more than halfway done with their project** or 
 
 ##### To-do —
 ###### For Heidi:
-- [x] Review the theoretical resources and begin drafting a short write-up for our team to reference.
-- [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
+1. [x] Review the theoretical resources and begin drafting a short write-up for our team to reference.
+1. [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
 
 ###### For Bryan:
-- [ ] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted.
+1. [ ] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted.
 
 ---
 
@@ -256,53 +256,32 @@ At this point **groups should be more than halfway done with their project** or 
 
 ---
 
-#### <ins>20250413</ins>
-
-##### Notes
-— Johnson
-1. Enhanced `extract_data.py` with docstring and example usage.
-1. Updated comments in `get_relevant_data.py`.
-1. Added `cooccurrence_matrix_heatmap.png` for visualization.
-1. Refactored `generate_wordcloud.py` and `visualize_comment_length.py` to include main guard and improved comments.
-1. Introduced `cooccurrence_matrix.py` for creating and plotting co-occurrence matrices.
-1. Added `cooccurrence_probability.py` for calculating co-occurrence probabilities.
-1. Implemented `word_vectors.py` for generating random word vectors.
-1. Added `test.py` for testing co-occurrence matrix functionality.
-1. Removed obsolete `word2vec.py`.
-
----
-
 #### <ins>20250418</ins>
 
 ##### To-do —
 ###### For Heidi:
-- [ ] Experiment / explore with creating and training neural networks.
-- [ ] Familiarize yourself with the use of the Gensim Python module for word vectors.
-- [ ] Start building and training neural networks to take in word vectors as input and outputs a binary classification ( sarcastic or not sarcastic ).
+1. [ ] Experiment / explore with creating and training neural networks.
+1. [ ] Familiarize yourself with the use of the Gensim Python module for word vectors.
+1. [ ] Start building and training neural networks to take in word vectors as input and outputs a binary classification ( sarcastic or not sarcastic ).
 
 ###### For Bryan:
-- [ ] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
-- [ ] Possible future feature: create an app that can be used in the browser to predict whether a selected comment is sarcastic or not.
+1. [ ] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
+2. [ ] Possible future feature: create an app that can be used in the browser to predict whether a selected comment is sarcastic or not.
 
 ---
 
-\
-\
-\
-\
-\
-\
-\
-\
-\
+#### <ins>20250408</ins>
+
+##### To-do —
+###### For Heidi:
+1. [ ] Continue updating WriteUp.md as you better understand the theory behind the word embedding and machine learning techniques used in the project.
+
+###### For Johnson:
+1. [ ] Start documenting the directory structure and its organization.
+1. [ ] Start documenting the workflow and the theory and mathematics behind each model that we use.
+    1. Data collection, extraction, and cleaning.
+    1. Data visualization.
+    1. Word embedding.
+    1. Neural network training.
 
 ---
-### __. . . Test / Miscellaneous  . . .__
-
-#### Markdown supports LaTeX formatting! :D
-
-**The Cauchy-Schwarz Inequality**
-
-```math
-\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
-```
