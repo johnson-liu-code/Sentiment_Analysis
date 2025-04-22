@@ -10,7 +10,7 @@ Project Bracket
 
 ---
 
-### __Authors__
+### __Team__
 
 Johnson Liu ( project manager )\
 GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
@@ -50,7 +50,6 @@ Bryan - [@hBrymiri](https://github.com/hBrymiri)
 6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
 7. [Important Dates](#important-dates)
 8. [Records](#records)
-9. [Test / Miscellaneous](#test--miscellaneous)
 
 ---
 
@@ -163,6 +162,14 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 #### __Data Visualization Guides__
 1. [*The Art of Effective Visualization of Multi-dimensional Data* (guide on plotting multidimensional data).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
 
+1. [*Top Python Data Visualization Libraries in 2024: A Complete Guide*](https://www.fusioncharts.com/blog/best-python-data-visualization-libraries/)
+
+1. [*A Complete Beginner’s Guide to Data Visualization*](https://www.analyticsvidhya.com/blog/2021/04/a-complete-beginners-guide-to-data-visualization/)
+
+1. [*Tableau for Beginners: Data Visualisation Made Easy*](https://www.analyticsvidhya.com/blog/2017/07/data-visualisation-made-easy/)
+
+1. [*Intermediate Tableau guide for data science and business intelligence professionals*](https://www.analyticsvidhya.com/blog/2018/01/tableau-for-intermediate-data-science/)
+
 ---
 
 ### __Data Visualization__
@@ -270,7 +277,7 @@ At this point **groups should be more than halfway done with their project** or 
 
 ---
 
-#### <ins>20250408</ins>
+#### <ins>20250421</ins>
 
 ##### To-do —
 ###### For Heidi:
