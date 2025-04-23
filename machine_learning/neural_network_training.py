@@ -1,7 +1,5 @@
 
 
-import numpy as np
-# import keras
 
 
 def custom_nn(word_vectors, comments):
@@ -21,6 +19,10 @@ def custom_nn(word_vectors, comments):
         To file:
             - None
     '''
+
+    import numpy as np
+    import keras
+
     words_in_comments = [ comment.split() for comment in comments ]
 
     words_in_comments = [
@@ -33,28 +35,64 @@ def custom_nn(word_vectors, comments):
         for comment in words_in_comments
     ]
 
-    frechet_mean_vectors = [
-        np.mean(np.array(vectors), axis=0) if len(vectors) > 0 else np.zeros(trained_word_vectors.shape[1])
-        for vectors in vectors_in_comments
-    ]
 
-    print(len(frechet_mean_vectors[0]))
-    print(len(frechet_mean_vectors[1]))
-    print(len(frechet_mean_vectors[2]))
+    frechet_mean_for_each_comment = [ np.mean(comment) for comment in vectors_in_comments ]
+    # Convert the list of input features into a NumPy array
+    X = np.array(frechet_mean_for_each_comment)
 
-    # model = keras.Sequential(
-    #     [
-    #         # keras.layers.Input(shape=(word_vectors.shape[1],)),
-    #         keras.layers.Dense(512, activation="relu"),
-    #         keras.layers.Dense(256, activation="relu"),
-    #     ]
-    # )
-    # model.summary()
+
+    # Example dummy target data (binary classification: 0 or 1)
+    # Replace this with your actual labels
+    labels = np.random.randint(0, 2, size=(len(frechet_mean_for_each_comment),))
+
+
+    # Define and compile the model
+    model = keras.Sequential(
+        [
+            keras.layers.Input(shape=(X.shape[0],)),
+            keras.layers.Dense(512, activation="relu", name='dense_0'),
+            keras.layers.Dense(256, activation="relu", name='dense_1'),
+            keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
+        ]
+    )
+
+    model.compile(
+        optimizer='adam',
+        loss='binary_crossentropy',
+        metrics=['accuracy']
+    )
+
+    model.summary()
+
+    ##########################################################################################
+    ### This doesn't work as of right now ... 
+    ### Look into this further ...
+    ##########################################################################################
+
+    # Train the model
+    model.fit(X, labels, epochs=10, batch_size=32, validation_split=0.2)
+
+    all_weights = model.get_weights()
+
+    # Example: Get weights and biases from the first Dense layer
+    dense_0_weights, dense_0_biases = model.get_layer('dense_0').get_weights()
+
+    print("Weights shape:", dense_0_weights.shape)
+    print("Biases shape:", dense_0_biases.shape)
+
+    # Save model weights
+    model.save_weights('my_model_weights.h5')
+
+    # Load weights into a model with the same architecture
+    model.load_weights('my_model_weights.h5')
+
+
+
 
 
 # Example usage of the custom_nn function.
 if __name__ == "__main__":
-
+    import numpy as np
 
     with open('testing_scrap_misc/scrap_data_02/word_vectors_over_time.npy', 'rb') as f:
         trained_word_vectors = np.load(f, allow_pickle=True)[-1]
