@@ -118,7 +118,7 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
 
 #### __Sample Works__
-1. [*Sarcasm Detection with GloVe/Word2Vec* (project applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_).](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
+1. [*Sarcasm Detection with GloVe/Word2Vec* (project on Kaggle applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_).](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
 
 #### __Documentation and Tutorials__
 
