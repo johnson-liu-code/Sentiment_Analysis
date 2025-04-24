@@ -60,11 +60,11 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
     # Save the animation as a GIF.
     ani.save('J_and_log_J_over_time_animation.gif', writer='imagemagick')
 
-    if show==True:
+    if show:
         plt.show()
 
 
-def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', show=False):
+def plot_word_vectors_over_time(data_file, show=False):
     """
     Animates the word_vectors_over_time as a heatmap.
 
@@ -85,19 +85,15 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
     
+    # print(word_vectors_over_time[0])
+
     # Function to convert a dictionary to a 2D array
     def dict_to_2d_array(word_vectors_dict):
-        # Get all words (keys)
         words = sorted(list(word_vectors_dict.keys()))
-        
-        # Create an empty 2D array with shape (num_words, vector_dimension)
         vector_dim = len(word_vectors_dict[words[0]])
         array_2d = np.zeros((len(words), vector_dim))
-        
-        # Fill the array with vector values
         for i, word in enumerate(words):
-            array_2d[i] = word_vectors_dict[word]
-        
+            array_2d[i] = np.nan_to_num(word_vectors_dict[word], nan=0.0, posinf=0.0, neginf=0.0)
         return array_2d, words
     
     # Calculate global min and max values across all frames for consistent color scale
@@ -121,6 +117,8 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
     # Convert the first dictionary to get dimensions and words
     first_array, words = dict_to_2d_array(word_vectors_over_time[0])
     
+    # print(words)
+
     # Create a figure and axis
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.set_title('Word Vectors Over Time', fontsize=14)
@@ -167,7 +165,8 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
         return [heatmap, iteration_text]
     
     # Create the animation with longer interval for better observation
-    ani = FuncAnimation(fig, update, frames=range(0, len(word_vectors_over_time), 10), 
+    # ani = FuncAnimation(fig, update, frames=range(0, len(word_vectors_over_time), 10),
+    ani = FuncAnimation(fig, update, frames=range(0, len(word_vectors_over_time), 1),
                         interval=300, blit=True)
     
     # Save the animation as a GIF
@@ -204,11 +203,12 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
         vector_dim = len(word_vectors_dict[words[0]])
         array_2d = np.zeros((len(words), vector_dim))
         for i, word in enumerate(words):
-            array_2d[i] = word_vectors_dict[word]
+            array_2d[i] = np.nan_to_num(word_vectors_dict[word], nan=0.0, posinf=0.0, neginf=0.0)
         return array_2d, words
 
     # Preprocess the data to store every 10th frame
-    sampled_frames = [word_vectors_over_time[i] for i in range(0, len(word_vectors_over_time), 10)]
+    # sampled_frames = [word_vectors_over_time[i] for i in range(0, len(word_vectors_over_time), 10)]
+    sampled_frames = [word_vectors_over_time[i] for i in range(0, len(word_vectors_over_time), 11)]
     all_arrays = [dict_to_2d_array(frame_dict)[0] for frame_dict in sampled_frames]
 
     # Calculate the differences between consecutive frames
@@ -258,10 +258,10 @@ def plot_word_vectors_difference(data_file='data/word_vectors_over_time.npy', sh
 
 if __name__ == "__main__":
     # Call the function to plot J_over_time.
-    plot_J_over_time(data_file='J_over_time_02.npy', show=False)
+    # plot_J_over_time(data_file='project_J_over_time_03.npy', show=False)
 
     # Call the function to animate word_vectors_over_time.
-    plot_word_vectors_over_time(data_file='word_vectors_over_time_02.npy', show=False)
+    plot_word_vectors_over_time(data_file='project_word_vectors_over_time_01.npy', show=False)
 
     # Call the function to animate word_vectors_over_time differences.
     # plot_word_vectors_difference(data_file='word_vectors_over_time.npy', show=False)

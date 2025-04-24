@@ -54,8 +54,8 @@ def descent(unique_words, word_vectors, probabilities, x_max, alpha, eta, iter):
     J_over_time = []
 
     for t in range(iter):
-        # for i in range(len(probabilities.columns)):
-        for i in range(len(probabilities)):
+        print(f'Iteration: {t}\n')
+        for i in range(len(probabilities.columns)):
             a = np.zeros(len(unique_words))
 
             for j in range(len(probabilities.columns)):
