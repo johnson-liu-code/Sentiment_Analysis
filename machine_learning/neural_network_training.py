@@ -2,90 +2,36 @@
 
 
 
-def custom_nn(word_vectors, comments):
-    '''
-    Custom neural network function that initializes a Keras Sequential model.
-    The model is designed to work with word vectors.
-    
-    Args:
-        1. word_vectors (dict): Pre-trained word vectors.
-    
-    The Function:
-        - Initializes a Keras Sequential model.
+def custom_nn(trained_word_vectors, X, labels):
 
-    Returns:
-        To terminal:
-            - Prints the summary of the model.
-        To file:
-            - None
-    '''
 
     import numpy as np
-    import keras
+    # import keras
 
-    words_in_comments = [ comment.split() for comment in comments ]
+    # print(labels)
 
-    words_in_comments = [
-        [word.strip('.,!?()[]{}"\'').lower() for word in comment]
-        for comment in words_in_comments
-    ]
+    # # Define the model sequential.
+    # model = keras.Sequential(
+    #     [
+    #         keras.layers.Input(shape=(X.shape[1],)),
+    #         keras.layers.Dense(512, activation="relu", name='dense_0'),
+    #         # keras.layers.Dense(256, activation="relu", name='dense_1'),
+    #         keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
+    #     ]
+    # )
 
-    vectors_in_comments = [
-        [ trained_word_vectors[word] for word in comment]
-        for comment in words_in_comments
-    ]
+    # # Compile the model.
+    # model.compile(
+    #     optimizer='adam',
+    #     loss='binary_crossentropy',
+    #     metrics=['accuracy']
+    # )
 
+    # # Print out details of the model says.
+    # model.summary()
 
-    frechet_mean_for_each_comment = [ np.mean(comment) for comment in vectors_in_comments ]
-    # Convert the list of input features into a NumPy array
-    X = np.array(frechet_mean_for_each_comment)
-
-
-    # Example dummy target data (binary classification: 0 or 1)
-    # Replace this with your actual labels
-    labels = np.random.randint(0, 2, size=(len(frechet_mean_for_each_comment),))
-
-
-    # Define and compile the model
-    model = keras.Sequential(
-        [
-            keras.layers.Input(shape=(X.shape[0],)),
-            keras.layers.Dense(512, activation="relu", name='dense_0'),
-            keras.layers.Dense(256, activation="relu", name='dense_1'),
-            keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
-        ]
-    )
-
-    model.compile(
-        optimizer='adam',
-        loss='binary_crossentropy',
-        metrics=['accuracy']
-    )
-
-    model.summary()
-
-    ##########################################################################################
-    ### This doesn't work as of right now ... 
-    ### Look into this further ...
-    ##########################################################################################
-
-    # Train the model
-    model.fit(X, labels, epochs=10, batch_size=32, validation_split=0.2)
-
-    all_weights = model.get_weights()
-
-    # Example: Get weights and biases from the first Dense layer
-    dense_0_weights, dense_0_biases = model.get_layer('dense_0').get_weights()
-
-    print("Weights shape:", dense_0_weights.shape)
-    print("Biases shape:", dense_0_biases.shape)
-
-    # Save model weights
-    model.save_weights('my_model_weights.h5')
-
-    # Load weights into a model with the same architecture
-    model.load_weights('my_model_weights.h5')
-
+    # # Train the model.
+    # model.fit(X, labels, epochs=100, batch_size=32, validation_split=0.2)
 
 
 
@@ -94,10 +40,37 @@ def custom_nn(word_vectors, comments):
 if __name__ == "__main__":
     import numpy as np
 
+    # Get the trained word vectors from the file.
     with open('testing_scrap_misc/scrap_data_02/word_vectors_over_time.npy', 'rb') as f:
         trained_word_vectors = np.load(f, allow_pickle=True)[-1]
 
-    with open('data/sentences.txt', 'r') as f:
+    # Get the comments for which we want to train the neural network on.
+    with open('data/testing_data/sentences.txt', 'r') as f:
         comments = [ comment.strip() for comment in f.readlines() ]
 
-    custom_nn(trained_word_vectors, comments)
+    # Split each comment into their component words.
+    words_in_comments = [ comment.split() for comment in comments ]
+
+    # Throw away any punctuation that are attached to the words.
+    words_in_comments = [
+        [ word.strip('.,!?()[]{}"\'').lower() for word in comment]
+        for comment in words_in_comments
+    ]
+
+    # Retrieve the vector representation of each word in each comment.
+    vectors_in_comments = [
+        [ trained_word_vectors[word] for word in comment]
+        for comment in words_in_comments
+    ]
+
+    # Compute the Frechet mean for each comment.
+    # The Frechet mean in our context is just the mean of all of the word vectors in a comment.
+    frechet_mean_for_each_comment = [ np.mean(comment, axis=0) for comment in vectors_in_comments ]
+
+    # Convert the list structure to an array.
+    X = np.array(frechet_mean_for_each_comment)
+
+    labels = np.random.randint(0, 2, size=(X.shape[0],))
+
+    # Train the neural network.
+    custom_nn(trained_word_vectors, X, labels)

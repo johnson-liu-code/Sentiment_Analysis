@@ -24,7 +24,7 @@ def g(x, x_max, alpha):
         return 1.0
 
 
-def descent(unique_words, word_vectors, new_word_vectors, probabilities, x_max, alpha, eta, iter):
+def descent(unique_words, word_vectors, probabilities, x_max, alpha, eta, iter):
     """
     Gradient descent algorithm to optimize word vectors based on probabilities.
     
@@ -46,13 +46,16 @@ def descent(unique_words, word_vectors, new_word_vectors, probabilities, x_max, 
         2. word_vectors_over_time (list): List of word vectors over time.
     """
 
+    new_word_vectors = word_vectors.copy()
+
     word_vectors_over_time = []
     word_vectors_over_time.append(word_vectors)
 
     J_over_time = []
 
     for t in range(iter):
-        for i in range(len(probabilities.columns)):
+        # for i in range(len(probabilities.columns)):
+        for i in range(len(probabilities)):
             a = np.zeros(len(unique_words))
 
             for j in range(len(probabilities.columns)):

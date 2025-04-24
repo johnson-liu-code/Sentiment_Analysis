@@ -83,7 +83,27 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 ... text here ...
 
 #### __Workflow__
-... text here ...
+
+
+GloVe model
+1. Collect data
+    1. 
+    1. Remove stopwords and punctuation
+    1. Generate vocabulary
+    1. 
+1. Compute co-occurrence probability matrix
+    1. Compute co-occurence matrix with specified context window size.
+    1. Compute probabilities.
+    1. 
+1. Train word vectors for each unique word.
+    1. ...text here...
+    1. 
+1. Train neural network
+    1. Find the Frechet mean for each comment.
+    1. Use a comment's Frechet mean as input for the neural network.
+    1.
+1. 
+
 
 ---
 
@@ -159,6 +179,8 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 
 1. [Linear least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Linear_least_squares)
 
+1. [Fréchet mean (Wikipedia article).](https://en.wikipedia.org/wiki/Fr%C3%A9chet_mean)
+
 #### __Data Visualization Guides__
 1. [*The Art of Effective Visualization of Multi-dimensional Data* (guide on plotting multidimensional data).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
 
@@ -174,14 +196,17 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 
 ### __Data Visualization__
 
+_**Preliminary figures.\
+Not for use in final product.**_
+
 #### Word cloud - Sarcastic
-![placeholder-text](figures/data_visualization/wordcloud_sarcastic.png)
+![placeholder-text](figures/raw_data_visualization/wordcloud_sarcastic.png)
 
 #### Word cloud - Not Sarcastic
-![placeholder-text](figures/data_visualization/wordcloud_not_sarcastic.png)
+![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png)
 
 #### Word frequency within comments
-![placeholder-text](figures/data_visualization/words_in_comments.png)
+![placeholder-text](figures/raw_data_visualization/words_in_comments.png)
 
 #### Co-occurrence probabilities
 ![placeholder-text](figures/testing_02/cooccurrence_probability_heatmap.png)
@@ -189,6 +214,10 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 ---
 
 ### __Machine Learning Visualization__
+
+_**Figures used for testing.\
+Not for use in final product.**_
+
 ![placeholder-text](figures/testing_01/J_and_log_J_over_time_animation.gif)
 
 ![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
