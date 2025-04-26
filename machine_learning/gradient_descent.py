@@ -24,7 +24,16 @@ def g(x, x_max, alpha):
         return 1.0
 
 
-def descent(unique_words, word_vectors, probabilities, x_max, alpha, eta, iter):
+def descent(
+        unique_words, 
+        word_vectors,
+        word_vector_length,
+        probabilities,
+        x_max,
+        alpha,
+        eta,
+        iter
+    ):
     """
     Gradient descent algorithm to optimize word vectors based on probabilities.
     
@@ -56,7 +65,7 @@ def descent(unique_words, word_vectors, probabilities, x_max, alpha, eta, iter):
     for t in range(iter):
         print(f'Iteration: {t}\n')
         for i in range(len(probabilities.columns)):
-            a = np.zeros(len(unique_words))
+            a = np.zeros(word_vector_length)
 
             for j in range(len(probabilities.columns)):
                 if i != j:
@@ -66,6 +75,12 @@ def descent(unique_words, word_vectors, probabilities, x_max, alpha, eta, iter):
                         log_prob = np.log(probabilities.iloc[i][j])
                         g_value = g(probabilities.iloc[i][j], x_max, alpha)
                         
+                        # print(f'a: {a}\n')
+                        # print(f'dot_product: {dot_product}\n')
+                        # print(f'log_prob: {log_prob}\n')
+                        # print(f'g_value: {g_value}\n')
+                        # print(f'word_vectors: {word_vectors[unique_words[j]]}')
+
                         a += (dot_product - log_prob) * g_value * word_vectors[unique_words[j]]
 
             new_word_vectors[unique_words[i]] = word_vectors[unique_words[i]] - eta * 2*a

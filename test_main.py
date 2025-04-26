@@ -7,7 +7,7 @@ def GloVe_train_word_vectors(
         data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
         comments_limit=10,
         window_size=100,
-        word_vector_length = 10
+        word_vector_length=10
     ):
 
     import pandas as pd
@@ -74,14 +74,22 @@ def GloVe_train_word_vectors(
     eta = 0.1
 
     J_over_time, word_vectors_over_time = machine_learning.gradient_descent.descent(
-        unique_words, word_vectors, probabilities, x_max, alpha, eta, iter )
+        unique_words,
+        word_vectors,
+        word_vector_length,
+        probabilities,
+        x_max,
+        alpha,
+        eta,
+        iter
+    )
 
     # Save J_over_time to binary file
     J_over_time_save_file = 'project_J_over_time_01.npy'
     np.save(J_over_time_save_file, J_over_time)
 
     # Save word_vectors_over_time to binary file
-    word_vectors_over_time_save_file = 'project_word_vectors_over_time_01.npy'
+    word_vectors_over_time_save_file = 'data/project_data/training_data/test/project_word_vectors_over_time_01.npy'
     np.save(word_vectors_over_time_save_file, word_vectors_over_time)
 
 
@@ -97,7 +105,12 @@ if __name__ == "__main__":
     import pandas as pd
     import machine_learning.neural_network_training
 
-    # GloVe_train_word_vectors(data_file_name = "data/project_data/trimmed_training_data.csv", comments_limit=10)
+    GloVe_train_word_vectors(
+        data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
+        comments_limit=10,
+        window_size=100,
+        word_vector_length=10
+    )
 
     word_vectors_over_time_save_file = 'data/project_data/training_data/test/project_word_vectors_over_time_01.npy'
     word_vectors_over_time = np.load(word_vectors_over_time_save_file, allow_pickle=True)
@@ -110,21 +123,28 @@ if __name__ == "__main__":
     # Get the comments for which we want to train the neural network on.
     data = pd.read_csv(data_file_name)[:comments_limit]['comment']
 
-    print(data)
+    # print(data)
 
-    # # Split each comment into their component words.
-    # words_in_comments = [ comment.split() for comment in comments ]
+    # Split each comment into their component words.
+    words_in_comments = [ comment.split() for comment in data ]
 
-    # # Throw away any punctuation that are attached to the words.
-    # words_in_comments = [
-    #     [ word.strip('.,!?()[]{}"\'').lower() for word in comment]
-    #     for comment in words_in_comments
-    # ]
+    # print( words_in_comments )
 
-    # # Retrieve the vector representation of each word in each comment.
-    # vectors_in_comments = [
-    #     [ trained_word_vectors[word] for word in comment]
-    #     for comment in words_in_comments
-    # ]
+    # Throw away any punctuation that are attached to the words.
+    words_in_comments = [
+        [ word.strip('.,!?()[]{}"\'').lower() for word in comment]
+        for comment in words_in_comments
+    ]
+
+    # print( words_in_comments )
+
+    # Retrieve the vector representation of each word in each comment.
+    vectors_in_comments = [
+        [ trained_word_vectors[word] for word in comment]
+        for comment in words_in_comments
+    ]
+
+    # print(len(vectors_in_comments[0][0]))
+    print(vectors_in_comments[1])
 
     # X = word_vectors_over_time.neural_network_training.frechet_mean(vectors_in_comments)
