@@ -1,3 +1,5 @@
+<p style="text-align: justify;">
+
 # Sarcasm Detector
 2025 Spring\
 Diablo Valley College\
@@ -5,8 +7,7 @@ Project Bracket
 
 ---
 
-![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif)
-![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
+![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif) ![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
 
 <sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
 
@@ -86,18 +87,35 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
 
 ### __Variable Definitions__
 
-See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Functions section.
-1. $V$ is the set of all unique words that appear in the corpus.
+See reference [2.2.3. GloVe model](#theoretical-foundations) in the Theoretical Foundations section.
+1. $V$ is the set of all unique words that appear in the corpus ( the collection of all comments in the dataset ).
 
-1. $X$ is the co-occurrence matrix for every possible pair of words $i$ and $j$ from $V$.
+1. $w_i$ is a specific word in $V$ where $i \leq N$ and $N$ is the number of words in $V$.
 
-1. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $j$ appears in the context of word $i$.
+1. $X$ is the co-occurrence matrix for every possible pair of words $w_i$ and $w_j$ in $V$.
 
-1. $X_i = \sum_{k \in V} X_{ik}$ is the sum of the number of times every word $k$ appears in the context of word $i$, with the exception of word $i$. Although repeated instances of word $i$ are also counted in the context of word $i$.
+1. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $w_j$ appears in the context of word $w_i$.
 
-1. ...
+1. $X_i$ is the summation over all $X_{ik}$ for $k \leq N$. In other words,
+$$
+\begin{align}
+X_i \ = \ \sum_{\substack{k = 1 \\ k \neq i}}^{N} X_{ik} \ \ .
+\end{align}
+$$
+
+1. $P$ is the co-occurrence probabilities matrix.
+
+1. $P_{ij}$ is the $i$-th row, $j$-th column entry in $P$ which gives the probability that word $w_j$ appears in the context of word $w_i$. You can also think of $P_{ij}$ as the chance of finding word $w_j$ given that you have word $w_i$. This probability is defined as
+
+$$
+\begin{align}
+P_{ij} \ =& \ \ P(\text{word}_j|\text{word}_i) \\
+=& \ \ \frac{X_{ij}}{X_i} \ \ .
+\end{align}
+$$
+
 1. .... 
-1. more stuff ...
+1. ... more stuff ...
 
 ### __Mathematical Foundations__
 ... text here ...
@@ -387,3 +405,6 @@ At this point **groups should be more than halfway done with their project** or 
     1. Neural network training.
 
 ---
+
+
+</p>
