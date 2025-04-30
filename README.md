@@ -111,11 +111,11 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 #### <ins>GloVe model</ins>
 1. Collect data
     1. Remove stopwords, punctuation, and other words and/or characters that are deemed not important to the context of a comment.
-        - Stopwords are commonly used words within a language that appear frequently in many contexts. These words are assumed to be not important when discerning between comments that are meant to be sarcastic and comments that are not meant to be sarcastic.
-        - Although punctuations might be important in lending context to comments with sarcastic tones, we will assume that they do not in order to simplify our project. Future works might look into the importance of punctuations in sarcastic comments as well as developing a way to incorporate punctuations into the classification of such comments.
-        - Miscellaneous words/phrases/characters that are troublesome to work with ( such as emoticons, words from other languages, mathematical notation, etc. ) or otherwise deemed unimportant can be treated like stopwords and punctuations and removed from the data.
+        1. Stopwords are commonly used words within a language that appear frequently in many contexts. These words are assumed to be not important when discerning between comments that are meant to be sarcastic and comments that are not meant to be sarcastic.
+        1. Although punctuations might be important in lending context to comments with sarcastic tones, we will assume that they do not in order to simplify our project. Future works might look into the importance of punctuations in sarcastic comments as well as developing a way to incorporate punctuations into the classification of such comments.
+        1. Miscellaneous words/phrases/characters that are troublesome to work with ( such as emoticons, words from other languages, mathematical notation, etc. ) or otherwise deemed unimportant can be treated like stopwords and punctuations and removed from the data.
     1. Generate the vocabulary.
-        - The vocabulary 
+        1. The vocabulary 
     1. 
 1. Compute co-occurrence probability matrix
     1. Compute co-occurence matrix with specified context window size.
