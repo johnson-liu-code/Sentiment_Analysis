@@ -1,4 +1,3 @@
-<p style="text-align: justify;">
 
 # Sarcasm Detector
 2025 Spring\
@@ -403,6 +402,3 @@ At this point **groups should be more than halfway done with their project** or 
     1. Neural network training.
 
 ---
-
-
-</p>
