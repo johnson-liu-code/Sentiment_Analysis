@@ -3,6 +3,8 @@
 Diablo Valley College\
 Project Bracket
 
+---
+
 ![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif)
 ![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
 
@@ -10,28 +12,43 @@ Project Bracket
 
 ---
 
+
+
+
 ### __Team__
 
-Johnson Liu ( project manager )\
+Johnson Liu\
+<sub><small>
 GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
+</small></sub>
+<sup><small>
 Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
+</small></sup>
 
-Heidi - [@heidi415D](https://github.com/heidi415D)
+Heidi\
+<sub><small>
+GitHub: [@heidi415D](https://github.com/heidi415D)
+</small></sub>
 
-Bryan - [@hBrymiri](https://github.com/hBrymiri)
+Bryan\
+<sub><small>
+GitHub: [@hBrymiri](https://github.com/hBrymiri)
+</small></sub>
 
----
 
-### __Contents__
+
+## __Contents__
 
 1. [Project Overview](#project-overview)\
-    1.1. [Introduction](#background)\
+    1.1. [Background](#background)\
     1.2. [Purpose](#purpose)\
     1.3. [Data Used](#data-used)\
     1.4. [Variable Definitions](#variable-definitions)\
     1.5. [Mathematical Foundations](#mathematical-foundations)\
-    1.6. [Workflow](#workflow)
-2. [Resources](#resources)\
+    1.6. [Workflow](#workflow)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.6.1 [Word2vec model](#word2vec-model)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.6.2 [GloVe model](#glove-model)
+2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1 [Natural Language Processing](#natural-language-processing)\
@@ -43,28 +60,31 @@ Bryan - [@hBrymiri](https://github.com/hBrymiri)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.2. [Gensim](#gensim)\
     2.5. [Other Theoretical Backgrounds](#other-theoretical-backgrounds)\
     2.6. [Mathematical References](#mathematical-references)\
-    2.7. [Data Visualization Guides](#data-visualization-guides)
-3. [Data Visualization](#data-visualization)
-4. [Machine Learning Visualization](#machine-learning-visualization)
-5. [Results](#results)
-6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
-7. [Important Dates](#important-dates)
-8. [Records](#records)
+    2.7. [Graphical Visualization Guides](#graphical-visualization-guides)
+3. [Graphics](#graphics)\
+    3.1. [Data Visualization](#data-visualization)\
+    3.2. [Machine Learning Visualization](#machine-learning-visualization)
+4. [Results](#results)
+5. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+6. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
+    6.1. [Important Dates](#important-dates)\
+    6.2. [Records](#records)
 
----
 
-### __Project Overview__
 
-#### __Background__
+
+## __Project Overview__
+
+### __Background__
 ... text here ...
 
-#### __Purpose__
+### __Purpose__
 ... text here ...
 
-#### __Data Used__
+### __Data Used__
 ... text here ...
 
-#### __Variable Definitions__
+### __Variable Definitions__
 
 See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Functions section.
 1. $V$ is the set of all unique words that appear in the corpus.
@@ -79,17 +99,23 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 1. .... 
 1. more stuff ...
 
-#### __Mathematical Foundations__
+### __Mathematical Foundations__
 ... text here ...
 
-#### __Workflow__
+### __Workflow__
 
+#### <ins>word2vec model</ins>
 
-GloVe model
+... text here ...
+
+#### <ins>GloVe model</ins>
 1. Collect data
-    1. 
-    1. Remove stopwords and punctuation
-    1. Generate vocabulary
+    1. Remove stopwords, punctuation, and other words and/or characters that are deemed not important to the context of a comment.
+        - Stopwords are commonly used words within a language that appear frequently in many contexts. These words are assumed to be not important when discerning between comments that are meant to be sarcastic and comments that are not meant to be sarcastic.
+        - Although punctuations might be important in lending context to comments with sarcastic tones, we will assume that they do not in order to simplify our project. Future works might look into the importance of punctuations in sarcastic comments as well as developing a way to incorporate punctuations into the classification of such comments.
+        - Miscellaneous words/phrases/characters that are troublesome to work with ( such as emoticons, words from other languages, mathematical notation, etc. ) or otherwise deemed unimportant can be treated like stopwords and punctuations and removed from the data.
+    1. Generate the vocabulary.
+        - The vocabulary 
     1. 
 1. Compute co-occurrence probability matrix
     1. Compute co-occurence matrix with specified context window size.
@@ -105,16 +131,16 @@ GloVe model
 1. 
 
 
----
 
-### __Resources__
 
-#### __Data__
+## __Resources and Background Information__
+
+### __Data__
 1. [*Sarcasm on Reddit* (Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic).](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
 
-#### __Theoretical Foundations__
+### __Theoretical Foundations__
 
-##### <ins>Natural Language Processing</ins>
+#### <ins>Natural Language Processing</ins>
 1. [Natural language processing (Wikipedia article).](https://en.wikipedia.org/wiki/Natural_language_processing)
 
 1. [*Text Classification & Sentiment Analysis* (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
@@ -123,7 +149,7 @@ GloVe model
 
 1. [*Word Embeddings – Explained!* (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
 
-##### <ins>word2vec Model</ins>
+#### <ins>word2vec Model</ins>
 1. [*Word2Vec: NLP with Contextual Understanding* (theoretical guide for word2vec and GloVe models).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
 
 1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
@@ -132,17 +158,17 @@ GloVe model
 
 1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
 
-##### <ins>GloVe Model</ins>
+#### <ins>GloVe Model</ins>
 1. [GloVe model (Wikipedia article).](https://en.wikipedia.org/wiki/GloVe)
 
 1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
 
-#### __Sample Works__
+### __Sample Works__
 1. [*Sarcasm Detection with GloVe/Word2Vec* (project on Kaggle applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_).](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
 
-#### __Documentation and Tutorials__
+### __Documentation and Tutorials__
 
-##### <ins>Neural Networks</ins>
+#### <ins>Neural Networks</ins>
 1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (building and training a neural network in Python with Keras).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
 
 1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (tutorial on building neural networks in Python (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
@@ -156,7 +182,7 @@ GloVe model
 
 1. [*Word2Vec Model* (word2vec tutorial from the Gensim website).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
 
-#### __Other Theoretical Backgrounds__
+### __Other Theoretical Backgrounds__
 1. [*Machine Learning Tutorial* (general overview/tutorial on machine learning (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/machine-learning/)
 
 1. [*AI ML DS - How To Get Started?* (general overview on artificial intelligence, machine learning, and data science (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/ai-ml-ds/)
@@ -171,7 +197,7 @@ GloVe model
 
 1. [Tf-idf [ term frequency-inverse document frequency ] (Wikipedia article).](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
-#### __Mathematical References__
+### __Mathematical References__
 
 1. [Dot product (Wikipedia article).](https://en.wikipedia.org/wiki/Dot_product)
 
@@ -181,7 +207,7 @@ GloVe model
 
 1. [Fréchet mean (Wikipedia article).](https://en.wikipedia.org/wiki/Fr%C3%A9chet_mean)
 
-#### __Data Visualization Guides__
+### __Graphical Visualization Guides__
 1. [*The Art of Effective Visualization of Multi-dimensional Data* (guide on plotting multidimensional data).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
 
 1. [*Top Python Data Visualization Libraries in 2024: A Complete Guide*](https://www.fusioncharts.com/blog/best-python-data-visualization-libraries/)
@@ -192,7 +218,9 @@ GloVe model
 
 1. [*Intermediate Tableau guide for data science and business intelligence professionals*](https://www.analyticsvidhya.com/blog/2018/01/tableau-for-intermediate-data-science/)
 
----
+
+
+## __Graphics__
 
 ### __Data Visualization__
 
@@ -211,7 +239,8 @@ Not for use in final product.**_
 #### Co-occurrence probabilities
 ![placeholder-text](figures/testing_02/cooccurrence_probability_heatmap.png)
 
----
+
+
 
 ### __Machine Learning Visualization__
 
@@ -222,21 +251,25 @@ Not for use in final product.**_
 
 ![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
 
----
 
-### __Results__
+
+
+## __Results__
 ... text here ...
 
----
 
-### __Future Direction and Possible Improvements__
-... text here ...
+
+
+## __Future Direction and Possible Improvements__
 1. Extend project to sentiment and tone classificaiton of text.
 1. 
 
----
 
-### __Important Dates ( taken from club-provided syllabus )__
+
+
+## Miscellaneous notes for collaborators working on the project
+
+### __Important Dates__
 
 ##### <ins>Week 5/6 — April 16 & April 23, 2025</ins>
 Development continues on in week 5 in preparation for the **mid-semester showcase in week 6**. Groups are now in the middle of the semester meaning that they will present what progress they have so far. The mid-semester showcase does not mean that groups have to be halfway done with their projects.
