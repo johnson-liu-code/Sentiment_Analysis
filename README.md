@@ -96,6 +96,7 @@ See reference [2.2.3. GloVe model](#theoretical-foundations) in the Theoretical 
 1. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $w_j$ appears in the context of word $w_i$.
 
 1. $X_i$ is the summation over all $X_{ik}$ for $k \leq N$. In other words,
+
 $$X_i \ = \ \sum_{\substack{k = 1 \\ k \neq i}}^{N} X_{ik} \ . $$
 
 1. $P$ is the co-occurrence probabilities matrix.
