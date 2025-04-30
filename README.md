@@ -98,9 +98,7 @@ See reference [2.2.3. GloVe model](#theoretical-foundations) in the Theoretical 
 
 1. $X_i$ is the summation over all $X_{ik}$ for $k \leq N$. In other words,
 $$
-\begin{align}
 X_i \ = \ \sum_{\substack{k = 1 \\ k \neq i}}^{N} X_{ik} \ \ .
-\end{align}
 $$
 
 1. $P$ is the co-occurrence probabilities matrix.
