@@ -103,12 +103,7 @@ $$X_i \ = \ \sum_{\substack{k = 1 \\ k \neq i}}^{N} X_{ik} \ . $$
 
 1. $P_{ij}$ is the $i$-th row, $j$-th column entry in $P$ which gives the probability that word $w_j$ appears in the context of word $w_i$. You can also think of $P_{ij}$ as the chance of finding word $w_j$ given that you have word $w_i$. This probability is defined as
 
-$$
-\begin{align}
-P_{ij} \ =& \ \ P(\text{word}_j|\text{word}_i) \\
-=& \ \ \frac{X_{ij}}{X_i} \ \ .
-\end{align}
-$$
+$$P_{ij} \ = \ \ P(\text{word}_j|\text{word}_i) \ \ . $$
 
 1. .... 
 1. ... more stuff ...
