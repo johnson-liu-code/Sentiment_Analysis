@@ -109,26 +109,55 @@ See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Func
 ... text here ...
 
 #### <ins>GloVe model</ins>
+General workflow when applying the GloVe model ...
 1. Collect data
+
     1. Remove stopwords, punctuation, and other words and/or characters that are deemed not important to the context of a comment.
+
         1. Stopwords are commonly used words within a language that appear frequently in many contexts. These words are assumed to be not important when discerning between comments that are meant to be sarcastic and comments that are not meant to be sarcastic.
+
         1. Although punctuations might be important in lending context to comments with sarcastic tones, we will assume that they do not in order to simplify our project. Future works might look into the importance of punctuations in sarcastic comments as well as developing a way to incorporate punctuations into the classification of such comments.
+
         1. Miscellaneous words/phrases/characters that are troublesome to work with ( such as emoticons, words from other languages, mathematical notation, etc. ) or otherwise deemed unimportant can be treated like stopwords and punctuations and removed from the data.
+
     1. Generate the vocabulary.
-        1. The vocabulary 
-    1. 
-1. Compute co-occurrence probability matrix
-    1. Compute co-occurence matrix with specified context window size.
-    1. Compute probabilities.
-    1. 
+
+        1. The vocabulary is the set containing all of the words present within the corpus ( dataset ).
+
+1. Compute the co-occurrence probability matrix.
+
+    1. Compute the co-occurence matrix with a specified context window size.
+
+        1. The co-occurence matrix tabulates the amount of times word $w_i$ appears in the context of word $w_j$.
+
+        2. The context window is the range centered on the target word from which we count the number of times the context word shows up.
+
+    1. Compute the pairwise co-occurrence probabilities using the co-occurrence matrix.
+
+        1. ... text here about computing co-occurrence probabilities ...
+
 1. Train word vectors for each unique word.
+
+    1. We have to decide on the dimensionality of each word vector. Greater dimensionality might capture more nuances between words, but will also increase the demand on computational resources.
+
     1. ...text here...
-    1. 
-1. Train neural network
-    1. Find the Frechet mean for each comment.
-    1. Use a comment's Frechet mean as input for the neural network.
-    1.
-1. 
+
+    1. ...text here...
+
+1. Train the neural network.
+
+    1. In order to able to pass our data as input into the neural network, the input shape across all comments must be uniform. Since each comment in the dataset can have varying number of words, we have to decide on a way of aggregating all of the words in a comment into a single input.
+
+        1. ... text here on one possibility ... using the Frechet mean ... \
+        One possibility is to take the average of all of the word vectors contained within a comment.
+
+            1. ... text here about the Frechet mean being a measure of central tendency ...
+
+            1. In the context of this project, the Frechet mean for all of the word vectors associated with a specific comment is simply the arithmetic mean of the collection of vectors. This mean is found by taking the component-wise mean of each vector component.
+
+    1. ... text here on structure of neural network ...
+
+    1. ... text here on passing the data as input into the neural network ...
 
 
 
@@ -261,8 +290,12 @@ Not for use in final product.**_
 
 
 ## __Future Direction and Possible Improvements__
-1. Extend project to sentiment and tone classificaiton of text.
-1. 
+1. Machine learning / classification.
+    1. Extend project to sentiment and tone classificaiton of text.
+
+1. Browser application.
+    1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website.
+    1. Develop the app further to display in real time the predicted tone of all of the Reddit comments seen in the current browser window.
 
 
 
