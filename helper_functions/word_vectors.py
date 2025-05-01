@@ -23,11 +23,15 @@ def create_word_vectors(word_list, word_vector_size):
     """
     import numpy as np
     
+
+    # Can this be done with "list" comprehension?
+
     word_vectors = {}
     
-    for word in word_list:
+    for word in word_list[:1]:
         # Generate a random vector for each word.
         vector = np.random.rand(word_vector_size)
+        print(f'vector length: {len(vector)}\n')
         word_vectors[word] = vector
     
     return word_vectors

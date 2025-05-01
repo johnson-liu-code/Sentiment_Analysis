@@ -131,7 +131,8 @@ There is a word vector $v_i \in V$ associated with each $w_i \in W$.
 Let $g$ be the mapping from $W$ to $V$.
 Then
 
-$$V \ = \ g(W) \ \\ v_i \ = \ g(w_i) .$$
+$$V \ = \ g(W)$$
+$$ v_i \ = \ g(w_i) .$$
 
 8. $m = \text{dim}(v)$ is the dimensionality of the word vectors.
 

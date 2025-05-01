@@ -1,134 +1,109 @@
 
 
-import pandas as pd
-import numpy as np
-
-# import data_extraction.extract_data
-import helper_functions.cooccurrence_matrix
-import helper_functions.cooccurrence_probability
-import helper_functions.word_vectors
 
 
-def g(x, x_max, alpha):
-    if x < x_max:
-        return (x/x_max) ** alpha
-    else:
-        return 1.0
+
+
+def train_nn_on_GloVe_vectors(trained_word_vectors):
+    import machine_learning.neural_network_training
+
+    
 
 
 if __name__ == "__main__":
+    import argparse
 
-    x = True
+    import numpy as np
+    import pandas as pd
 
-    # original_data_source = "data/sentences.txt"
-    # # data_redux = data_extraction.extract_data.extract_data( original_data_source )
+    import machine_learning.glove_vector_training
+    # import machine_learning.neural_network_training
 
-    # with open(original_data_source, 'r') as file:
-    #     text = file.read()
+    parser_description = "This script contains the code for running the word vector training as well as running the neural network."
+    parser = argparse.ArgumentParser(description=parser_description)
 
-    # window_size = 30
+    # Parse the command line arguments to tell the script whether to run the GloVe training or to pull data from .npy files that already exist.
+    parser.add_argument(
+        "--input_file_name",
+        default="data/project_data/raw_data/trimmed_training_data.csv",
+        help="Path to data used for training.",
+        # dest="data_file_name"
+    )
+    parser.add_argument(
+        "--output_file_name",
+        default="data/project_data/training_data/test/project_word_vectors_over_time_01.npy",
+        help="Path to save word vector training data.",
+    )
+    parser.add_argument(
+        "--train_glove",
+        action="store_true",
+        help="Run the GloVe training.",
+        # dest="run_train_word_vectors"
+    )
+    parser.add_argument(
+        "--save_glove_training_data",
+        action="store_true",
+        help="Save the trained GloVe vectors to file.",
+        # dest="save_data"
+    )
 
-    # unique_words, cooccurrence_matrix = (
-    #     helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
-    #         text, window_size ) )
+    args = parser.parse_args()
 
-    # # print(unique_words)
-    # # print(cooccureence_matrix)
-
-    # cooccurence_matrix_dataframe = (
-    #     pd.DataFrame(
-    #         cooccurrence_matrix, index = unique_words, columns = unique_words ) )
-
-    # # print(cooccurence_matrix_dataframe)
-
-    # cooccurrence_matrix_dict = cooccurence_matrix_dataframe.to_dict()
-    # # print(cooccurrence_matrix_dict)
-
-    # totals, probabilities = (
-    #     helper_functions.cooccurrence_probability.cooccurrence_probability(
-    #         cooccurrence_matrix_dict ) )
+    data_file_name = args.input_file_name
+    word_vectors_over_time_save_file = args.output_file_name
+    run_train_word_vectors = args.train_glove
+    save_data = args.save_glove_training_data
     
-    # # print(totals)
-    # # print(probabilities[unique_words[0]])
 
-    # # savefig_file_name = "cooccurrence_probability_heatmap.png"
+    # if args.run_train_word_vectors:
+    if run_train_word_vectors:
+        # print(args.data_file_name)
+        word_vectors_over_time = glove_vector_training.GloVe_train_word_vectors(
+            data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
+            comments_limit=10,
+            window_size=64,
+            word_vector_length=8,
+            save_data=False
+        )
 
-    # # helper_functions.cooccurrence_matrix.plot_cooccurrence_heatmap(
-    # #     unique_words, probabilities, savefig_file_name )
-    
-    # word_vectors = (
-    #     helper_functions.word_vectors.create_word_vectors( 
-    #         unique_words, len(unique_words) ) )
+    else:
+        word_vectors_over_time = np.load(word_vectors_over_time_save_file, allow_pickle=True)
 
-    # new_word_vectors = word_vectors.copy()
+    trained_word_vectors = word_vectors_over_time[-1]
+    # print(f'Trained word vector keys:\n{trained_word_vectors.keys()}\n')
+    word = 'ayy'
+    print(f'Trained word vector for "{word}":\n{trained_word_vectors[word]}\n')
 
-    # x_max = 100
-    # alpha = 0.75
+    # data_file_name = "data/project_data/raw_data/trimmed_training_data.csv"
+    # comments_limit=10
 
-    # iter = 100
-    # eta = 0.1
+    # # Get the comments for which we want to train the neural network on.
+    # data = pd.read_csv(data_file_name)[:comments_limit]['comment']
 
-    # # print(type(X.iloc[0][1]))
+    # # print(data)
 
-    # # Convert the dictionary to a DataFrame
-    # probabilities = pd.DataFrame.from_dict(probabilities, orient='index')
-    # # print(probabilities)
+    # # Split each comment into their component words.
+    # words_in_comments = [ comment.split() for comment in data ]
 
-    # # probabilities.drop(columns=['Unnamed: 0'], inplace=True)
-    # # print(X)
+    # # print( words_in_comments )
 
-    # # print(len(X.columns))
+    # # Throw away any punctuation that are attached to the words.
+    # words_in_comments = [
+    #     [ word.strip('.,!?()[]{}"\'').lower() for word in comment]
+    #     for comment in words_in_comments
+    # ]
 
-    # word_vectors_over_time = []
-    # word_vectors_over_time.append(word_vectors)
+    # # print( words_in_comments )
 
-    # J_over_time = []
+    # # Retrieve the vector representation of each word in each comment.
+    # vectors_in_comments = [
+    #     [ trained_word_vectors[word] for word in comment]
+    #     for comment in words_in_comments
+    # ]
 
-    # for t in range(iter):
-    #     for i in range(len(probabilities.columns)):
-    #         a = np.zeros(len(unique_words))
+    # print(len(vectors_in_comments[0][0]))
+    # print(vectors_in_comments[1])
 
-    #         for j in range(len(probabilities.columns)):
-    #             if i != j:
-    #                 if probabilities.iloc[i][j] != 0:
-    #                     dot_product = np.dot(word_vectors[unique_words[i]], word_vectors[unique_words[j]])
+    # X = word_vectors_over_time.neural_network_training.frechet_mean(vectors_in_comments)
 
-    #                     # print(i,j)
-    #                     # print(X.iloc[i][j])
-
-    #                     log_prob = np.log(probabilities.iloc[i][j])
-    #                     g_value = g(probabilities.iloc[i][j], x_max, alpha)
-                        
-    #                     a += (dot_product - log_prob) * g_value * word_vectors[unique_words[j]]
-
-    #         new_word_vectors[unique_words[i]] = word_vectors[unique_words[i]] - eta * 2*a
-        
-    #     J = 0
-    #     for i in range(len(probabilities.columns)):
-    #         for j in range(len(probabilities.columns)):
-    #             if i != j:
-    #                 if probabilities.iloc[i][j] != 0:
-    #                     dot_product = np.dot(new_word_vectors[unique_words[i]], new_word_vectors[unique_words[j]])
-    #                     log_prob = np.log(probabilities.iloc[i][j])
-    #                     g_value = g(probabilities.iloc[i][j], x_max, alpha)
-
-    #                     J +=  g_value * (dot_product - log_prob) ** 2
-            
-    #     J_over_time.append(J)
-
-    #     word_vectors = new_word_vectors.copy()
-    #     word_vectors_over_time.append(word_vectors)
-
-
-    # # print(new_word_vectors)
-    # # print(word_vectors[words[0]]-new_word_vectors[words[0]])
-
-    # # print(J_over_time)
-
-    # # Save J_over_time to binary file
-    # J_over_time_save_file = 'J_over_time.npy'
-    # np.save(J_over_time_save_file, J_over_time)
-
-    # # Save word_vectors_over_time to binary file
-    # word_vectors_over_time_save_file = 'word_vectors_over_time.npy'
-    # np.save(word_vectors_over_time_save_file, word_vectors_over_time)
+    # print(X)
