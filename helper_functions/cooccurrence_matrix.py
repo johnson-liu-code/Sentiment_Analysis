@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np  # Add this import
 
 
-def create_cooccurrence_matrix(text, window_size):
+def create_cooccurrence_matrix(text:str, window_size:int):
     """
     Creates a co-occurrence matrix for the given text.
 
@@ -65,7 +65,14 @@ def create_cooccurrence_matrix(text, window_size):
     return unique_words, cooccurrence_matrix
 
 
-def plot_cooccurrence_heatmap(unique_words, cooccurrence_matrix, savefig_file_name="cooccurrence_heatmap.png", savefig=False, show=False):
+def plot_cooccurrence_heatmap(
+        unique_words:list,
+        cooccurrence_matrix,
+        savefig_file_name="cooccurrence_heatmap.png",
+        savefig=False,
+        show=False
+    ):
+
     """
     Plots a heatmap of the co-occurrence matrix.
 
@@ -96,8 +103,17 @@ def plot_cooccurrence_heatmap(unique_words, cooccurrence_matrix, savefig_file_na
     # Create the heatmap.
     # Set the figure size.
     plt.figure(figsize=(10, 8))
-    sns.heatmap(df, cmap="Blues", annot=False, cbar=True, xticklabels=False, yticklabels=False,
-                mask=mask, vmin=0.1, vmax=1)  # Set colorscale from 0 to 5
+    sns.heatmap(
+        df,
+        cmap="Blues",
+        annot=False,
+        cbar=True,
+        xticklabels=False,
+        yticklabels=False,
+        mask=mask,
+        vmin=0.1,
+        vmax=1
+    )
     plt.title("Co-occurrence Matrix Heatmap")
     plt.xlabel("Context Words")
     plt.ylabel("Target Words")
@@ -114,7 +130,7 @@ def plot_cooccurrence_heatmap(unique_words, cooccurrence_matrix, savefig_file_na
         plt.show()
 
 
-def create_cooccurrence_heatmap_from_csv(input_file):
+def create_cooccurrence_heatmap_from_csv(input_file:str):
     """
     Creates a co-occurrence heatmap from a CSV file.
 
@@ -129,14 +145,22 @@ def create_cooccurrence_heatmap_from_csv(input_file):
     Returns:
         1. None
     """
+    
     # Read the CSV file into a DataFrame.
     df = pd.read_csv(input_file, index_col=0)
 
     # Create the heatmap.
     # Set the figure size.
     plt.figure(figsize=(10, 8))
-    sns.heatmap(df, cmap="YlGnBu", annot=False, cbar=True, xticklabels=True, yticklabels=True,
-                cbar_kws={'ticks': np.linspace(df.values.min(), df.values.max(), num=5)})  # Generate 5 evenly spaced ticks
+    sns.heatmap(
+        df,
+        cmap="YlGnBu",
+        annot=False,
+        cbar=True,
+        xticklabels=True,
+        yticklabels=True,
+        cbar_kws={ 'ticks': np.linspace( df.values.min(), df.values.max(), num=5 ) } # Generate 5 evenly spaced ticks.
+    )
     plt.title("Co-occurrence Matrix Heatmap")
     plt.xlabel("Context Words")
     plt.ylabel("Target Words")
