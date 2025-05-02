@@ -64,12 +64,9 @@ def visualize_cosine_similarity(vectors):
 if __name__ == "__main__":
     import numpy as np
 
-    # file_name = 'testing_scrap_misc/scrap_data_02/word_vectors_over_time.npy'
     file_name = 'word_vectors_over_time_02.npy'
 
     trained_vectors = np.load(file_name, allow_pickle=True)[-1]
-
-    # print(len(trained_vectors))
 
     vectors = [trained_vectors[word] for word in trained_vectors]
 

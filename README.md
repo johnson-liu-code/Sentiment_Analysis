@@ -15,7 +15,7 @@ Project Bracket Computer Science Club
 ---
 <br>
 
-<img src="figures/unrelated_pngs_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_pngs_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
+<img src="figures/unrelated_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
 
 <small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
 
@@ -73,8 +73,10 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
 4. [Results](#results)
-5. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
-6. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
+5. [The Codebase](#the-codebase)\
+    5.1. [Python Libraries Used](#python-libraries-used)
+6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+7. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
     6.1. [Important Dates](#important-dates)\
     6.2. [Records](#records)
 
@@ -370,6 +372,10 @@ _**Fix this**_
 
 **... text here ...**
 
+
+## __The Codebase__
+
+#### Python Libraries Used
 
 
 ## __Future Direction and Possible Improvements__

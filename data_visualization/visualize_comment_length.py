@@ -50,8 +50,9 @@ def visualize_comment_length(data_file_name, output_image_file):
     plt.savefig(output_image_file, dpi=300, bbox_inches='tight')
 
 
+# Sample usage of the visualize_comment_length function.
 if __name__ == "__main__":
-    # Sample usage of the visualize_comment_length function.
+    
     data_file_name = '../data/trimmed_training_data.csv'
     output_image_file = 'words_in_comments.png'
     visualize_comment_length(data_file_name, output_image_file)

@@ -30,18 +30,12 @@ def plot_J_over_time(data_file='data/J_over_time.npy', show=False):
     trajectory_length = len(J_over_time)
 
     # Compute log(J_over_time) and normalize it.
-
     min_J_over_time = min(J_over_time)
     max_J_over_time = max(J_over_time)
     log_J_over_time = np.log(J_over_time)
     min_log_J_over_time = min(log_J_over_time)
     max_log_J_over_time = max(log_J_over_time)
     
-    # log_J_over_time_normalized = (
-    #                                 ( log_J_over_time - min(log_J_over_time) ) / 
-    #                                 ( max(log_J_over_time) - min(log_J_over_time) ) *
-    #                                 ( max(J_over_time) - min(J_over_time) ) + min(J_over_time)
-    #                             )
 
     log_J_over_time_normalized = (
                                     (log_J_over_time - min_log_J_over_time) /
@@ -102,6 +96,7 @@ def plot_word_vectors_over_time(data_file='data/word_vectors_over_time.npy', sho
         To file:
             1. Saves the animation as a GIF file named 'word_vectors_over_time_animation.gif'.
     """
+
     # Load word_vectors_over_time from the .npy file.
     word_vectors_over_time = np.load(data_file, allow_pickle=True)
     
@@ -462,14 +457,6 @@ def plot_single_vector_dimension_change_over_time(dimension, data_file='word_vec
     # print(words)
 
     element_over_time = [frame[word][dimension] for frame in word_vectors_over_time for word in words]
-
-    # print(element_over_time)
-    # for frame in word_vectors_over_time[-2:]:
-    #     # print(type(frame))
-    #     for word in words:
-    #         # print(frame[word])
-    #         element = frame[word][dimension]
-    #         print(element)
 
     '''
     differences = [

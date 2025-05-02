@@ -49,8 +49,8 @@ def process_data(input_csv, output_csv):
     data.to_csv(output_csv, index=False)
 
 
+# Sample usage of the process_data function.
 if __name__ == "__main__":
-    # Sample usage of the process_data function.
     input_csv = 'train-balanced-sarcasm.csv'
     output_csv = 'trimmed_training_data.csv'
     process_data(input_csv, output_csv)

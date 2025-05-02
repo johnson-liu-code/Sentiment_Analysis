@@ -4,7 +4,7 @@
 import pandas as pd
 
 
-def cooccurrence_probability(cooccurrence_matrix):
+def cooccurrence_probability(cooccurrence_matrix:dict):
     """
     Calculate the co-occurrence probability of terms in a given co-occurrence matrix.
 
@@ -26,9 +26,7 @@ def cooccurrence_probability(cooccurrence_matrix):
     probabilities = {}
 
     for row in cooccurrence_matrix:
-        # print(cooccurrence_matrix[row])
         total_count = sum(cooccurrence_matrix[row].values())
-        # print(total_count)
         totals[row] = total_count
 
         row_probabilities = {}
@@ -55,9 +53,6 @@ if __name__ == "__main__":
     terms = list(cooccurrence_matrix.keys())
 
     totals, probabilities = cooccurrence_probability(cooccurrence_matrix)
-
-    # print(totals)
-    # print(probabilities)
 
     # Save the probabilities to a CSV file.
     probabilities_df = pd.DataFrame(probabilities)

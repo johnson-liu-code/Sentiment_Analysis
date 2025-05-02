@@ -4,7 +4,10 @@
 import numpy as np
 
 
-def create_word_vectors(word_list, word_vector_size):
+def create_word_vectors(
+        word_list:list,
+        word_vector_size:int
+    ):
     """
     Create a dictionary of word vectors for the given list of words.
     
@@ -21,6 +24,7 @@ def create_word_vectors(word_list, word_vector_size):
     Returns:
         1. word_vectors: A dictionary mapping each word to its corresponding vector.
     """
+    
     import numpy as np
     
 
@@ -28,10 +32,9 @@ def create_word_vectors(word_list, word_vector_size):
 
     word_vectors = {}
     
-    for word in word_list[:1]:
+    for word in word_list:
         # Generate a random vector for each word.
         vector = np.random.rand(word_vector_size)
-        print(f'vector length: {len(vector)}\n')
         word_vectors[word] = vector
     
     return word_vectors

@@ -2,7 +2,11 @@
 
 
 
-def custom_nn(trained_word_vectors, X, labels):
+def custom_nn(
+        trained_word_vectors,
+        X,
+        labels
+    ):
 
 
     import numpy as np
@@ -31,21 +35,14 @@ def custom_nn(trained_word_vectors, X, labels):
     model.summary()
 
     # Train the model.
-    model.fit(X, labels, epochs=100, batch_size=32, validation_split=0.2)
+    model.fit(
+        X,
+        labels,
+        epochs=100,
+        batch_size=32,
+        validation_split=0.2
+    )
 
-
-def frechet_mean(vectors_in_comments):
-    import numpy as np
-
-
-    # Compute the Frechet mean for each comment.
-    # The Frechet mean in our context is just the mean of all of the word vectors in a comment.
-    frechet_mean_for_each_comment = [ np.mean(comment, axis=0) for comment in vectors_in_comments ]
-
-    # Convert the list structure to an array.
-    X = np.array(frechet_mean_for_each_comment)
-
-    return X
 
 
 
