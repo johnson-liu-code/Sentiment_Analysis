@@ -6,7 +6,7 @@ Project Bracket
 
 ---
 
-![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif) ![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
+<img src="figures/unrelated_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
 
 <sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
 
