@@ -1,19 +1,25 @@
 
-# Sarcasm Detector
+# Sarcasm Detector ( in Reddit Comments )
+
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>
+
+<br>
+<br>
+
 2025 Spring\
 Diablo Valley College\
-Project Bracket
+Project Bracket Computer Science Club
+
+<br>
 
 ---
+<br>
 
-![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif) ![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
+<img src="figures/unrelated_pngs_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_pngs_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
 
-<sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
+<small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
 
 ---
-
-
-
 
 ### __Team__
 
@@ -34,8 +40,6 @@ Bryan\
 <sub><small>
 GitHub: [@hBrymiri](https://github.com/hBrymiri)
 </small></sub>
-
-
 
 ## __Contents__
 
@@ -462,3 +466,7 @@ At this point **groups should be more than halfway done with their project** or 
 1. [ ] Start documenting the workflow and the theory and mathematics behind each model that we use.
 
 ---
+
+<br>
+
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>

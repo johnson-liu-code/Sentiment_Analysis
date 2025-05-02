@@ -27,7 +27,6 @@ if __name__ == "__main__":
         "--input_file_name",
         default="data/project_data/raw_data/trimmed_training_data.csv",
         help="Path to data used for training.",
-        # dest="data_file_name"
     )
     parser.add_argument(
         "--output_file_name",
@@ -38,13 +37,11 @@ if __name__ == "__main__":
         "--train_glove",
         action="store_true",
         help="Run the GloVe training.",
-        # dest="run_train_word_vectors"
     )
     parser.add_argument(
         "--save_glove_training_data",
         action="store_true",
         help="Save the trained GloVe vectors to file.",
-        # dest="save_data"
     )
 
     args = parser.parse_args()
@@ -54,10 +51,7 @@ if __name__ == "__main__":
     run_train_word_vectors = args.train_glove
     save_data = args.save_glove_training_data
     
-
-    # if args.run_train_word_vectors:
     if run_train_word_vectors:
-        # print(args.data_file_name)
         word_vectors_over_time = glove_vector_training.GloVe_train_word_vectors(
             data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
             comments_limit=10,
