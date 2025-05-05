@@ -19,7 +19,9 @@ if __name__ == "__main__":
     import helper_functions.frechet_mean
 
     import machine_learning.glove_vector_training
-    # import machine_learning.neural_network_training
+    import machine_learning.neural_network_training
+
+
 
     parser_description = "This script contains the code for running the word vector training as well as running the neural network."
     parser = argparse.ArgumentParser(description=parser_description)
@@ -86,8 +88,6 @@ if __name__ == "__main__":
         )
 
     trained_word_vectors = word_vectors_over_time[-1]
- 
-    # print(f'Trained word vectors: {trained_word_vectors}')
 
     comments_limit = 64
     data = pd.read_csv(data_file_name)[:comments_limit]
@@ -103,7 +103,6 @@ if __name__ == "__main__":
     ]
 
     # print(f'Comments: {comments}')
-
 
     # vectorized_comments = [
     #     [ trained_word_vectors.get(
@@ -127,13 +126,16 @@ if __name__ == "__main__":
     # print(f'Comment {i}: {comments[i]}')
     # print(f'Vectorized comment {i}: {vectorized_comments[i]}')
 
-    # print(len(vectorized_comments))
-
     centered_comments = helper_functions.frechet_mean.frechet_mean(
         vectorized_comments,
         word_vector_length = 8
     )
     # print(f"Frech'ed comments: {centered_comments}")
+    # print(f'Labels: {labels}')
     # print(len(centered_comments))
+    # print(len(labels))
 
-    
+    machine_learning.neural_network_training.custom_nn(
+        centered_comments,
+        labels
+    )

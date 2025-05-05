@@ -3,52 +3,78 @@
 
 
 def custom_nn(
-        trained_word_vectors,
-        X,
-        labels
+        X:list,
+        labels:list
     ):
 
 
+    import os
+
     import numpy as np
-    # import keras
 
-    # print(labels)
+    import keras
+    from keras import Model, Input
+    from keras import layers
 
-    # Define the model sequential.
-    model = keras.Sequential(
-        [
-            keras.layers.Input(shape=(X.shape[1],)),
-            keras.layers.Dense(512, activation="relu", name='dense_0'),
-            # keras.layers.Dense(256, activation="relu", name='dense_1'),
-            keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
-        ]
-    )
 
-    # Compile the model.
+    # Define the model sequentially.
+    # model = keras.Sequential(
+    #     [
+    #         keras.layers.Input(shape=(X.shape[1],)),
+    #         keras.layers.Dense(512, activation="relu", name='dense_0'),
+    #         # keras.layers.Dense(256, activation="relu", name='dense_1'),
+    #         keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
+    #     ]
+    # )
+
+    # Define the model using function API.
+    input1 = Input(shape=(X.shape[1],))
+    layer1 = layers.Dense(4)(input1)
+    layer2 = layers.concatenate([layer1, input1])
+    output1 = layers.Dense(1)(layer2)
+
+    model = Model(inputs=input1, outputs=[output1])
+    model.summary()
+
+    # Create figure of neural network.
+    keras.utils.plot_model(model, show_shapes=True)
+
+    # # Compile the model.
     model.compile(
         optimizer='adam',
         loss='binary_crossentropy',
         metrics=['accuracy']
     )
 
-    # Print out details of the model says.
-    model.summary()
+    checkpoint_dir = 'data/testing_data/nn_weights_01/'
+    checkpoint_filepath = os.path.join(checkpoint_dir, 'weights_{epoch:02d}.weights.h5')
+
+    model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
+        filepath=checkpoint_filepath,
+        save_weights_only=True,
+        save_freq='epoch'
+    )
 
     # Train the model.
     model.fit(
         X,
         labels,
-        epochs=100,
+        epochs=10,
         batch_size=32,
-        validation_split=0.2
+        validation_split=0.2,
+        callbacks=[model_checkpoint_callback],
     )
 
+    model.save("my_model.keras")
 
 
 
 # Example usage of the custom_nn function.
 if __name__ == "__main__":
     import numpy as np
+    import pandas as pd
+
+    import helper_functions.frechet_mean
 
     # Get the trained word vectors from the file.
     with open('testing_scrap_misc/scrap_data_02/word_vectors_over_time.npy', 'rb') as f:
@@ -56,7 +82,7 @@ if __name__ == "__main__":
 
 
     data_file_name = 'data/project_data/raw_data/trimmed_training_data.csv'
-
+    comments_limit = 10
     # Get the comments for which we want to train the neural network on.
     data = pd.read_csv(data_file_name)[:comments_limit]['comments']
 
@@ -64,8 +90,6 @@ if __name__ == "__main__":
 
     # Split each comment into their component words.
     words_in_comments = [ comment.split() for comment in data ]
-
-    
 
     # Throw away any punctuation that are attached to the words.
     words_in_comments = [
@@ -86,7 +110,7 @@ if __name__ == "__main__":
     # # Convert the list structure to an array.
     # X = np.array(frechet_mean_for_each_comment)
 
-    X = frechet_mean(vectors_in_comments)
+    X = helper_functions.frechet_mean.frechet_mean(vectors_in_comments)
 
     labels = np.random.randint(0, 2, size=(X.shape[0],))
 
