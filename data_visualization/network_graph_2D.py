@@ -102,12 +102,7 @@ def create_network_graph(word_vectors, threshold=0.5):
 
 
 if __name__ == "__main__":
-    # word_vectors_over_time = np.load("word_vectors_over_time_02.npy", allow_pickle=True)
-    # trained_word_vectors = word_vectors_over_time[-1]
-    # create_network_graph(trained_word_vectors, threshold=0.05)
-    
-    # word_vectors_over_time = np.load("data/project_data/test/project_word_vectors_over_time_01.npy", allow_pickle=True)
-    
+
     data_file='data/project_data/training_data/test/project_word_vectors_over_time_01.npy'
     trained_word_vectors = np.load(data_file, allow_pickle=True)
     trained_word_vectors = trained_word_vectors[-1]

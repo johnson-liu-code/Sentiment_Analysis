@@ -4,7 +4,10 @@
 import numpy as np
 
 
-def create_word_vectors(word_list, word_vector_size):
+def create_word_vectors(
+        word_list:list,
+        word_vector_size:int
+    ):
     """
     Create a dictionary of word vectors for the given list of words.
     
@@ -21,8 +24,12 @@ def create_word_vectors(word_list, word_vector_size):
     Returns:
         1. word_vectors: A dictionary mapping each word to its corresponding vector.
     """
+    
     import numpy as np
     
+
+    # Can this be done with "list" comprehension?
+
     word_vectors = {}
     
     for word in word_list:

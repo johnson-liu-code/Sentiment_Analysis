@@ -1,19 +1,25 @@
-# Sarcasm Detector
+
+# Sarcasm Detector ( in Reddit Comments )
+
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>
+
+<br>
+<br>
+
 2025 Spring\
 Diablo Valley College\
-Project Bracket
+Project Bracket Computer Science Club
+
+<br>
 
 ---
+<br>
 
-![placeholder-text](figures/unrelated_gifs_for_README/kitty-stuck.gif)
-![placeholder-text](figures/unrelated_gifs_for_README/matrix-cat.gif)
+<img src="figures/unrelated_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
 
-<sub><sup>Gifs retrieved from [tenor.com](https://tenor.com).<sub><sup>
+<small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
 
 ---
-
-
-
 
 ### __Team__
 
@@ -35,25 +41,27 @@ Bryan\
 GitHub: [@hBrymiri](https://github.com/hBrymiri)
 </small></sub>
 
-
-
 ## __Contents__
 
 1. [Project Overview](#project-overview)\
     1.1. [Background](#background)\
-    1.2. [Purpose](#purpose)\
-    1.3. [Data Used](#data-used)\
-    1.4. [Variable Definitions](#variable-definitions)\
-    1.5. [Mathematical Foundations](#mathematical-foundations)\
-    1.6. [Workflow](#workflow)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.6.1 [Word2vec model](#word2vec-model)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.6.2 [GloVe model](#glove-model)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.1. [Natural Language Processing NLP](#natural-language-processing---nlp)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.2. [Word Embedding](#word-embedding)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.3. [Word2Vec](#word2vec)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.4. [GloVe](#glove)\
+    1.2. [Data Used](#data-used)\
+    1.3. [Variable Definitions](#variable-definitions)\
+    1.4. [Mathematical Foundations](#mathematical-foundations)\
+    1.5. [Workflow](#workflow)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.1. [Collect comments classified as sarcastic/not sarcastic](#collect-comments-classified-as-sarcasticnot-sarcastic)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.2. [GloVe model](#glove-model)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.3. [Collect comments and classify them](#collect-comments-and-classify-them)
 2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1 [Natural Language Processing](#natural-language-processing)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.2 [word2vec Model](#word2vec-model)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.3 [GloVe Model](#glove-model)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1. [Natural Language Processing](#natural-language-processing)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.2. [word2vec Model](#word2vec-model)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.3. [GloVe Model](#glove-model)\
     2.3. [Sample Works](#sample-works)\
     2.4. [Documentation and Tutorials](#documentation-and-tutorials)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.4.1. [Neural Networks](#neural-networks)\
@@ -65,8 +73,10 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
 4. [Results](#results)
-5. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
-6. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
+5. [The Codebase](#the-codebase)\
+    5.1. [Python Libraries Used](#python-libraries-used)
+6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+7. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
     6.1. [Important Dates](#important-dates)\
     6.2. [Records](#records)
 
@@ -76,41 +86,108 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
 ## __Project Overview__
 
 ### __Background__
-... text here ...
 
-### __Purpose__
-... text here ...
+**... write some text talking about the background of sentiment analysis ...**
+
+##### <ins>Natural Language Processing - NLP</ins>
+
+Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data—like social media posts, emails, and other forms of natural text—into a form that machines can work with by applying text classification techniques.
+
+This is usually done by training a classifier on a dataset that has been labeled in advance. For example, some texts might be labeled as sarcastic while others are not. The classifier learns patterns in the language based on these labels and tries to apply what it learns to new, unseen data.
+
+##### <ins>Word Embedding</ins>
+ML algorthims struggle to work well with words. Instead we will work with numbers by assigning random numbers to words. Since words can be used in different contexts, like in *sarcasm* assigning certain words more than one number is best practice so that the **Neural Network** can adjust based on context.
+
+##### <ins>Word2Vec</ins>
+Word2Vec is a model that learns word meanings based on the words that commonly appear around them. For example, the words “*doctor*” and “*nurse*” often show up in similar contexts, so Word2Vec places them close together in vector space. This helps the model understand how words relate to one another. In sarcasm detection, understanding context is key, and Word2Vec helps capture that by noticing patterns in how words are used together.
+
+##### <ins>GloVe</ins>
+Global Vectors for Word Representation, is another word embedding model. Unlike Word2Vec, which focuses on small windows of text, GloVe looks at word co-occurrence across an entire dataset. This gives it a more global understanding of word relationships. GloVe can help highlight unusual or ironic word pairings—something that often happens in sarcastic sentences.
+
+Some users on Kaggle have successfully used Word2Vec and GloVe to detect sarcasm in news headlines. In one project, they trained their model using headlines from The Onion (a satirical site) and The Huffington Post (a more traditional news source). The model achieved around 83% accuracy in detecting sarcasm.
+
+We can apply a similar approach in our project using Reddit posts. Instead of news headlines, we’ll train our model on a dataset of labeled Reddit comments, using Word2Vec or GloVe to create embeddings. This will allow our classifier to learn the difference between sincere and sarcastic language based on context—just like in the Kaggle example.
+
+
+
 
 ### __Data Used__
-... text here ...
+
+The data that was used in this project was taken from the *Sarcasm on Reddit* notebook from Kaggle.com ( see [2.1 Data](#data) ).
+
 
 ### __Variable Definitions__
 
-See reference [2. GloVe model](#theoretical-foundations) in the Theoretical Functions section.
-1. $V$ is the set of all unique words that appear in the corpus.
+See reference [2.2.3. GloVe model](#theoretical-foundations) in the Theoretical Foundations section.
 
-1. $X$ is the co-occurrence matrix for every possible pair of words $i$ and $j$ from $V$.
+1. $C$ is the collection of all comments in the dataset.
 
-1. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $j$ appears in the context of word $i$.
+2. $c \in C$ is comment.
 
-1. $X_i = \sum_{k \in V} X_{ik}$ is the sum of the number of times every word $k$ appears in the context of word $i$, with the exception of word $i$. Although repeated instances of word $i$ are also counted in the context of word $i$.
+3. $k$ is the number of words contained within comment $c$.
 
-1. ...
-1. .... 
-1. more stuff ...
+4. $W$ is the set of all unique words that appear in the corpus ( the collection of written text ).
+
+5. $N = |W|$ is the cardinality of $W$.
+
+6. $V$ is the set of all word vectors.
+
+7. $v \in V$ is a word vector.
+There is a word vector $v_i \in V$ associated with each $w_i \in W$.
+Let $g$ be the mapping from $W$ to $V$.
+Then
+
+$$V \ = \ g(W)$$
+$$ v_i \ = \ g(w_i) .$$
+
+8. $m = \text{dim}(v)$ is the dimensionality of the word vectors.
+
+9. $X$ is the co-occurrence matrix for every possible pair of words $(w_i, w_j) \in W^2$.
+
+10. $X_{ij}$ is the $i$-th row, $j$-th column entry in $X$ which gives the number of times word $w_j$ appears in the context of word $w_i$.
+
+11. $X_i$ is the summation over all $X_{ik}$ for $k \leq N$. In other words,
+
+$$X_i \ \ = \ \ \sum_{\substack{k = 1, \\ k \neq i}}^{N} X_{ik} \ \ . $$
+
+12. $P$ is the co-occurrence probabilities matrix for every possible pair of words $(w_i, w_j) \in W^2$.
+
+13. $P_{ij}$ is the $i$-th row, $j$-th column entry in $P$ which gives the probability that word $w_j$ appears in the context of word $w_i$. You can also think of $P_{ij}$ as the chance of finding word $w_j$ given that you have word $w_i$. This probability is defined as
+
+$$P_{ij} \ \ = \ \ P(\text{word}_j|\text{word}_i) \ \ \\ $$
+
+$$P_{ij} \ \ = \ \ \frac{X_{ij}}{X_i} \ \ . $$
+
+
+
 
 ### __Mathematical Foundations__
-... text here ...
+
+##### <ins>... something something ...</ins>
+
+##### <ins>Fréchet Mean</ins>
+Given a set of vectors, the Fréchet mean is a single point that averages over all of the vectors.
+The mean acts as a point of central tendency for the word vectors associated with a specific comment.
+
+##### <ins>... something something ...</ins>
 
 ### __Workflow__
 
-#### <ins>word2vec model</ins>
+##### <ins>Collect comments classified as sarcastic/not sarcastic</ins>
 
-... text here ...
+1. ... text here ...
 
-#### <ins>GloVe model</ins>
+2. ... text here ...
+
+<!-- #### <ins>word2vec model</ins>
+
+1. ... text here ...
+
+2. ... text here ... -->
+
+##### <ins>GloVe model</ins>
 General workflow when applying the GloVe model ...
-1. Collect data
+1. Process raw data
 
     1. Remove stopwords, punctuation, and other words and/or characters that are deemed not important to the context of a comment.
 
@@ -160,7 +237,11 @@ General workflow when applying the GloVe model ...
     1. ... text here on passing the data as input into the neural network ...
 
 
+##### <ins>Collect comments and classify them</ins>
 
+1. ... text here ...
+
+1. ... text here ...
 
 ## __Resources and Background Information__
 
@@ -169,7 +250,7 @@ General workflow when applying the GloVe model ...
 
 ### __Theoretical Foundations__
 
-#### <ins>Natural Language Processing</ins>
+##### <ins>Natural Language Processing</ins>
 1. [Natural language processing (Wikipedia article).](https://en.wikipedia.org/wiki/Natural_language_processing)
 
 1. [*Text Classification & Sentiment Analysis* (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
@@ -178,7 +259,7 @@ General workflow when applying the GloVe model ...
 
 1. [*Word Embeddings – Explained!* (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
 
-#### <ins>word2vec Model</ins>
+##### <ins>word2vec Model</ins>
 1. [*Word2Vec: NLP with Contextual Understanding* (theoretical guide for word2vec and GloVe models).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
 
 1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
@@ -187,7 +268,7 @@ General workflow when applying the GloVe model ...
 
 1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
 
-#### <ins>GloVe Model</ins>
+##### <ins>GloVe Model</ins>
 1. [GloVe model (Wikipedia article).](https://en.wikipedia.org/wiki/GloVe)
 
 1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
@@ -256,16 +337,16 @@ General workflow when applying the GloVe model ...
 _**Preliminary figures.\
 Not for use in final product.**_
 
-#### Word cloud - Sarcastic
+##### <ins>Word cloud - Sarcastic</ins>
 ![placeholder-text](figures/raw_data_visualization/wordcloud_sarcastic.png)
 
-#### Word cloud - Not Sarcastic
+##### <ins>Word cloud - Not Sarcastic</ins>
 ![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png)
 
-#### Word frequency within comments
+##### <ins>Word frequency within comments</ins>
 ![placeholder-text](figures/raw_data_visualization/words_in_comments.png)
 
-#### Co-occurrence probabilities
+##### <ins>Co-occurrence probabilities</ins>
 ![placeholder-text](figures/testing_02/cooccurrence_probability_heatmap.png)
 
 
@@ -276,6 +357,8 @@ Not for use in final product.**_
 _**Figures used for testing.\
 Not for use in final product.**_
 
+_**Fix this**_
+
 ![placeholder-text](figures/testing_01/J_and_log_J_over_time_animation.gif)
 
 ![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
@@ -284,9 +367,15 @@ Not for use in final product.**_
 
 
 ## __Results__
-... text here ...
+
+**... text here ...**
+
+**... text here ...**
 
 
+## __The Codebase__
+
+#### Python Libraries Used
 
 
 ## __Future Direction and Possible Improvements__
@@ -343,7 +432,7 @@ At this point **groups should be more than halfway done with their project** or 
 1. [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
 
 ###### For Bryan:
-1. [ ] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted.
+1. [x] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted.
 
 ---
 
@@ -367,7 +456,7 @@ At this point **groups should be more than halfway done with their project** or 
 1. [ ] Start building and training neural networks to take in word vectors as input and outputs a binary classification ( sarcastic or not sarcastic ).
 
 ###### For Bryan:
-1. [ ] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
+1. [x] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
 2. [ ] Possible future feature: create an app that can be used in the browser to predict whether a selected comment is sarcastic or not.
 
 ---
@@ -381,9 +470,9 @@ At this point **groups should be more than halfway done with their project** or 
 ###### For Johnson:
 1. [ ] Start documenting the directory structure and its organization.
 1. [ ] Start documenting the workflow and the theory and mathematics behind each model that we use.
-    1. Data collection, extraction, and cleaning.
-    1. Data visualization.
-    1. Word embedding.
-    1. Neural network training.
 
 ---
+
+<br>
+
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>

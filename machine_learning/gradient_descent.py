@@ -2,7 +2,7 @@
 import numpy as np
 
 
-def g(x, x_max, alpha):
+def g(x:float, x_max:float, alpha:float):
     """
     Computes a scaling factor based on the input value `x`, a maximum value `x_max`, and an exponent `alpha`.
 
@@ -25,9 +25,9 @@ def g(x, x_max, alpha):
 
 
 def descent(
-        unique_words, 
-        word_vectors,
-        word_vector_length,
+        unique_words:list, 
+        word_vectors:dict,
+        word_vector_length:int,
         probabilities,
         x_max,
         alpha,
@@ -63,7 +63,7 @@ def descent(
     J_over_time = []
 
     for t in range(iter):
-        print(f'Iteration: {t}\n')
+        print(f'Performing gradient descent ...\nIteration: {t}\n')
         for i in range(len(probabilities.columns)):
             a = np.zeros(word_vector_length)
 
@@ -74,12 +74,6 @@ def descent(
 
                         log_prob = np.log(probabilities.iloc[i][j])
                         g_value = g(probabilities.iloc[i][j], x_max, alpha)
-                        
-                        # print(f'a: {a}\n')
-                        # print(f'dot_product: {dot_product}\n')
-                        # print(f'log_prob: {log_prob}\n')
-                        # print(f'g_value: {g_value}\n')
-                        # print(f'word_vectors: {word_vectors[unique_words[j]]}')
 
                         a += (dot_product - log_prob) * g_value * word_vectors[unique_words[j]]
 
