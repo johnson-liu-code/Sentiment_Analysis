@@ -54,6 +54,12 @@ if __name__ == "__main__":
         default=False,
         help="Save the trained GloVe vectors to file.",
     )
+    parser.add_argument(
+        "--train_nn",
+        action="store_true",
+        default=False,
+        help="Train the neural network.",
+    )
 
     args = parser.parse_args()
 
@@ -62,6 +68,7 @@ if __name__ == "__main__":
     load_file_name = args.load_file_name
     run_train_word_vectors = args.train_glove
     save_data = args.save_glove_training_data
+    train_nn = args.train_nn
 
     if run_train_word_vectors:
         word_vectors_over_time = machine_learning.glove_vector_training.GloVe_train_word_vectors(
