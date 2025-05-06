@@ -75,7 +75,7 @@ class NeuralNetwork():
     def draw(self):
         for layer in self.layers:
             layer.draw()
-        pyplot.axis('off')
+        pyplot.axis('scaled')
         pyplot.show()
 
 
@@ -87,12 +87,10 @@ if __name__ == "__main__":
     network = NeuralNetwork()
     # weights to convert from 10 outputs to 4 (decimal digits to their binary representation)
     weights1 = np.array([\
-                         [0.1,0.6,0.7,0.4,0.4,0.9,0,0,1,1],\
-                         [0,0.3,0.3,0,1,1,1,1,0,0],\
-                         [0.5,0,1,1,0,0,1,1,0,0],\
-                         [0.5,1,0,1,0.5,1,0,1,0,1]])
-    # weights1 = np.random.rand(4,10)
-    print(weights1)
+                         [0,0,0,0,0,0,0,0,1,1],\
+                         [0,0,0,0,1,1,1,1,0,0],\
+                         [0,0,1,1,0,0,1,1,0,0],\
+                         [0,1,0,1,0,1,0,1,0,1]])
     network.add_layer(10, weights1)
     network.add_layer(4)
     network.draw()
