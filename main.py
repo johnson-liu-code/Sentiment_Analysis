@@ -1,9 +1,3 @@
-
-
-
-
-
-
 def train_nn_on_GloVe_vectors(trained_word_vectors):
     import machine_learning.neural_network_training
 
@@ -11,11 +5,12 @@ def train_nn_on_GloVe_vectors(trained_word_vectors):
 
 
 if __name__ == "__main__":
+    import os
     import argparse
 
     import numpy as np
     import pandas as pd
-
+    
     import helper_functions.frechet_mean
 
     import machine_learning.glove_vector_training
@@ -60,6 +55,12 @@ if __name__ == "__main__":
         default=False,
         help="Train the neural network.",
     )
+    parser.add_argument(
+        "--save_weights",
+        action="store_true",
+        default=False,
+        help="Save the weights in each epoch to a single file as a dictionary (key: epoch, value: weights)."
+    )
 
     args = parser.parse_args()
 
@@ -69,6 +70,7 @@ if __name__ == "__main__":
     run_train_word_vectors = args.train_glove
     save_data = args.save_glove_training_data
     train_nn = args.train_nn
+    save_weights = args.save_weights
 
     if run_train_word_vectors:
         word_vectors_over_time = machine_learning.glove_vector_training.GloVe_train_word_vectors(
@@ -96,53 +98,94 @@ if __name__ == "__main__":
 
     trained_word_vectors = word_vectors_over_time[-1]
 
-    comments_limit = 64
-    data = pd.read_csv(data_file_name)[:comments_limit]
-    comments = data['comment'].values
-    labels = data['label'].values
+    if train_nn:
+        import keras
 
-    comments = [ comment.split() for comment in comments ]
+        comments_limit = 64
+        data = pd.read_csv(data_file_name)[:comments_limit]
+        comments = data['comment'].values
+        labels = data['label'].values
 
-    # Remove words in each comment that does not appear in the trained_word_vectors dictionary
-    comments = [
-        [ word for word in comment if word in trained_word_vectors
-        ] for comment in comments
-    ]
+        comments = [ comment.split() for comment in comments ]
 
-    # print(f'Comments: {comments}')
+        # Remove words in each comment that does not appear in the trained_word_vectors dictionary
+        comments = [
+            [ word for word in comment if word in trained_word_vectors
+            ] for comment in comments
+        ]
 
-    # vectorized_comments = [
-    #     [ trained_word_vectors.get(
-    #             word,
-    #             np.zeros_like( next( iter( trained_word_vectors.values() ) ) )
-    #         ) for word in comment
-    #     ] for comment in comments
-    # ]
+        # print(f'Comments: {comments}')
 
-    vectorized_comments = [
-        [ trained_word_vectors[word] for word in comment
-        ] for comment in comments
-    ]
+        # vectorized_comments = [
+        #     [ trained_word_vectors.get(
+        #             word,
+        #             np.zeros_like( next( iter( trained_word_vectors.values() ) ) )
+        #         ) for word in comment
+        #     ] for comment in comments
+        # ]
 
-    # print(f'Vectorized comments: {vectorized_comments}')
+        vectorized_comments = [
+            [ trained_word_vectors[word] for word in comment
+            ] for comment in comments
+        ]
 
-    # print(f'Word vector keys:\n{trained_word_vectors.keys()}\n')
-    # print(f'Trained word vectors: {trained_word_vectors}')
- 
-    # i = 1
-    # print(f'Comment {i}: {comments[i]}')
-    # print(f'Vectorized comment {i}: {vectorized_comments[i]}')
+        # print(f'Vectorized comments: {vectorized_comments}')
 
-    centered_comments = helper_functions.frechet_mean.frechet_mean(
-        vectorized_comments,
-        word_vector_length = 8
-    )
-    # print(f"Frech'ed comments: {centered_comments}")
-    # print(f'Labels: {labels}')
-    # print(len(centered_comments))
-    # print(len(labels))
+        # print(f'Word vector keys:\n{trained_word_vectors.keys()}\n')
+        # print(f'Trained word vectors: {trained_word_vectors}')
+    
+        # i = 1
+        # print(f'Comment {i}: {comments[i]}')
+        # print(f'Vectorized comment {i}: {vectorized_comments[i]}')
 
-    machine_learning.neural_network_training.custom_nn(
-        centered_comments,
-        labels
-    )
+        centered_comments = helper_functions.frechet_mean.frechet_mean(
+            vectorized_comments,
+            word_vector_length = 8
+        )
+        # print(f"Frech'ed comments: {centered_comments}")
+        # print(f'Labels: {labels}')
+        # print(len(centered_comments))
+        # print(len(labels))
+
+        machine_learning.neural_network_training.custom_nn(
+            centered_comments,
+            labels
+        )
+    
+    if save_weights:
+        import keras
+
+        reconstructed_model = keras.models.load_model("my_model.keras")
+
+        checkpoint_dir = 'data/testing_data/nn_weights_01/'
+
+        weights_over_time = []
+
+        epochs = np.arange(1,11)
+        # epochs = len([name for name in os.listdir('.') if os.path.isfile(checkpoint_dir)])
+
+        for epoch in epochs:
+            # Load weights for the current epoch
+            weights_path = os.path.join(checkpoint_dir, f'weights_{epoch:02d}.weights.h5')
+            reconstructed_model.load_weights(weights_path)
+            weights = reconstructed_model.get_weights()
+            # print(weights)
+            weights_over_time.append(weights)
+
+        # Save the weights to a file.
+        weights_dict = {f'epoch_{i+1:04}': weights for i, weights in enumerate(weights_over_time)}
+        # print(weights_dict)
+        # np.savez('weights_over_time.npz', **weights_dict)
+        np.save('weights_over_time.npy', weights_dict)
+
+    saved_weights_over_time = np.load('weights_over_time.npy', allow_pickle=True) 
+    epoch_keys = saved_weights_over_time.item().keys()
+
+    # Collect the weights for each epoch into a list.
+    weights_over_time = [saved_weights_over_time.item()[key] for key in epoch_keys]
+    # for weight in weights_over_time:
+    #     print(weight)
+        # print(f'weights[{i}].shape: {weight.shape}')
+
+    
+    

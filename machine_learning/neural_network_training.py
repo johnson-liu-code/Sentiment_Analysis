@@ -28,10 +28,17 @@ def custom_nn(
     # )
 
     # Define the model using function API.
+    # input1 = Input(shape=(X.shape[1],))
+    # layer1 = layers.Dense(4)(input1)
+    # layer2 = layers.concatenate([layer1, input1])
+    # output1 = layers.Dense(1)(layer2)
+
     input1 = Input(shape=(X.shape[1],))
-    layer1 = layers.Dense(4)(input1)
-    layer2 = layers.concatenate([layer1, input1])
-    output1 = layers.Dense(1)(layer2)
+    layer1 = layers.Dense(8)(input1)
+    layer2 = layers.Dense(8)(layer1)
+    layer3 = layers.Dense(8)(layer2)
+    output1 = layers.Dense(1)(layer3)
+
 
     model = Model(inputs=input1, outputs=[output1])
     model.summary()
