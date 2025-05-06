@@ -4,6 +4,8 @@ import numpy as np
 import random
 
 
+
+
 class Neuron():
     def __init__(self, x, y):
         self.x = x
@@ -44,6 +46,7 @@ class Layer():
             return 0
 
     def get_previous_layer(self, network):
+
         if len(network.layers) > 0:
             return network.layers[-1]
         else:
@@ -71,6 +74,7 @@ class Layer():
         line = plt.Line2D(line_x_data, line_y_data, color=color, alpha=0.4, linewidth=1)
         plt.gca().add_line(line)
 
+
     def draw(self):
         for this_layer_neuron_index in range(len(self.neurons)):
             neuron = self.neurons[this_layer_neuron_index]
@@ -82,6 +86,7 @@ class Layer():
                     # Ensure the weights matrix is accessed correctly
                     weight = self.weights[this_layer_neuron_index, previous_layer_neuron_index]
                     self.line_between_two_neurons(neuron, previous_layer_neuron, weight)
+
 
 
 class NeuralNetwork():
@@ -139,4 +144,3 @@ if __name__ == "__main__":
 
     # Draw the network
     network.draw()
-    
