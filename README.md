@@ -370,7 +370,7 @@ Not for use in final product.**_
 
 <img src="figures/neural_net_visualization/model.png" width="50%" height="50%"/>
 
-<img src="neural_network_animation.gif" width="100%" height="100%"/>
+<img src="figures/neural_net_visualization/neural_network_animation.gif" width="100%" height="100%"/>
 
 _**Figures used for testing.\
 Not for use in final product.**_
