@@ -213,4 +213,93 @@ if __name__ == "__main__":
 
     nn_viz.initialize_weights(initial_weights)
 
-    nn_viz.draw(neuron_spacing=0.06, animate=True, frames=frames, weight_frames=weights_over_time)
+    nn_viz.draw(neuron_spacing=0.06, animate=True, save_figure=True, frames=frames, weight_frames=weights_over_time)
+    
+    nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=weights_over_time)
+
+
+    # Plot the weights for each layer over time.
+    weights_difference_over_time = []
+    for i in range(len(weights_over_time)-1):
+        weights_difference = []
+        for j in range(len(weights_over_time[i])):
+            weights_difference.append(weights_over_time[i+1][j] - weights_over_time[i][j])
+        weights_difference_over_time.append(weights_difference)
+
+    # print(weights_difference_over_time)
+    # Plot the difference in weights for the hidden layers over time.
+
+    first_layer_weights_difference_over_time = [weights_difference[0] for weights_difference in weights_difference_over_time]
+
+    # Plot the difference in weights for the first hidden layer over time as a heatmap.
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Extract the weight differences for the first hidden layer over time.
+    first_hidden_layer_weights_diff = [
+        weights_difference[1] for weights_difference in weights_difference_over_time
+    ]
+
+    # Convert the list of weight differences into a 2D array for plotting.
+    # Each row corresponds to an epoch, and each column corresponds to a weight.
+    heatmap_data = np.array([weights.flatten() for weights in first_hidden_layer_weights_diff])
+
+    # Take the log of the absolute value of the differences.
+    log_heatmap_data = np.log(np.abs(heatmap_data) + 1e-8)  # Add a small value to avoid log(0).
+
+    # Plot the heatmap.
+    fig, ax = plt.subplots(figsize=(10, 6))
+    cax = ax.imshow(log_heatmap_data, aspect='auto', cmap='viridis', interpolation='nearest')
+
+    # Add colorbar for reference.
+    fig.colorbar(cax, ax=ax)
+
+    # Add labels and title.
+    ax.set_title("Log of Weight Differences Over Time (First Hidden Layer)")
+    ax.set_xlabel("Weight Index")
+    ax.set_ylabel("Epoch")
+
+    # Show the plot.
+    plt.show()
+
+
+    print(first_hidden_layer_weights_diff[0])
+
+    # Animate the change in weights for the first layer over time.
+    import matplotlib.animation as animation
+
+    # Extract the weight differences for the first layer over time.
+    first_layer_weights_difference_over_time = [
+        weights_difference[0] for weights_difference in weights_difference_over_time
+    ]
+
+    # Ensure the weights are reshaped into 8x8 matrices for the heatmap.
+    heatmap_data = [weights.reshape(8, 8) for weights in first_layer_weights_difference_over_time]
+
+    # Create the figure and axis for the animation.
+    fig, ax = plt.subplots(figsize=(6, 6))
+    cax = ax.imshow(heatmap_data[0], cmap='viridis', interpolation='nearest', aspect='auto')
+    fig.colorbar(cax, ax=ax)
+
+    # Add labels and title.
+    ax.set_title("Change in Weights Over Time (First Layer)")
+    ax.set_xlabel("Neuron Index")
+    ax.set_ylabel("Neuron Index")
+
+    # Function to update the heatmap for each frame.
+    def update(frame):
+        cax.set_array(heatmap_data[frame])
+        ax.set_title(f"Change in Weights Over Time (Epoch {frame + 1})")
+        return cax,
+
+    # Create the animation.
+    ani = animation.FuncAnimation(
+        fig, update, frames=len(heatmap_data), interval=500, blit=False
+    )
+
+    # Show the animation.
+    plt.show()
+
+    # Optionally, save the animation as a video or GIF.
+    # ani.save("weights_change_animation.mp4", writer="ffmpeg")
+

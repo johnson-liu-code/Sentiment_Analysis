@@ -25,8 +25,8 @@ class NeuralNetworkVisualizer:
                 raise ValueError(f"Weight matrix dimensions {weight_matrix.shape} do not match the expected dimensions {expected_shape}.")
         self.weights = initial_weights
 
-    def draw(self, neuron_spacing=0.04, animate=False, frames=50, weight_frames=None):
-        """Draw the neural network with optional animation."""
+    def draw(self, neuron_spacing=0.04, animate=False, save_figure=False, frames=50, weight_frames=None, log_scale=False):
+        """Draw the neural network with optional animation and log scale for weights."""
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.axis('equal')
         plt.xticks([])
@@ -66,11 +66,21 @@ class NeuralNetworkVisualizer:
                     line, = ax.plot([x_start, x_end], [y1, y2], color=color, lw=0.5)
                     lines.append((line, i, j, k))
 
-        # Add colorbar for weights
-        sm = plt.cm.ScalarMappable(cmap='bwr', norm=plt.Normalize(vmin=-1, vmax=1))
+        # Determine global min and max weights across all frames
+        if weight_frames:
+            all_weights = np.concatenate([np.concatenate([w.flatten() for w in frame]) for frame in weight_frames])
+            if log_scale:
+                all_weights = np.log(np.abs(all_weights) + 1e-8)  # Apply log scale
+            global_min = np.min(all_weights)
+            global_max = np.max(all_weights)
+        else:
+            global_min, global_max = -1, 1  # Default range if no weight frames are provided
+
+        # Add colorbar for weights with consistent scale
+        sm = plt.cm.ScalarMappable(cmap='bwr', norm=plt.Normalize(vmin=global_min, vmax=global_max))
         sm.set_array([])
         cbar = plt.colorbar(sm, ax=ax, orientation='vertical', fraction=0.02, pad=0.04)
-        cbar.set_label('Weight Value', fontsize=10)
+        cbar.set_label('Log Weight Value' if log_scale else 'Weight Value', fontsize=10)
 
         if animate:
             if not weight_frames:  # Check if weight_frames is empty
@@ -84,15 +94,51 @@ class NeuralNetworkVisualizer:
             def update(frame):
                 # Update weights for animation
                 current_weights = weight_frames[frame]
+                if log_scale:
+                    current_weights = [np.log(np.abs(w) + 1e-8) for w in current_weights]  # Apply log scale
                 for line, i, j, k in lines:
                     weight = current_weights[i][j, k]
-                    color = plt.cm.bwr((weight + 1) / 2)
+                    color = plt.cm.bwr((weight - global_min) / (global_max - global_min))
                     line.set_color(color)
+                # Update the title with the current epoch
+                ax.set_title(f"Neural Network Training - Epoch {frame + 1}", fontsize=12)
 
             anim = FuncAnimation(fig, update, frames=frames, interval=200, repeat=True)
             plt.show()
         else:
+            # Plot only the last epoch
+            if weight_frames:
+                last_weights = weight_frames[-1]
+                if log_scale:
+                    last_weights = [np.log(np.abs(w) + 1e-8) for w in last_weights]  # Apply log scale
+                for line, i, j, k in lines:
+                    weight = last_weights[i][j, k]
+                    color = plt.cm.bwr((weight - global_min) / (global_max - global_min))
+                    line.set_color(color)
+                ax.set_title("Neural Network Training - Final Epoch", fontsize=12)
             plt.show()
+
+        if save_figure:
+            # Save as GIF if animate, else as PNG
+            if animate:
+                anim.save("neural_network_animation.gif", writer='Pillow', fps=10)
+            else:
+                plt.savefig("neural_network_visualization.png", bbox_inches='tight', dpi=300)
+
+
+# Normalize weights across all epochs
+def normalize_weights(weight_frames):
+    """Normalize weights across all epochs to a consistent range."""
+    all_weights = np.concatenate([np.concatenate([w.flatten() for w in frame]) for frame in weight_frames])
+    min_weight = np.min(all_weights)
+    max_weight = np.max(all_weights)
+
+    # Normalize each frame's weights
+    normalized_frames = []
+    for frame in weight_frames:
+        normalized_frame = [(w - min_weight) / (max_weight - min_weight) * 2 - 1 for w in frame]
+        normalized_frames.append(normalized_frame)
+    return normalized_frames
 
 
 # Example usage
@@ -113,17 +159,19 @@ if __name__ == "__main__":
     weight_frames = []
     for _ in range(frames):
         frame_weights = [
-            np.random.uniform(-1, 1, (a, b)),
-            np.random.uniform(-1, 1, (b, b)),
-            np.random.uniform(-1, 1, (b, z))
+            np.random.uniform(-5, 5, (a, b)),  # Example range of weights
+            np.random.uniform(-5, 5, (b, b)),
+            np.random.uniform(-5, 5, (b, z))
         ]
         weight_frames.append(frame_weights)
 
-    # print(weight_frames[0])
-    # print(len(weight_frames[0]))
+    # Normalize weights across all frames
+    normalized_weight_frames = normalize_weights(weight_frames)
 
     # Initialize weights using the first frame
-    # nn_viz.initialize_weights(weight_frames[0])
+    nn_viz.initialize_weights(normalized_weight_frames[0])
 
-    # Pass weight frames to the draw method
-    # nn_viz.draw(neuron_spacing=0.06, animate=True, frames=frames, weight_frames=weight_frames)
+    # Pass normalized weight frames to the draw method
+    nn_viz.draw(neuron_spacing=0.06, animate=True, save_figure=True, frames=frames, weight_frames=normalized_weight_frames, log_scale=False)
+
+    nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=normalized_weight_frames, log_scale=False)

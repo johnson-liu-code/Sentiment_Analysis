@@ -1,5 +1,5 @@
 
-# Sarcasm Detector ( in Reddit Comments )
+# Recognizing Sarcasm in Reddit Comments
 
 <img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>
 
@@ -9,9 +9,7 @@
 2025 Spring\
 Diablo Valley College\
 Project Bracket Computer Science Club
-
-<br>
-
+<!-- <br>
 ---
 <br>
 
@@ -19,7 +17,7 @@ Project Bracket Computer Science Club
 
 <small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
 
----
+--- -->
 
 ### __Team__
 
@@ -357,14 +355,25 @@ Not for use in final product.**_
 _**Figures used for testing.\
 Not for use in final product.**_
 
-_**Fix this**_
+_..........**Fix this**.........._\
+v v v v v v v v v v v v\
+![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)\
 
-![placeholder-text](figures/testing_01/J_and_log_J_over_time_animation.gif)
+![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)\
+^^^^^^^^^^^^^\
+_..........**Fix this**.........._
 
-![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
 
 
+_**Figures used for testing.\
+Not for use in final product.**_
 
+<img src="figures/neural_net_visualization/model.png" width="50%" height="50%"/>
+
+<img src="neural_network_animation.gif" width="100%" height="100%"/>
+
+_**Figures used for testing.\
+Not for use in final product.**_
 
 ## __Results__
 
