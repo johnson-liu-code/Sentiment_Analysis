@@ -16,6 +16,8 @@ if __name__ == "__main__":
     import machine_learning.glove_vector_training
     import machine_learning.neural_network_training
 
+    import data_visualization.draw_neural_network
+
 
 
     parser_description = "This script contains the code for running the word vector training as well as running the neural network."
@@ -184,8 +186,31 @@ if __name__ == "__main__":
     # Collect the weights for each epoch into a list.
     weights_over_time = [saved_weights_over_time.item()[key] for key in epoch_keys]
     # for weight in weights_over_time:
-    #     print(weight)
+        # print(weight)
         # print(f'weights[{i}].shape: {weight.shape}')
 
+    # print(weights_over_time[0])
+
+    frames = len(weights_over_time)
     
+    nn_viz = data_visualization.draw_neural_network.NeuralNetworkVisualizer()
+    nn_viz.add_layer(8, "Input Layer")
+    nn_viz.add_layer(8, "Hidden Layer 1 (Dense)")
+    nn_viz.add_layer(8, "Hidden Layer 2 (Dense)")
+    nn_viz.add_layer(8, "Hidden Layer 3 (Dense)")
+    nn_viz.add_layer(1, "Output Layer")
+
+    initial_weights = weights_over_time[0]
     
+    # for layer_weight in initial_weights:
+    #     print(layer_weight)
+    #     print('\n')
+
+    # print(initial_weights[0])
+    # print(initial_weights[1])
+    # print(initial_weights[2])
+    # print(initial_weights[3])
+
+    nn_viz.initialize_weights(initial_weights)
+
+    nn_viz.draw(neuron_spacing=0.06, animate=True, frames=frames, weight_frames=weights_over_time)

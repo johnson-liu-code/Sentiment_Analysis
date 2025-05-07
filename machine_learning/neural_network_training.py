@@ -34,10 +34,10 @@ def custom_nn(
     # output1 = layers.Dense(1)(layer2)
 
     input1 = Input(shape=(X.shape[1],))
-    layer1 = layers.Dense(8)(input1)
-    layer2 = layers.Dense(8)(layer1)
-    layer3 = layers.Dense(8)(layer2)
-    output1 = layers.Dense(1)(layer3)
+    layer1 = layers.Dense(8, activation='softmax', use_bias=False)(input1)
+    layer2 = layers.Dense(8, activation='softmax', use_bias=False)(layer1)
+    layer3 = layers.Dense(8, activation='softmax', use_bias=False)(layer2)
+    output1 = layers.Dense(1, activation='softmax', use_bias=False)(layer3)
 
 
     model = Model(inputs=input1, outputs=[output1])
