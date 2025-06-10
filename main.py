@@ -5,19 +5,20 @@ def train_nn_on_GloVe_vectors(trained_word_vectors):
 
 
 if __name__ == "__main__":
+    ############################################################
     import os
     import argparse
-
+    ############################################################
     import numpy as np
     import pandas as pd
-    
+    ############################################################
     import helper_functions.frechet_mean
-
+    ############################################################
     import machine_learning.glove_vector_training
     import machine_learning.neural_network_training
-
+    ############################################################
     import data_visualization.draw_neural_network
-
+    ############################################################
 
 
     parser_description = "This script contains the code for running the word vector training as well as running the neural network."
@@ -74,6 +75,7 @@ if __name__ == "__main__":
     train_nn = args.train_nn
     save_weights = args.save_weights
 
+    # Either train the word vectors now, or load pre-trained word vectors from a file.
     if run_train_word_vectors:
         word_vectors_over_time = machine_learning.glove_vector_training.GloVe_train_word_vectors(
             data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
@@ -87,6 +89,8 @@ if __name__ == "__main__":
             eta = 0.1
         )
 
+        # Save the word vectors to file.
+        # word_vectors_over_time is a list of list of word vectors.
         np.save(
             word_vectors_over_time_save_file,
             word_vectors_over_time
@@ -98,13 +102,25 @@ if __name__ == "__main__":
             allow_pickle=True
         )
 
+    # Extract the last list of word vectors.
     trained_word_vectors = word_vectors_over_time[-1]
 
+    # Train the neural network.
     if train_nn:
+        ############################################################
+        import random
+        ############################################################
         import keras
+        ############################################################
+
+        random.seed(1994)
+
 
         comments_limit = 64
-        data = pd.read_csv(data_file_name)[:comments_limit]
+        # data = pd.read_csv(data_file_name)[:comments_limit]
+        data = pd.read_csv(data_file_name)
+        data = random.sample(data, comments_limit)
+        
         comments = data['comment'].values
         labels = data['label'].values
 
@@ -116,38 +132,15 @@ if __name__ == "__main__":
             ] for comment in comments
         ]
 
-        # print(f'Comments: {comments}')
-
-        # vectorized_comments = [
-        #     [ trained_word_vectors.get(
-        #             word,
-        #             np.zeros_like( next( iter( trained_word_vectors.values() ) ) )
-        #         ) for word in comment
-        #     ] for comment in comments
-        # ]
-
         vectorized_comments = [
             [ trained_word_vectors[word] for word in comment
             ] for comment in comments
         ]
 
-        # print(f'Vectorized comments: {vectorized_comments}')
-
-        # print(f'Word vector keys:\n{trained_word_vectors.keys()}\n')
-        # print(f'Trained word vectors: {trained_word_vectors}')
-    
-        # i = 1
-        # print(f'Comment {i}: {comments[i]}')
-        # print(f'Vectorized comment {i}: {vectorized_comments[i]}')
-
         centered_comments = helper_functions.frechet_mean.frechet_mean(
             vectorized_comments,
             word_vector_length = 8
         )
-        # print(f"Frech'ed comments: {centered_comments}")
-        # print(f'Labels: {labels}')
-        # print(len(centered_comments))
-        # print(len(labels))
 
         machine_learning.neural_network_training.custom_nn(
             centered_comments,
@@ -185,11 +178,6 @@ if __name__ == "__main__":
 
     # Collect the weights for each epoch into a list.
     weights_over_time = [saved_weights_over_time.item()[key] for key in epoch_keys]
-    # for weight in weights_over_time:
-        # print(weight)
-        # print(f'weights[{i}].shape: {weight.shape}')
-
-    # print(weights_over_time[0])
 
     frames = len(weights_over_time)
     
@@ -201,15 +189,6 @@ if __name__ == "__main__":
     nn_viz.add_layer(1, "Output Layer")
 
     initial_weights = weights_over_time[0]
-    
-    # for layer_weight in initial_weights:
-    #     print(layer_weight)
-    #     print('\n')
-
-    # print(initial_weights[0])
-    # print(initial_weights[1])
-    # print(initial_weights[2])
-    # print(initial_weights[3])
 
     nn_viz.initialize_weights(initial_weights)
 
@@ -227,6 +206,7 @@ if __name__ == "__main__":
         weights_difference_over_time.append(weights_difference)
 
     # print(weights_difference_over_time)
+
     # Plot the difference in weights for the hidden layers over time.
 
     first_layer_weights_difference_over_time = [weights_difference[0] for weights_difference in weights_difference_over_time]

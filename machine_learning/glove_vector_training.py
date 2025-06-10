@@ -14,6 +14,52 @@ def GloVe_train_word_vectors(
         iter = 1,
         eta = 0.1
     ):
+    """
+    _summary_
+
+    Args:
+        1. data_file_name (str, optional):
+            Name of input file with the training data.
+            Defaults to "data/project_data/raw_data/trimmed_training_data.csv".
+
+        2. comments_limit (int, optional):
+            The number of comments to use to collect words from.
+            Defaults to 10.
+
+        3. window_size (int, optional):
+            Window size for collecting context words.
+            Defaults to 64.
+
+        4. word_vector_length (int, optional):
+            Size of the vector that represents words.
+            Defaults to 8.
+
+        5. save_data (bool, optional):
+            Whether or not to save the training loss and word vectors to file once training is done.
+            Defaults to False.
+
+        6. x_max (int, optional):
+            Constant used to compute the scaling factor for the g value used in the gradient descent portion of the GloVe model.
+            Defaults to 100.
+
+        7. alpha (float, optional):
+            Used for scaling factor for the g value in gradient descent.
+            Defaults to 0.75.
+
+        8. iter (int, optional):
+            Number of gradient descent iterations.
+            Defaults to 1.
+
+        9. eta (float, optional):
+            Learning rate for gradient descent.
+            Defaults to 0.1.
+
+    The Function:
+        _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     import pandas as pd
     import numpy as np
@@ -23,10 +69,16 @@ def GloVe_train_word_vectors(
     import helper_functions.word_vectors
     import machine_learning.gradient_descent
 
+
+    # Read the data into a DataFrame.
     data = pd.read_csv(data_file_name)[:comments_limit]
 
+    # Collect only the text from the data.
+    # All of the comments are concatenated into a single string of text.
     text = data['comment'].values
 
+    # Generate a list of unique words from the text.
+    # Generate a co-occurrence matrix from the unique words by scanning through the comments.
     unique_words, cooccurrence_matrix = (
         helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
             text,
@@ -34,6 +86,7 @@ def GloVe_train_word_vectors(
         )
     )
 
+    # Generate a co-occurence matrix DataFrame.
     cooccurence_matrix_dataframe = (
         pd.DataFrame(
             cooccurrence_matrix,
@@ -42,8 +95,11 @@ def GloVe_train_word_vectors(
         )
     )
 
+    # Generate a co-occurrence matrix dictionary where each unique word is a key and the
+    # corresponding value is list of co-occurrences with all of the other words.
     cooccurrence_matrix_dict = cooccurence_matrix_dataframe.to_dict()
 
+    # Convert co-occurrence frequencies into probabilities.
     totals, probabilities = (
         helper_functions.cooccurrence_probability.cooccurrence_probability(
             cooccurrence_matrix_dict
@@ -55,6 +111,7 @@ def GloVe_train_word_vectors(
         orient='index'
     )
 
+    # Initialize word vectors for each unique word.
     word_vectors = (
         helper_functions.word_vectors.create_word_vectors( 
             unique_words,

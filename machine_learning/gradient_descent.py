@@ -1,7 +1,8 @@
 
-import numpy as np
 
 
+
+#######################################################################################################################
 def g(x:float, x_max:float, alpha:float):
     """
     Computes a scaling factor based on the input value `x`, a maximum value `x_max`, and an exponent `alpha`.
@@ -24,6 +25,7 @@ def g(x:float, x_max:float, alpha:float):
         return 1.0
 
 
+#######################################################################################################################
 def descent(
         unique_words:list, 
         word_vectors:dict,
@@ -54,6 +56,9 @@ def descent(
         1. J_over_time (list): List of cost function values over time.
         2. word_vectors_over_time (list): List of word vectors over time.
     """
+
+    import numpy as np
+
 
     new_word_vectors = word_vectors.copy()
 
