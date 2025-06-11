@@ -1,8 +1,6 @@
 
 
 
-
-
 def GloVe_train_word_vectors(
         data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
         comments_limit=10,
@@ -64,10 +62,10 @@ def GloVe_train_word_vectors(
     import pandas as pd
     import numpy as np
 
-    import helper_functions.cooccurrence_matrix
-    import helper_functions.cooccurrence_probability
-    import helper_functions.word_vectors
-    import machine_learning.gradient_descent
+    import code.helper_functions.cooccurrence_matrix
+    import code.helper_functions.cooccurrence_probability
+    import code.helper_functions.word_vectors
+    import code.machine_learning.gradient_descent
 
 
     # Read the data into a DataFrame.
@@ -80,7 +78,7 @@ def GloVe_train_word_vectors(
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
     unique_words, cooccurrence_matrix = (
-        helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
+        code.helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
             text,
             window_size
         )
@@ -101,7 +99,7 @@ def GloVe_train_word_vectors(
 
     # Convert co-occurrence frequencies into probabilities.
     totals, probabilities = (
-        helper_functions.cooccurrence_probability.cooccurrence_probability(
+        code.helper_functions.cooccurrence_probability.cooccurrence_probability(
             cooccurrence_matrix_dict
         )
     )
@@ -113,13 +111,13 @@ def GloVe_train_word_vectors(
 
     # Initialize word vectors for each unique word.
     word_vectors = (
-        helper_functions.word_vectors.create_word_vectors( 
+        code.helper_functions.word_vectors.create_word_vectors( 
             unique_words,
             word_vector_length
         )
     )
 
-    J_over_time, word_vectors_over_time = machine_learning.gradient_descent.descent(
+    J_over_time, word_vectors_over_time = code.machine_learning.gradient_descent.descent(
         unique_words,
         word_vectors,
         word_vector_length,

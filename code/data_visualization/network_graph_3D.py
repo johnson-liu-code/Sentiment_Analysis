@@ -17,6 +17,9 @@ def create_network_graph(word_vectors, threshold=0.5):
         1. words (dict): A dictionary where keys are words and values are their corresponding vectors.
         2. threshold (float): The threshold for cosine similarity to consider an edge between two nodes.
 
+    The Function:
+        1. 
+
     Returns:
         None
     """

@@ -1,23 +1,31 @@
 
 
 
-
 def custom_nn(
         X:list,
         labels:list
     ):
+    """_summary_
 
+    Args:
+        X (list): _description_
+        labels (list): _description_
+    """
 
+    ##############################################################################################################
     import os
-
+    ##############################################################################################################
     import numpy as np
-
+    ##############################################################################################################
     import keras
     from keras import Model, Input
     from keras import layers
+    ##############################################################################################################
 
 
+    ##############################################################################################################
     # Define the model sequentially.
+    ################################
     # model = keras.Sequential(
     #     [
     #         keras.layers.Input(shape=(X.shape[1],)),
@@ -26,18 +34,18 @@ def custom_nn(
     #         keras.layers.Dense(1, activation="sigmoid", name='output')  # For binary classification
     #     ]
     # )
+    ##############################################################################################################
 
-    # Define the model using function API.
-    # input1 = Input(shape=(X.shape[1],))
-    # layer1 = layers.Dense(4)(input1)
-    # layer2 = layers.concatenate([layer1, input1])
-    # output1 = layers.Dense(1)(layer2)
 
+    ##############################################################################################################
+    # Define the model using functional API.
+    ########################################
     input1 = Input(shape=(X.shape[1],))
     layer1 = layers.Dense(8, activation='softmax', use_bias=False)(input1)
     layer2 = layers.Dense(8, activation='softmax', use_bias=False)(layer1)
     layer3 = layers.Dense(8, activation='softmax', use_bias=False)(layer2)
     output1 = layers.Dense(1, activation='softmax', use_bias=False)(layer3)
+    ##############################################################################################################
 
 
     model = Model(inputs=input1, outputs=[output1])
@@ -53,6 +61,7 @@ def custom_nn(
         metrics=['accuracy']
     )
 
+    # Save weights for each epoch.
     checkpoint_dir = 'data/testing_data/nn_weights_01/'
     checkpoint_filepath = os.path.join(checkpoint_dir, 'weights_{epoch:02d}.weights.h5')
 
@@ -81,7 +90,7 @@ if __name__ == "__main__":
     import numpy as np
     import pandas as pd
 
-    import helper_functions.frechet_mean
+    import code.helper_functions.frechet_mean
 
     # Get the trained word vectors from the file.
     with open('testing_scrap_misc/scrap_data_02/word_vectors_over_time.npy', 'rb') as f:
@@ -89,11 +98,10 @@ if __name__ == "__main__":
 
 
     data_file_name = 'data/project_data/raw_data/trimmed_training_data.csv'
+
     comments_limit = 10
     # Get the comments for which we want to train the neural network on.
     data = pd.read_csv(data_file_name)[:comments_limit]['comments']
-
-    # print(data)
 
     # Split each comment into their component words.
     words_in_comments = [ comment.split() for comment in data ]
@@ -112,12 +120,7 @@ if __name__ == "__main__":
 
     # # Compute the Frechet mean for each comment.
     # # The Frechet mean in our context is just the mean of all of the word vectors in a comment.
-    # frechet_mean_for_each_comment = [ np.mean(comment, axis=0) for comment in vectors_in_comments ]
-
-    # # Convert the list structure to an array.
-    # X = np.array(frechet_mean_for_each_comment)
-
-    X = helper_functions.frechet_mean.frechet_mean(vectors_in_comments)
+    X = code.helper_functions.frechet_mean.frechet_mean(vectors_in_comments)
 
     labels = np.random.randint(0, 2, size=(X.shape[0],))
 

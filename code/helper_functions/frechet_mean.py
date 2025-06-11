@@ -1,7 +1,23 @@
+
+
+
 def frechet_mean(
         vectors_in_comments: list,
         word_vector_length: int
     ):
+    """
+    _summary_
+
+    Args:
+        1. vectors_in_comments (list): _description_
+        2. word_vector_length (int): _description_
+
+    The Function:
+        1. 
+
+    Returns:
+        _type_: _description_
+    """
 
     import numpy as np
 

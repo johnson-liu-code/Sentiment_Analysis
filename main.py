@@ -1,10 +1,13 @@
-def train_nn_on_GloVe_vectors(trained_word_vectors):
-    import machine_learning.neural_network_training
-
-    
 
 
 if __name__ == "__main__":
+    ############################################################
+    # For testing purposes.
+    import random
+    random.seed(1994)
+    ############################################################
+
+
     ############################################################
     import os
     import argparse
@@ -12,12 +15,12 @@ if __name__ == "__main__":
     import numpy as np
     import pandas as pd
     ############################################################
-    import helper_functions.frechet_mean
+    import code.helper_functions.frechet_mean
     ############################################################
-    import machine_learning.glove_vector_training
-    import machine_learning.neural_network_training
+    import code.machine_learning.glove_vector_training
+    import code.machine_learning.neural_network_training
     ############################################################
-    import data_visualization.draw_neural_network
+    import code.data_visualization.draw_neural_network
     ############################################################
 
 
@@ -77,7 +80,7 @@ if __name__ == "__main__":
 
     # Either train the word vectors now, or load pre-trained word vectors from a file.
     if run_train_word_vectors:
-        word_vectors_over_time = machine_learning.glove_vector_training.GloVe_train_word_vectors(
+        word_vectors_over_time = code.machine_learning.glove_vector_training.GloVe_train_word_vectors(
             data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
             comments_limit=10,
             window_size=64,
@@ -108,41 +111,47 @@ if __name__ == "__main__":
     # Train the neural network.
     if train_nn:
         ############################################################
-        import random
-        ############################################################
         import keras
         ############################################################
 
-        random.seed(1994)
-
-
+        # Number of data points.
         comments_limit = 64
-        # data = pd.read_csv(data_file_name)[:comments_limit]
         data = pd.read_csv(data_file_name)
+        # Randomly collect data points.
         data = random.sample(data, comments_limit)
         
+        # Extract only the actual comments and their labels ( either sarcastic or not sarcastic ).
+        # Each comment is a single string.
         comments = data['comment'].values
         labels = data['label'].values
 
+        # Split each comment into a list of strings and store all of these lists into a list.
+        # comments = [ [ *comment01* ], [ *comment02* ], ... ]
+        # [ *comment01* ] = [ *substring01*, *substring02*, *substring03*, ... ]
         comments = [ comment.split() for comment in comments ]
 
-        # Remove words in each comment that does not appear in the trained_word_vectors dictionary
+        # Remove words in each comment that does not appear in the trained_word_vectors dictionary.
+        # 20250610 note: Why is this neccessary? Elaborate.
         comments = [
             [ word for word in comment if word in trained_word_vectors
             ] for comment in comments
         ]
 
+        # Each word in each comment is represented by an embedding vector.
         vectorized_comments = [
             [ trained_word_vectors[word] for word in comment
             ] for comment in comments
         ]
 
-        centered_comments = helper_functions.frechet_mean.frechet_mean(
+        # Taking a central measure of all of the word vectores in a comment so that each
+        # data point ( comment ) is represented by a single vector.
+        centered_comments = code.helper_functions.frechet_mean.frechet_mean(
             vectorized_comments,
             word_vector_length = 8
         )
 
-        machine_learning.neural_network_training.custom_nn(
+        # Train the neural network on the comments.
+        code.machine_learning.neural_network_training.custom_nn(
             centered_comments,
             labels
         )
@@ -156,21 +165,17 @@ if __name__ == "__main__":
 
         weights_over_time = []
 
-        epochs = np.arange(1,11)
-        # epochs = len([name for name in os.listdir('.') if os.path.isfile(checkpoint_dir)])
+        epochs = len([name for name in os.listdir('.') if os.path.isfile(checkpoint_dir)])
 
         for epoch in epochs:
-            # Load weights for the current epoch
+            # Load weights for the current epoch.
             weights_path = os.path.join(checkpoint_dir, f'weights_{epoch:02d}.weights.h5')
             reconstructed_model.load_weights(weights_path)
             weights = reconstructed_model.get_weights()
-            # print(weights)
             weights_over_time.append(weights)
 
         # Save the weights to a file.
         weights_dict = {f'epoch_{i+1:04}': weights for i, weights in enumerate(weights_over_time)}
-        # print(weights_dict)
-        # np.savez('weights_over_time.npz', **weights_dict)
         np.save('weights_over_time.npy', weights_dict)
 
     saved_weights_over_time = np.load('weights_over_time.npy', allow_pickle=True) 
@@ -181,7 +186,7 @@ if __name__ == "__main__":
 
     frames = len(weights_over_time)
     
-    nn_viz = data_visualization.draw_neural_network.NeuralNetworkVisualizer()
+    nn_viz = code.data_visualization.draw_neural_network.NeuralNetworkVisualizer()
     nn_viz.add_layer(8, "Input Layer")
     nn_viz.add_layer(8, "Hidden Layer 1 (Dense)")
     nn_viz.add_layer(8, "Hidden Layer 2 (Dense)")
@@ -193,9 +198,8 @@ if __name__ == "__main__":
     nn_viz.initialize_weights(initial_weights)
 
     nn_viz.draw(neuron_spacing=0.06, animate=True, save_figure=True, frames=frames, weight_frames=weights_over_time)
-    
-    nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=weights_over_time)
 
+    nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=weights_over_time)
 
     # Plot the weights for each layer over time.
     weights_difference_over_time = []
@@ -205,10 +209,8 @@ if __name__ == "__main__":
             weights_difference.append(weights_over_time[i+1][j] - weights_over_time[i][j])
         weights_difference_over_time.append(weights_difference)
 
-    # print(weights_difference_over_time)
 
     # Plot the difference in weights for the hidden layers over time.
-
     first_layer_weights_difference_over_time = [weights_difference[0] for weights_difference in weights_difference_over_time]
 
     # Plot the difference in weights for the first hidden layer over time as a heatmap.
@@ -241,9 +243,6 @@ if __name__ == "__main__":
 
     # Show the plot.
     plt.show()
-
-
-    print(first_hidden_layer_weights_diff[0])
 
     # Animate the change in weights for the first layer over time.
     import matplotlib.animation as animation
@@ -283,3 +282,15 @@ if __name__ == "__main__":
     # Optionally, save the animation as a video or GIF.
     # ani.save("weights_change_animation.mp4", writer="ffmpeg")
 
+
+
+
+######################################################################################################
+# Notes
+#######
+# 1. Revise the structure/logic of the argument handling in the beginning parts of main.py.
+#    Make it so that the user can run each part of the code sequentially.
+#
+# 1. Go through __name__ == "__main__" in each file to make sure the code still works / is up-to-date.
+#
+#
