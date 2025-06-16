@@ -1,17 +1,22 @@
 
-# Sarcasm Detector ( in Reddit Comments )
+# Recognizing Sarcasm in Reddit Comments
 
-<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>
+<p align="center">
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=80%/>
+</p>
 
+<br>
+<br>
+<p align="center">
+--- Work in progress ---
+</p>
 <br>
 <br>
 
 2025 Spring\
 Diablo Valley College\
 Project Bracket Computer Science Club
-
-<br>
-
+<!-- <br>
 ---
 <br>
 
@@ -19,7 +24,7 @@ Project Bracket Computer Science Club
 
 <small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
 
----
+--- -->
 
 ### __Team__
 
@@ -246,87 +251,87 @@ General workflow when applying the GloVe model ...
 ## __Resources and Background Information__
 
 ### __Data__
-1. [*Sarcasm on Reddit* (Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic).](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
+1. [Sarcasm on Reddit <br> – Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic ( _Kaggle_ website ).](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
 
 ### __Theoretical Foundations__
 
 ##### <ins>Natural Language Processing</ins>
-1. [Natural language processing (Wikipedia article).](https://en.wikipedia.org/wiki/Natural_language_processing)
+1. [Natural language processing <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Natural_language_processing)
 
-1. [*Text Classification & Sentiment Analysis* (blog post).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
+1. [Text Classification & Sentiment Analysis <br> – Introduction to natural language processing techniques ( _ML Archive_ website ).](https://mlarchive.com/natural-language-processing/text-classification-sentiment-analysis/)
 
-1. [*Text Embeddings: Comprehensive Guide* (blog post).](https://towardsdatascience.com/text-embeddings-comprehensive-guide-afd97fce8fb5/)
+1. [Text Embeddings: Comprehensive Guide <br> – Introductory guide to text embeddings for natural language processing ( _Towards Data Science_ website ).](https://towardsdatascience.com/text-embeddings-comprehensive-guide-afd97fce8fb5/)
 
-1. [*Word Embeddings – Explained!* (blog post).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
+1. [Word Embeddings – Explained! <br> – Introductory guide to word embeddings for natural language processing ( _Towards Data Science_ website ).](https://towardsdatascience.com/word-embeddings-explained-c07c5ea44d64/)
 
 ##### <ins>word2vec Model</ins>
-1. [*Word2Vec: NLP with Contextual Understanding* (theoretical guide for word2vec and GloVe models).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
+1. [Word2Vec: NLP with Contextual Understanding. <br> – Theoretical guide for word2vec and GloVe models ( _ML Archive_ website ).](https://mlarchive.com/natural-language-processing/word2vec-nlp-with-contextual-understanding/)
 
-1. [Word2vec model (Wikipedia article).](https://en.wikipedia.org/wiki/Word2vec)
+1. [Word2vec model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Word2vec)
 
-1. [*CBOW — Word2Vec* (continous bag of words and word2vec models).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+1. [CBOW — Word2Vec <br> –Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
 
-1. [*Efficient Estimation of Word Representations in Vector Space* (original academic paper).](https://arxiv.org/abs/1301.3781v3)
+1. [*Efficient Estimation of Word Representations in Vector Space* <br> – Original academic paper ( arxiv.org ).](https://arxiv.org/abs/1301.3781v3)
 
 ##### <ins>GloVe Model</ins>
-1. [GloVe model (Wikipedia article).](https://en.wikipedia.org/wiki/GloVe)
+1. [GloVe model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/GloVe)
 
-1. [*GloVe: Global Vectors for Word Representation* (original manusript/academic paper).](https://nlp.stanford.edu/pubs/glove.pdf)
+1. [*GloVe: Global Vectors for Word Representation* <br> – Original manusript/academic paper ( Standford NLP Group ).](https://nlp.stanford.edu/pubs/glove.pdf)
 
 ### __Sample Works__
-1. [*Sarcasm Detection with GloVe/Word2Vec* (project on Kaggle applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_).](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
+1. [Sarcasm Detection with GloVe/Word2Vec <br> – Project on Kaggle applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_.](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
 
 ### __Documentation and Tutorials__
 
 #### <ins>Neural Networks</ins>
-1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (building and training a neural network in Python with Keras).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
+1. [Your First Deep Learning Project in Python with Keras Step-by-Step <br> – Guide to building and training a neural network in Python with Keras ( _Machine Learning Mastery_ website ).](https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/)
 
-1. [*Your First Deep Learning Project in Python with Keras Step-by-Step* (tutorial on building neural networks in Python (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
+1. [Training a Neural Network using Keras API in Tensorflow <br> – Guide to using Keras for neural network training ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/training-a-neural-network-using-keras-api-in-tensorflow/)
 
-1. [*Python AI: How to Build a Neural Network & Make Predictions* (tutorial on building your own neural network in Python from scratch (_Real Python_)).](https://realpython.com/python-ai-neural-network/) 
+1. [Python AI: How to Build a Neural Network & Make Predictions <br> – Tutorial on building your own neural network in Python from scratch ( _Real Python_ website ).](https://realpython.com/python-ai-neural-network/) 
 
 #### <ins>Gensim</ins>
-1. [*Gensim Word2Vec Tutorial* (notebook posted on Kaggle by one of the developers of Gensim).](https://www.kaggle.com/code/pierremegret/gensim-word2vec-tutorial)
+1. [Gensim Word2Vec Tutorial <br> – Notebook posted on Kaggle by one of the developers of Gensim ( _Kaggle_ website ).](https://www.kaggle.com/code/pierremegret/gensim-word2vec-tutorial)
 
-1. [*Word2vec embeddings* (word2vec module documation from the Gensim website).](https://radimrehurek.com/gensim/models/word2vec.html)
+1. [Word2vec embeddings <br> – Word2vec module documation ( _Gensim_ website ).](https://radimrehurek.com/gensim/models/word2vec.html)
 
-1. [*Word2Vec Model* (word2vec tutorial from the Gensim website).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
+1. [Word2Vec Model <br> – Word2vec tutorial ( _Gensim_ website ).](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
 
 ### __Other Theoretical Backgrounds__
-1. [*Machine Learning Tutorial* (general overview/tutorial on machine learning (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/machine-learning/)
+1. [Machine Learning Tutorial <br> – General overview/tutorial on machine learning ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/machine-learning/)
 
-1. [*AI ML DS - How To Get Started?* (general overview on artificial intelligence, machine learning, and data science (_GeeksforGeeks_)).](https://www.geeksforgeeks.org/ai-ml-ds/)
+1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website)).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
-1. [Bag of words model (Wikipedia article).](https://en.wikipedia.org/wiki/Bag-of-words_model)
+1. [Bag of words model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Bag-of-words_model)
 
-1. [Logistic regression (Wikipedia article).](https://en.wikipedia.org/wiki/Logistic_regression)
+1. [Logistic regression <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Logistic_regression)
 
-1. [Multinomial logistic regression (Wikipedia article).](https://en.wikipedia.org/wiki/Multinomial_logistic_regression)
+1. [Multinomial logistic regression <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Multinomial_logistic_regression)
 
-1. [Least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Least_squares)
+1. [Least squares <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Least_squares)
 
-1. [Tf-idf [ term frequency-inverse document frequency ] (Wikipedia article).](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+1. [Tf-idf ( term frequency-inverse document frequency ) <br> –Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
 ### __Mathematical References__
 
-1. [Dot product (Wikipedia article).](https://en.wikipedia.org/wiki/Dot_product)
+1. [Dot product <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Dot_product)
 
-1. [Cosine similarity (Wikipedia article).](https://en.wikipedia.org/wiki/Cosine_similarity)
+1. [Cosine similarity <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Cosine_similarity)
 
-1. [Linear least squares (Wikipedia article).](https://en.wikipedia.org/wiki/Linear_least_squares)
+1. [Linear least squares <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Linear_least_squares)
 
-1. [Fréchet mean (Wikipedia article).](https://en.wikipedia.org/wiki/Fr%C3%A9chet_mean)
+1. [Fréchet mean <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Fr%C3%A9chet_mean)
 
 ### __Graphical Visualization Guides__
-1. [*The Art of Effective Visualization of Multi-dimensional Data* (guide on plotting multidimensional data).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
+1. [The Art of Effective Visualization of Multi-dimensional Data <br> – Guide on plotting multidimensional data ( _Towards Data Science_ website ).](https://towardsdatascience.com/the-art-of-effective-visualization-of-multi-dimensional-data-6c7202990c57/)
 
-1. [*Top Python Data Visualization Libraries in 2024: A Complete Guide*](https://www.fusioncharts.com/blog/best-python-data-visualization-libraries/)
+1. [Top Python Data Visualization Libraries in 2024: A Complete Guide <br> – ( _Fusion Charts_ website ).](https://www.fusioncharts.com/blog/best-python-data-visualization-libraries/)
 
-1. [*A Complete Beginner’s Guide to Data Visualization*](https://www.analyticsvidhya.com/blog/2021/04/a-complete-beginners-guide-to-data-visualization/)
+1. [A Complete Beginner’s Guide to Data Visualization <br> – ( _Analytics Vidhya_ website ).](https://www.analyticsvidhya.com/blog/2021/04/a-complete-beginners-guide-to-data-visualization/)
 
-1. [*Tableau for Beginners: Data Visualisation Made Easy*](https://www.analyticsvidhya.com/blog/2017/07/data-visualisation-made-easy/)
+1. [Tableau for Beginners: Data Visualisation Made Easy <br> – ( _Analytics Vidhya_ website ).](https://www.analyticsvidhya.com/blog/2017/07/data-visualisation-made-easy/)
 
-1. [*Intermediate Tableau guide for data science and business intelligence professionals*](https://www.analyticsvidhya.com/blog/2018/01/tableau-for-intermediate-data-science/)
+1. [Intermediate Tableau guide for data science and business intelligence professionals <br> – ( _Analytics Vidhya_ website ).](https://www.analyticsvidhya.com/blog/2018/01/tableau-for-intermediate-data-science/)
 
 
 
@@ -347,7 +352,7 @@ Not for use in final product.**_
 ![placeholder-text](figures/raw_data_visualization/words_in_comments.png)
 
 ##### <ins>Co-occurrence probabilities</ins>
-![placeholder-text](figures/testing_02/cooccurrence_probability_heatmap.png)
+![placeholder-text](figures/testing/testing_02/cooccurrence_probability_heatmap.png)
 
 
 
@@ -357,14 +362,25 @@ Not for use in final product.**_
 _**Figures used for testing.\
 Not for use in final product.**_
 
-_**Fix this**_
+_..........**Fix this**.........._\
+v v v v v v v v v v v v\
+![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)\
 
-![placeholder-text](figures/testing_01/J_and_log_J_over_time_animation.gif)
+![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)\
+^^^^^^^^^^^^^\
+_..........**Fix this**.........._
 
-![placeholder-text](figures/testing_01/test_word_vectors_over_time_animation.gif)
 
 
+_**Figures used for testing.\
+Not for use in final product.**_
 
+<img src="figures/neural_net_visualization/model.png" width="50%" height="50%"/>
+
+<img src="figures/neural_net_visualization/neural_network_animation.gif" width="100%" height="100%"/>
+
+_**Figures used for testing.\
+Not for use in final product.**_
 
 ## __Results__
 
