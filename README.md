@@ -1,8 +1,15 @@
 
 # Recognizing Sarcasm in Reddit Comments
 
-<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>
+<p align="center">
+<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=80%/>
+</p>
 
+<br>
+<br>
+<p align="center">
+--- Work in progress ---
+</p>
 <br>
 <br>
 

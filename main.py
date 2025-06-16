@@ -10,20 +10,21 @@ if __name__ == "__main__":
 
     ############################################################
     import os
-    import argparse
+    # import argparse
     ############################################################
     import numpy as np
     import pandas as pd
     ############################################################
-    import code.helper_functions.frechet_mean
+    import functions.helper_functions.frechet_mean
     ############################################################
-    import code.machine_learning.glove_vector_training
-    import code.machine_learning.neural_network_training
+    import functions.machine_learning.glove_vector_training
+    import functions.machine_learning.neural_network_training
     ############################################################
-    import code.data_visualization.draw_neural_network
+    import functions.data_visualization.draw_neural_network
     ############################################################
 
 
+    """
     parser_description = "This script contains the code for running the word vector training as well as running the neural network."
     parser = argparse.ArgumentParser(description=parser_description)
 
@@ -68,31 +69,60 @@ if __name__ == "__main__":
         help="Save the weights in each epoch to a single file as a dictionary (key: epoch, value: weights)."
     )
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
-    data_file_name = args.input_file_name
-    word_vectors_over_time_save_file = args.output_file_name
-    load_file_name = args.load_file_name
-    run_train_word_vectors = args.train_glove
-    save_data = args.save_glove_training_data
-    train_nn = args.train_nn
-    save_weights = args.save_weights
+    # data_file_name = args.input_file_name
+    # word_vectors_over_time_save_file = args.output_file_name
+    # load_file_name = args.load_file_name
+    # run_train_word_vectors = args.train_glove
+    # save_data = args.save_glove_training_data
+    # train_nn = args.train_nn
+    # save_weights = args.save_weights
+    """
 
-    # Either train the word vectors now, or load pre-trained word vectors from a file.
-    if run_train_word_vectors:
-        word_vectors_over_time = code.machine_learning.glove_vector_training.GloVe_train_word_vectors(
+    part = 'train_word_vectors'
+    # part = 'train_neural_network'
+
+    unique_words_save_file = 'testing_scrap_misc/scrap_01/unique_words.npy'
+    cooccurence_matrix_save_file = 'testing_scrap_misc/scrap_01/cooccurrence_matrix.npy'
+    probabilities_save_file = 'testing_scrap_misc/scrap_01/cooccurrence_probability_matrix.npy'
+    J_over_time_save_file = 'testing_scrap_misc/scrap_01/J_over_time.npy'
+    word_vectors_over_time_save_file = 'testing_scrap_misc/scrap_01/word_vectors_over_time.npy'
+
+    if part == 'train_word_vectors':
+        unique_words, cooccurrence_matrix, probabilities, J_over_time, word_vectors_over_time = functions.machine_learning.glove_vector_training.GloVe_train_word_vectors(
             data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
-            comments_limit=10,
-            window_size=64,
+            comments_limit=100,
+            window_size=6,
             word_vector_length=8,
-            save_data=False,
             x_max = 100,
             alpha = 0.75,
-            iter = 100,
+            iter = 20,
             eta = 0.1
         )
 
-        # Save the word vectors to file.
+        # Save data to files.
+
+        np.save(
+            unique_words_save_file,
+            unique_words
+        )
+        
+        np.save(
+            cooccurence_matrix_save_file,
+            cooccurrence_matrix
+        )
+
+        np.save(
+            probabilities_save_file,
+            probabilities
+        )
+
+        np.save(
+            J_over_time_save_file,
+            J_over_time
+        )
+
         # word_vectors_over_time is a list of list of word vectors.
         np.save(
             word_vectors_over_time_save_file,
@@ -100,11 +130,21 @@ if __name__ == "__main__":
         )
 
     else:
-        word_vectors_over_time = np.load(
-            load_file_name,
-            allow_pickle=True
-        )
+        pass
 
+
+    # Load trained word vectors.
+        # if run_train_word_vectors:
+
+    # else:
+    #     word_vectors_over_time = np.load(
+    #         load_file_name,
+    #         allow_pickle=True
+    #     )
+    ###############
+
+
+    '''
     # Extract the last list of word vectors.
     trained_word_vectors = word_vectors_over_time[-1]
 
@@ -145,13 +185,13 @@ if __name__ == "__main__":
 
         # Taking a central measure of all of the word vectores in a comment so that each
         # data point ( comment ) is represented by a single vector.
-        centered_comments = code.helper_functions.frechet_mean.frechet_mean(
+        centered_comments = functions.helper_functions.frechet_mean.frechet_mean(
             vectorized_comments,
             word_vector_length = 8
         )
 
         # Train the neural network on the comments.
-        code.machine_learning.neural_network_training.custom_nn(
+        functions.machine_learning.neural_network_training.custom_nn(
             centered_comments,
             labels
         )
@@ -186,7 +226,7 @@ if __name__ == "__main__":
 
     frames = len(weights_over_time)
     
-    nn_viz = code.data_visualization.draw_neural_network.NeuralNetworkVisualizer()
+    nn_viz = functions.data_visualization.draw_neural_network.NeuralNetworkVisualizer()
     nn_viz.add_layer(8, "Input Layer")
     nn_viz.add_layer(8, "Hidden Layer 1 (Dense)")
     nn_viz.add_layer(8, "Hidden Layer 2 (Dense)")
@@ -283,7 +323,7 @@ if __name__ == "__main__":
     # ani.save("weights_change_animation.mp4", writer="ffmpeg")
 
 
-
+'''
 
 ######################################################################################################
 # Notes
