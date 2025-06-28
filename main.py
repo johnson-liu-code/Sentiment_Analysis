@@ -16,6 +16,7 @@ if __name__ == "__main__":
     import pandas as pd
     ############################################################
     import functions.helper_functions.frechet_mean
+    import functions.helper_functions.data_preprocessing
     ############################################################
     import functions.machine_learning.glove_vector_training
     import functions.machine_learning.neural_network_training
@@ -80,36 +81,47 @@ if __name__ == "__main__":
     # save_weights = args.save_weights
     """
 
-    part = 'train_word_vectors'
+    part = 'preprocess_data'
+    # part = 'train_word_vectors'
     # part = 'train_neural_network'
 
-    unique_words_save_file = 'testing_scrap_misc/scrap_01/unique_words.npy'
-    cooccurence_matrix_save_file = 'testing_scrap_misc/scrap_01/cooccurrence_matrix.npy'
-    probabilities_save_file = 'testing_scrap_misc/scrap_01/cooccurrence_probability_matrix.npy'
-    J_over_time_save_file = 'testing_scrap_misc/scrap_01/J_over_time.npy'
-    word_vectors_over_time_save_file = 'testing_scrap_misc/scrap_01/word_vectors_over_time.npy'
+    save_dir = 'testing_scrap_misc/scrap_02/'
+    unique_words_save_file = save_dir + 'unique_words.npy'
+    cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
+    probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
+    # J_over_time_save_file = 'testing_scrap_misc/scrap_02/J_over_time.npy'
+    # word_vectors_over_time_save_file = 'testing_scrap_misc/scrap_02/word_vectors_over_time.npy'
 
-    if part == 'train_word_vectors':
-        unique_words, cooccurrence_matrix, probabilities, J_over_time, word_vectors_over_time = functions.machine_learning.glove_vector_training.GloVe_train_word_vectors(
-            data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
-            comments_limit=100,
-            window_size=6,
-            word_vector_length=8,
-            x_max = 100,
-            alpha = 0.75,
-            iter = 20,
-            eta = 0.1
+    if part == 'preprocess_data':
+        # unique_words, cooccurrence_matrix, probabilities, J_over_time, word_vectors_over_time = functions.machine_learning.glove_vector_training.GloVe_train_word_vectors(
+        #     data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
+        #     comments_limit=100,
+        #     window_size=10,
+        #     word_vector_length=100,
+        #     x_max = 100,
+        #     alpha = 0.75,
+        #     iter = 1,
+        #     eta = 0.01,
+        #     save_dir="testing_scrap_misc/scrap_02"
+        # )
+
+        unique_words, cooccurrence_matrix, probabilities = (
+            functions.helper_functions.data_preprocessing.data_preprocessing(
+                data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
+                comments_limit=100,
+                window_size=10,
+            )
         )
 
         # Save data to files.
-
+        print(f'Save preprocessed data to files in {save_dir}...')
         np.save(
             unique_words_save_file,
             unique_words
         )
         
         np.save(
-            cooccurence_matrix_save_file,
+            cooccurrence_matrix_save_file,
             cooccurrence_matrix
         )
 
@@ -118,16 +130,16 @@ if __name__ == "__main__":
             probabilities
         )
 
-        np.save(
-            J_over_time_save_file,
-            J_over_time
-        )
+        # np.save(
+        #     J_over_time_save_file,
+        #     J_over_time
+        # )
 
         # word_vectors_over_time is a list of list of word vectors.
-        np.save(
-            word_vectors_over_time_save_file,
-            word_vectors_over_time
-        )
+        # np.save(
+        #     word_vectors_over_time_save_file,
+        #     word_vectors_over_time
+        # )
 
     else:
         pass
