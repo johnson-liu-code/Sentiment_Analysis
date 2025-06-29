@@ -6,6 +6,7 @@ from tqdm import tqdm
 import os
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+import numpy as np
 
 # ---------- Dataset Definition ----------
 class CoocDataset(Dataset):
@@ -86,7 +87,14 @@ def train(cooc_matrix, embedding_dim=50, epochs=50, batch_size=256, learning_rat
         print(f"Epoch {epoch + 1}/{epochs} started.")
         model.train()
         total_loss = 0.0
-        pbar = tqdm(dataloader, desc=f"Epoch {epoch + 1}/{epochs}", leave=False)
+        total_samples = 0
+        pbar = tqdm(
+            dataloader,
+            desc=f"Epoch {epoch + 1}/{epochs}",
+            leave=True,  # Keep the bar after completion
+            dynamic_ncols=True,  # Auto-detect terminal width
+            mininterval=0.1  # More frequent updates
+        )
 
         for word_idx, context_idx, count in pbar:
             word_idx = word_idx.to(device)
@@ -104,8 +112,11 @@ def train(cooc_matrix, embedding_dim=50, epochs=50, batch_size=256, learning_rat
             optimizer.step()
 
             loss_value = loss.item()
-            total_loss += loss_value * len(word_idx)
-            pbar.set_postfix(loss=f"{loss_value:.4f}")
+            batch_size_actual = len(word_idx)
+            total_loss += loss_value * batch_size_actual
+            total_samples += batch_size_actual
+            avg_loss_so_far = total_loss / total_samples if total_samples > 0 else 0.0
+            pbar.set_postfix(loss=f"{avg_loss_so_far:.4f}")
 
         avg_loss = total_loss / len(dataset)
         loss_history.append(avg_loss)

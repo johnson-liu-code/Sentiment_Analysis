@@ -32,8 +32,10 @@ def data_preprocessing(
     data = pd.read_csv(data_file_name).sample(n=comments_limit, random_state=94)
     # data = pd.read_csv(data_file_name)[:comments_limit]
 
+    data = data.dropna(subset=['comment'])
+
     # Collect only the text from the data.
-    # All of the comments are concatenated into a single string of text.
+    # np.ndarray
     text = data['comment'].values
 
     # Generate a list of unique words from the text.
@@ -82,4 +84,4 @@ def data_preprocessing(
     probabilities = probabilities.to_numpy()
 
 
-    return unique_words, cooccurrence_matrix_dict, probabilities
+    return unique_words, cooccurrence_matrix_dict, probabilities, text

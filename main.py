@@ -15,13 +15,20 @@ if __name__ == "__main__":
     import numpy as np
     import pandas as pd
     ############################################################
-    import functions.helper_functions.frechet_mean
     import functions.helper_functions.data_preprocessing
     ############################################################
     import functions.machine_learning.glove_vector_training
     import functions.machine_learning.neural_network_training
+    import functions.machine_learning.LogBilinearModel
+    ############################################################
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    ############################################################
+    import functions.comment_representation.tf_idf
+    import functions.comment_representation.tf_idf_vectorization
     ############################################################
     import functions.data_visualization.draw_neural_network
+    ############################################################
+    import torch
     ############################################################
 
 
@@ -81,14 +88,12 @@ if __name__ == "__main__":
     # save_weights = args.save_weights
     """
 
-    part = 'preprocess_data'
+    # part = 'preprocess_data'
     # part = 'train_word_vectors'
-    # part = 'train_neural_network'
+    # part = 'vectorize_comments'
+    part = 'train_neural_network'
 
-    save_dir = 'testing_scrap_misc/scrap_02/'
-    unique_words_save_file = save_dir + 'unique_words.npy'
-    cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
-    probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
+
     # J_over_time_save_file = 'testing_scrap_misc/scrap_02/J_over_time.npy'
     # word_vectors_over_time_save_file = 'testing_scrap_misc/scrap_02/word_vectors_over_time.npy'
 
@@ -105,13 +110,19 @@ if __name__ == "__main__":
         #     save_dir="testing_scrap_misc/scrap_02"
         # )
 
-        unique_words, cooccurrence_matrix, probabilities = (
+        unique_words, cooccurrence_matrix, probabilities, text = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
-                comments_limit=100,
+                comments_limit=1000,
                 window_size=10,
             )
         )
+
+        save_dir = 'testing_scrap_misc/scrap_02/'
+        unique_words_save_file = save_dir + 'unique_words.npy'
+        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
+        probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
+        text_save_file = save_dir + 'text.npy'
 
         # Save data to files.
         print(f'Save preprocessed data to files in {save_dir}...')
@@ -130,6 +141,11 @@ if __name__ == "__main__":
             probabilities
         )
 
+        np.save(
+            text_save_file,
+            text
+        )
+
         # np.save(
         #     J_over_time_save_file,
         #     J_over_time
@@ -140,6 +156,121 @@ if __name__ == "__main__":
         #     word_vectors_over_time_save_file,
         #     word_vectors_over_time
         # )
+
+    elif part == 'train_word_vectors':
+
+
+        save_dir = 'testing_scrap_misc/scrap_02/'
+        unique_words_save_file = save_dir + 'unique_words.npy'
+        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
+        probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
+        text_save_file = save_dir + 'text.npy'
+
+        # Load the preprocessed data.
+        print(f'Loading preprocessed data from files in {save_dir}...')
+        unique_words = np.load(unique_words_save_file, allow_pickle=True)
+        cooccurrence_matrix = np.load(cooccurrence_matrix_save_file, allow_pickle=True)
+        probabilities = np.load(probabilities_save_file, allow_pickle=True)
+
+        # Convert the cooccurrence matrix to a torch tensor.
+        cooccurrence_probability_tensor = torch.tensor(probabilities)
+        cooccurrence_probability_tensor = cooccurrence_probability_tensor.to('cuda' if torch.cuda.is_available() else 'cpu')
+
+        # Train the word vectors using PyTorch.
+        print("Training word vectors using PyTorch...")
+        word_vectors_over_time = functions.machine_learning.LogBilinearModel.train(
+            cooc_matrix=cooccurrence_probability_tensor,
+            embedding_dim=200,
+            epochs=1,
+            batch_size=256,
+            learning_rate=0.01,
+            x_max=100,
+            alpha=0.75,
+            num_workers=4,
+            save_dir=save_dir + 'training_logs',
+            use_gpu=True
+        )
+
+
+    elif part == 'vectorize_comments':
+        # data_file_name="data/project_data/raw_data/trimmed_training_data.csv"
+        # comments_limit = 1000
+        # print(f"Reading data from {data_file_name} with a limit of {comments_limit} comments...")
+        # data = pd.read_csv(data_file_name).sample(n=comments_limit, random_state=94)
+        # data = pd.read_csv(data_file_name)[:comments_limit]
+        # data = data.dropna(subset=['comment'])
+        # Collect only the text from the data.
+        # np.ndarray
+        # text = data['comment'].values
+        text_save_file = 'testing_scrap_misc/scrap_02/text.npy'
+        text = np.load(text_save_file, allow_pickle=True)
+
+        # Print indices and values where text is not a string
+        non_string_indices = [(i, t) for i, t in enumerate(text) if not isinstance(t, str)]
+        if non_string_indices:
+            print("Non-string values found in 'text' at the following indices:")
+            for idx, val in non_string_indices:
+                print(f"Index {idx}: {val} (type: {type(val)})")
+        else:
+            print("All values in 'text' are strings.")
+
+        # print(text[:3])
+        # print(type(text))
+        # print(text.shape)
+
+        # ---------------------------
+        # Step 1: Fit a TF-IDF Vectorizer
+        # ---------------------------
+        # This calculates both TF and IDF values across the corpus
+        print('Initializing tf-idf vectorizer...')
+        vectorizer = TfidfVectorizer(lowercase=True, tokenizer=str.split, token_pattern=None)
+        vectorizer.fit(text)
+
+        # ---------------------------
+        # Step 2: Build Vocabulary and Fake Word Embeddings
+        # ---------------------------
+        # Vocabulary: word → index
+        print('Indexing unqiue words...')
+        word_to_idx = {word: idx for idx, word in enumerate(vectorizer.get_feature_names_out())}
+
+        # print('word_to_idx:')
+        # print(word_to_idx)
+
+        # Fake embeddings for demonstration (dim=50)
+        # embedding_dim = 50
+        # embedding_matrix = torch.randn(len(word_to_idx), embedding_dim)
+        # print(embedding_matrix)
+
+        print('Loading the trained word vectors...')
+        trained_word_vectors_file = 'testing_scrap_misc/scrap_02/training_logs/final_word_vectors.pt'
+        word_vectors_matrix = torch.load(trained_word_vectors_file)
+        # print(word_vectors)
+
+        # comment = text[1]
+        # print('Aggregating word vectors in comment using TF-IDF weighting...')
+        # sentence_vector = functions.comment_representation.tf_idf.embed_comment_tfidf(comment, vectorizer, word_to_idx, word_vectors_matrix)
+        # print('comment:')
+        # print(comment)
+        # print('sentence_vector:')
+        # print(sentence_vector)
+        # print(sentence_vector.shape)
+
+        print('Saving the vectorized comments...')
+        output_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
+        functions.comment_representation.tf_idf_vectorization.vectorize_comments_with_tfidf(text, vectorizer, word_vectors_matrix, output_file_name)
+
+
+
+    elif part == 'train_neural_network':
+
+        vectorized_comments_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
+        vectorized_comments = np.load(vectorized_comments_file_name)
+        # print(vectorized_comments.shape)
+
+        
+
+    elif part == 'use_trained_model':
+        pass
 
     else:
         pass
@@ -345,4 +476,14 @@ if __name__ == "__main__":
 #
 # 1. Go through __name__ == "__main__" in each file to make sure the code still works / is up-to-date.
 #
-#
+# ------------------------------------------------------------------- #
+# ---------------------- Possible Improvements ---------------------- #
+# ------------------------------------------------------------------- #
+# 1. CNNs over Word Embeddings
+#       Apply 1D convolution filters to detect n-gram patterns (e.g., sarcasm markers).
+#       Captures local word patterns
+# 2. Recurrent Neural Networks (RNNs / LSTMs / GRUs)
+#       Feed word embeddings sequentially into an RNN to produce a context-sensitive representation.
+#       Captures word order
+#       Maintains directional context
+#       Final hidden state or an attention-weighted sum can represent the whole comment
