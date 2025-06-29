@@ -32,6 +32,7 @@ if __name__ == "__main__":
     ############################################################
 
 
+
     """
     parser_description = "This script contains the code for running the word vector training as well as running the neural network."
     parser = argparse.ArgumentParser(description=parser_description)
@@ -136,6 +137,29 @@ if __name__ == "__main__":
             cooccurrence_matrix
         )
 
+        # Save data to files.
+
+        np.save(
+            unique_words_save_file,
+            unique_words
+        )
+        
+        np.save(
+            cooccurence_matrix_save_file,
+            cooccurrence_matrix
+        )
+
+        np.save(
+            probabilities_save_file,
+            probabilities
+        )
+
+        np.save(
+            J_over_time_save_file,
+            J_over_time
+        )
+
+        # word_vectors_over_time is a list of list of word vectors.
         np.save(
             probabilities_save_file,
             probabilities
@@ -287,6 +311,7 @@ if __name__ == "__main__":
     ###############
 
 
+
     '''
     # Extract the last list of word vectors.
     trained_word_vectors = word_vectors_over_time[-1]
@@ -384,6 +409,7 @@ if __name__ == "__main__":
 
     nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=weights_over_time)
 
+
     # Plot the weights for each layer over time.
     weights_difference_over_time = []
     for i in range(len(weights_over_time)-1):
@@ -426,6 +452,7 @@ if __name__ == "__main__":
 
     # Show the plot.
     plt.show()
+
 
     # Animate the change in weights for the first layer over time.
     import matplotlib.animation as animation
@@ -487,3 +514,4 @@ if __name__ == "__main__":
 #       Captures word order
 #       Maintains directional context
 #       Final hidden state or an attention-weighted sum can represent the whole comment
+

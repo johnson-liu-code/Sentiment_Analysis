@@ -78,6 +78,7 @@ def GloVe_train_word_vectors(
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
     # This returns a 2D array for the co-occurrence matrix.
+
     unique_words, cooccurrence_matrix = (
         functions.helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
             text,
@@ -106,6 +107,7 @@ def GloVe_train_word_vectors(
     )
 
     # Convert the probabilities dictionary into a DataFrame.
+
     probabilities = pd.DataFrame.from_dict(
         probabilities,
         orient='index'
@@ -152,10 +154,6 @@ def GloVe_train_word_vectors(
         eta,
         iter
     )
-    '''
-
-
-
 
     ######################
     # Phase this out. Data saving should be done in main.py.
@@ -180,3 +178,4 @@ def GloVe_train_word_vectors(
 
 # Notes
 # 1. Maybe it's better to keep the matrices as 2D arrays instead of converting between DataFrames and dictionaries.
+

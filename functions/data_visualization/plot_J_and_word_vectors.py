@@ -486,6 +486,7 @@ if __name__ == "__main__":
     J_data_file = 'testing_scrap_misc/scrap_01/J_over_time.npy'
     plot_J_over_time(J_data_file, show=True)
 
+
     # Call the function to animate word_vectors_over_time.
     # plot_word_vectors_over_time()
 
