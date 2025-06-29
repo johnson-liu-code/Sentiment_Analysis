@@ -9,7 +9,8 @@ def GloVe_train_word_vectors(
         x_max = 100,
         alpha = 0.75,
         iter = 1,
-        eta = 0.1
+        eta = 0.1,
+        save_dir="training_logs"
     ):
     """
     _summary_
@@ -62,10 +63,13 @@ def GloVe_train_word_vectors(
     import functions.helper_functions.cooccurrence_probability
     import functions.helper_functions.word_vectors
     import functions.machine_learning.gradient_descent
+    import functions.machine_learning.LogBilinearModel
     ###########################################################################
 
     # Read the data into a DataFrame.
-    data = pd.read_csv(data_file_name)[:comments_limit]
+    # Randomly pick the data points.
+    data = pd.read_csv(data_file_name).sample(n=comments_limit, random_state=94)
+    # data = pd.read_csv(data_file_name)[:comments_limit]
 
     # Collect only the text from the data.
     # All of the comments are concatenated into a single string of text.
@@ -73,6 +77,8 @@ def GloVe_train_word_vectors(
 
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
+    # This returns a 2D array for the co-occurrence matrix.
+
     unique_words, cooccurrence_matrix = (
         functions.helper_functions.cooccurrence_matrix.create_cooccurrence_matrix(
             text,
@@ -100,11 +106,36 @@ def GloVe_train_word_vectors(
         )
     )
 
+    # Convert the probabilities dictionary into a DataFrame.
+
     probabilities = pd.DataFrame.from_dict(
         probabilities,
         orient='index'
     )
 
+    # Convert the probabilities DataFrame into a 2D array.
+    probabilities = probabilities.to_numpy()
+
+    '''
+    LogBilinearModel.train(
+        probabilities,
+        embedding_dim=word_vector_length,
+        epochs=iter,
+        batch_size=batch_size,
+        learning_rate=learning_rate,
+        x_max=x_max,
+        alpha=alpha,
+        num_workers=4,
+        save_dir="training_logs",
+        use_gpu=True
+    )
+    '''
+
+
+
+    ''' This uses the custom linear regression code in gradient_descent.py.
+        We moved on to using PyTorch.
+        
     # Initialize word vectors for each unique word.
     word_vectors = (
         functions.helper_functions.word_vectors.create_word_vectors( 
@@ -142,4 +173,9 @@ def GloVe_train_word_vectors(
     #     )
     ######################
 
-    return unique_words, cooccurrence_matrix_dict, probabilities, J_over_time, word_vectors_over_time
+    return unique_words, cooccurrence_matrix_dict, probabilities
+
+
+# Notes
+# 1. Maybe it's better to keep the matrices as 2D arrays instead of converting between DataFrames and dictionaries.
+

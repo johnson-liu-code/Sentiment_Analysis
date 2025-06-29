@@ -483,7 +483,9 @@ def plot_single_vector_dimension_change_over_time(dimension, data_file='word_vec
 
 if __name__ == "__main__":
     # Call the function to plot J_over_time.
-    # plot_J_over_time(show=True)
+    J_data_file = 'testing_scrap_misc/scrap_01/J_over_time.npy'
+    plot_J_over_time(J_data_file, show=True)
+
 
     # Call the function to animate word_vectors_over_time.
     # plot_word_vectors_over_time()
@@ -491,5 +493,5 @@ if __name__ == "__main__":
     # Call the function to animate word_vectors_over_time differences.
     # plot_word_vectors_difference()
 
-    data_file='data/project_data/training_data/test/project_word_vectors_over_time_01.npy'
-    plot_single_word_vector_over_time(word='two', data_file=data_file)
+    # data_file='data/project_data/training_data/test/project_word_vectors_over_time_01.npy'
+    # plot_single_word_vector_over_time(word='two', data_file=data_file)
