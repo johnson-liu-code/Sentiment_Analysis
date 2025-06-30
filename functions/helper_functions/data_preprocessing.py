@@ -39,7 +39,6 @@ def data_preprocessing(
     text = data['comment'].values
     labels = data['label'].values
 
-    
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
     # This returns a 2D array for the co-occurrence matrix.
@@ -86,3 +85,4 @@ def data_preprocessing(
     probabilities = probabilities.to_numpy()
 
     return unique_words, cooccurrence_matrix_dict, probabilities, text, labels
+

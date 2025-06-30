@@ -29,6 +29,9 @@ if __name__ == "__main__":
     ############################################################
     import functions.data_visualization.draw_neural_network
     ############################################################
+    import torch
+    ############################################################
+
 
 
 
@@ -109,7 +112,6 @@ if __name__ == "__main__":
         #     eta = 0.01,
         #     save_dir="testing_scrap_misc/scrap_02"
         # )
-
         
         unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
@@ -218,7 +220,6 @@ if __name__ == "__main__":
             save_dir=save_dir + 'training_logs',
             use_gpu=True
         )
-
 
     elif part == 'vectorize_comments':
         # data_file_name="data/project_data/raw_data/trimmed_training_data.csv"
