@@ -34,9 +34,10 @@ def data_preprocessing(
 
     data = data.dropna(subset=['comment'])
 
-    # Collect only the text from the data.
+    # Collect the text and the corresponding labels from the data.
     # np.ndarray
     text = data['comment'].values
+    labels = data['label'].values
 
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
@@ -83,5 +84,5 @@ def data_preprocessing(
     print("Converting co-occurrence probabilities DataFrame to 2D array...")
     probabilities = probabilities.to_numpy()
 
+    return unique_words, cooccurrence_matrix_dict, probabilities, text, labels
 
-    return unique_words, cooccurrence_matrix_dict, probabilities, text

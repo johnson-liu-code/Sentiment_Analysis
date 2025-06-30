@@ -1,7 +1,7 @@
 
+### Old applicaiton. Switched to using Torch.
 
-
-def custom_nn(
+def custom_fnn(
         X:list,
         labels:list
     ):
@@ -21,6 +21,10 @@ def custom_nn(
     from keras import Model, Input
     from keras import layers
     ##############################################################################################################
+    from tqdm.keras import TqdmCallback
+    ##############################################################################################################
+    import tensorflow as tf  # Add this import
+    print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 
     ##############################################################################################################
@@ -62,7 +66,7 @@ def custom_nn(
     )
 
     # Save weights for each epoch.
-    checkpoint_dir = 'data/testing_data/nn_weights_01/'
+    checkpoint_dir = 'testing_scrap_misc/scrap_02/fnn/nn_weights_01/'
     checkpoint_filepath = os.path.join(checkpoint_dir, 'weights_{epoch:02d}.weights.h5')
 
     model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
@@ -78,10 +82,10 @@ def custom_nn(
         epochs=10,
         batch_size=32,
         validation_split=0.2,
-        callbacks=[model_checkpoint_callback],
+        callbacks=[model_checkpoint_callback, TqdmCallback()],
     )
 
-    model.save("my_model.keras")
+    model.save("testing_scrap_misc/scrap_02/fnn/my_model.keras")
 
 
 
