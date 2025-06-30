@@ -15,21 +15,21 @@ if __name__ == "__main__":
     import numpy as np
     import pandas as pd
     ############################################################
+    import torch
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    ############################################################
     import functions.helper_functions.data_preprocessing
     ############################################################
     import functions.machine_learning.glove_vector_training
-    import functions.machine_learning.neural_network_training
     import functions.machine_learning.LogBilinearModel
     ############################################################
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    ############################################################
-    import functions.comment_representation.tf_idf
     import functions.comment_representation.tf_idf_vectorization
+    ############################################################
+    import functions.machine_learning.feedforward_neural_network
     ############################################################
     import functions.data_visualization.draw_neural_network
     ############################################################
-    import torch
-    ############################################################
+
 
 
     """
@@ -110,7 +110,8 @@ if __name__ == "__main__":
         #     save_dir="testing_scrap_misc/scrap_02"
         # )
 
-        unique_words, cooccurrence_matrix, probabilities, text = (
+        
+        unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
                 comments_limit=1000,
@@ -123,6 +124,7 @@ if __name__ == "__main__":
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
         probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
         text_save_file = save_dir + 'text.npy'
+        labels_save_file = save_dir + 'labels.npy'
 
         # Save data to files.
         print(f'Save preprocessed data to files in {save_dir}...')
@@ -146,6 +148,10 @@ if __name__ == "__main__":
             text
         )
 
+        np.save(
+            labels_save_file,
+            labels
+        )
         # np.save(
         #     J_over_time_save_file,
         #     J_over_time
@@ -158,7 +164,6 @@ if __name__ == "__main__":
         # )
 
     elif part == 'train_word_vectors':
-
 
         save_dir = 'testing_scrap_misc/scrap_02/'
         unique_words_save_file = save_dir + 'unique_words.npy'
@@ -262,10 +267,15 @@ if __name__ == "__main__":
 
 
     elif part == 'train_neural_network':
-
+        print('Loading vectorized comments and corresponding labels...')
         vectorized_comments_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
         vectorized_comments = np.load(vectorized_comments_file_name)
         # print(vectorized_comments.shape)
+        labels = np.load('testing_scrap_misc/scrap_02/labels.npy')
+        # print(labels.shape[0])
+
+        print('Training the feedforward neural network...')
+        functions.machine_learning.feedforward_neural_network.custom_fnn(vectorized_comments, labels)
 
         
 
@@ -471,6 +481,46 @@ if __name__ == "__main__":
 ######################################################################################################
 # Notes
 #######
+# 1. Three things to try:
+#   a. FNN
+#      Feedforward Neural Network using aggregated word vectors for each comment.
+            # Pros:
+                # Simple and fast to train
+                # Works well with aggregated embeddings (e.g., TF-IDF-weighted GloVe vectors)
+                # Fewer parameters → less overfitting on small datasets
+            # Cons:
+                # Ignores word order and syntax
+                # Cannot model phrases like “I just love waiting in line” where sarcasm depends on context
+                # Performance plateaus if the model lacks sequential information
+            # Use FNNs if:
+                # You're using averaged or TF-IDF-weighted embeddings
+                # You want a fast, simple baseline
+#   b. CNN
+#      Convolutional Neural Networks using stacks of word vectors with padding for shorter comments.
+            # Pros:
+                # Captures local n-gram patterns that are useful for sarcasm (e.g., “great job”, “love that”)
+                # Faster to train than RNNs
+                # Some resistance to word order noise
+            # Cons:
+                # Limited to local context (can’t model long-range dependencies)
+                # Can miss sarcasm that builds over multiple clauses
+            # Use CNNs if:
+                # You have access to sequence-preserving embeddings (e.g., [sequence_length, embedding_dim])
+                # Sarcasm is often expressed in short phrases
+#   c. RNN
+#      Recurrent Neural Networks feeding word vectors in sequentially.
+            # Pros:
+                # Models word order and long-range dependencies
+                # Good for subtle sarcasm that builds over the sentence
+                # LSTM/GRU handles negations, sentiment shifts, and intensifiers (e.g., “Oh yeah, that’s exactly what I wanted…”)
+            # Cons:
+                # Slower training than CNNs/FNNs
+                # More prone to overfitting, especially with small data
+                # Vanilla RNNs can struggle with long sequences (use LSTM or GRU)
+            # Use RNNs if:
+                # Sarcasm depends on word order or context buildup
+                # You’re okay with slightly longer training times
+# 
 # 1. Revise the structure/logic of the argument handling in the beginning parts of main.py.
 #    Make it so that the user can run each part of the code sequentially.
 #
@@ -480,10 +530,11 @@ if __name__ == "__main__":
 # ---------------------- Possible Improvements ---------------------- #
 # ------------------------------------------------------------------- #
 # 1. CNNs over Word Embeddings
-#       Apply 1D convolution filters to detect n-gram patterns (e.g., sarcasm markers).
-#       Captures local word patterns
+#       - Cannot squash comments into uniform comment vectors. Need full comment and padding.
+#       - Apply 1D convolution filters to detect n-gram patterns (e.g., sarcasm markers).
+#       - Captures local word patterns
 # 2. Recurrent Neural Networks (RNNs / LSTMs / GRUs)
-#       Feed word embeddings sequentially into an RNN to produce a context-sensitive representation.
-#       Captures word order
-#       Maintains directional context
-#       Final hidden state or an attention-weighted sum can represent the whole comment
+#       - Feed word embeddings sequentially into an RNN to produce a context-sensitive representation.
+#       - Captures word order
+#       - Maintains directional context
+#       - Final hidden state or an attention-weighted sum can represent the whole comment
