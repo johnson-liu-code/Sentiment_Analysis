@@ -37,6 +37,7 @@ def create_cooccurrence_matrix(text:str, window_size:int):
     # Remove duplicates from the list of words and sort them alphabetically.
     # This is the vocabulary V.
     unique_words = sorted(set(words))
+    print(f'Number of unique words: {len(unique_words)}')
 
     # Create a dictionary to map each word to its index in the vocabulary.
     word_to_index = {word: index for index, word in enumerate(unique_words)}

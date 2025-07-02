@@ -4,26 +4,15 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset, random_split
 from sklearn.metrics import accuracy_score, f1_score
 from tqdm import tqdm
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
-def custom_fnn(X: np.ndarray, labels: np.ndarray):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
-
-    # Convert to tensors
-    X_tensor = torch.tensor(X, dtype=torch.float32)
-    y_tensor = torch.tensor(labels, dtype=torch.float32)
-
-    # Train/Val split
-    dataset = TensorDataset(X_tensor, y_tensor)
-    val_size = int(0.2 * len(dataset))
-    train_size = len(dataset) - val_size
-    train_set, val_set = random_split(dataset, [train_size, val_size])
-
-    train_loader = DataLoader(train_set, batch_size=32, shuffle=True)
-    val_loader = DataLoader(val_set, batch_size=32)
-
+def custom_fnn( X: np.ndarray,
+                labels: np.ndarray,
+                epochs: int = 10,
+                patience: int = 10,
+                batch_size: int = 32 ):
+    ############################################################################
     # Model
     class FeedforwardNN(nn.Module):
         def __init__(self, input_dim):
@@ -38,23 +27,40 @@ def custom_fnn(X: np.ndarray, labels: np.ndarray):
         def forward(self, x):
             return self.net(x)
 
+    ############################################################################
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+
+    # Convert to tensors
+    X_tensor = torch.tensor(X, dtype=torch.float32)
+    y_tensor = torch.tensor(labels, dtype=torch.float32)
+
+    # Train/Val split
+    dataset = TensorDataset(X_tensor, y_tensor)
+    val_size = int(0.2 * len(dataset))
+    train_size = len(dataset) - val_size
+    train_set, val_set = random_split(dataset, [train_size, val_size])
+
+    train_loader = DataLoader(train_set, batch_size, num_workers=4, shuffle=True)
+    val_loader = DataLoader(val_set, batch_size)
+
     model = FeedforwardNN(X.shape[1]).to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     best_val_f1 = 0
-    patience = 3
     wait = 0
 
     train_losses, val_accuracies, val_f1s = [], [], []
 
-    plt.ion()
-    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
-    ax[0].set_title("Training Loss")
-    ax[1].set_title("Validation Accuracy")
-    ax[2].set_title("Validation F1 Score")
+    # plt.ion()
+    # fig, ax = plt.subplots(1, 3, figsize=(15, 4))
+    # ax[0].set_title("Training Loss")
+    # ax[1].set_title("Validation Accuracy")
+    # ax[2].set_title("Validation F1 Score")
 
-    for epoch in range(30):
+    for epoch in range(epochs):
         model.train()
         total_loss = 0
         train_bar = tqdm(train_loader, desc=f"Epoch {epoch+1} [Training]", leave=False)
@@ -93,10 +99,10 @@ def custom_fnn(X: np.ndarray, labels: np.ndarray):
         val_f1s.append(val_f1)
 
         # Live update plots
-        ax[0].clear(); ax[0].plot(train_losses); ax[0].set_title("Training Loss")
-        ax[1].clear(); ax[1].plot(val_accuracies); ax[1].set_title("Validation Accuracy")
-        ax[2].clear(); ax[2].plot(val_f1s); ax[2].set_title("Validation F1 Score")
-        plt.pause(0.01)
+        # ax[0].clear(); ax[0].plot(train_losses); ax[0].set_title("Training Loss")
+        # ax[1].clear(); ax[1].plot(val_accuracies); ax[1].set_title("Validation Accuracy")
+        # ax[2].clear(); ax[2].plot(val_f1s); ax[2].set_title("Validation F1 Score")
+        # plt.pause(0.01)
 
         print(f"Epoch {epoch + 1}: Loss={total_loss:.4f} | Val Acc={val_acc:.4f} | Val F1={val_f1:.4f}")
 
@@ -110,6 +116,6 @@ def custom_fnn(X: np.ndarray, labels: np.ndarray):
                 print("Early stopping.")
                 break
 
-    plt.ioff()
-    plt.show()
+    # plt.ioff()
+    # plt.show()
     print(f"Best validation F1: {best_val_f1:.4f}")

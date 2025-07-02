@@ -116,7 +116,7 @@ def GloVe_train_word_vectors(
     # Convert the probabilities DataFrame into a 2D array.
     probabilities = probabilities.to_numpy()
 
-    '''
+
     LogBilinearModel.train(
         probabilities,
         embedding_dim=word_vector_length,
@@ -129,11 +129,9 @@ def GloVe_train_word_vectors(
         save_dir="training_logs",
         use_gpu=True
     )
+
     '''
-
-
-
-    ''' This uses the custom linear regression code in gradient_descent.py.
+    This uses the custom linear regression code in gradient_descent.py.
         We moved on to using PyTorch.
         
     # Initialize word vectors for each unique word.
@@ -172,7 +170,8 @@ def GloVe_train_word_vectors(
     #         word_vectors_over_time
     #     )
     ######################
-
+    '''
+    
     return unique_words, cooccurrence_matrix_dict, probabilities
 
 
