@@ -11,9 +11,15 @@ def custom_fnn( X: np.ndarray,
                 labels: np.ndarray,
                 epochs: int = 10,
                 patience: int = 10,
-                batch_size: int = 32 ):
+                batch_size: int = 32,
+                learning_rate: float = 0.01 ):
     ############################################################################
     # Model
+    ### Note:
+    #       - Later on, when we extend the project to more
+    #         classifications (sentiment, tone, etc.), we
+    #         need to specify the num_classes for the
+    #         expected dimension of the output of the NN.
     class FeedforwardNN(nn.Module):
         def __init__(self, input_dim):
             super().__init__()
@@ -47,7 +53,7 @@ def custom_fnn( X: np.ndarray,
 
     model = FeedforwardNN(X.shape[1]).to(device)
     criterion = nn.BCEWithLogitsLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), learning_rate)
 
     best_val_f1 = 0
     wait = 0

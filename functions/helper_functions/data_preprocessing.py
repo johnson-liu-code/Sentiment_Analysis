@@ -1,4 +1,3 @@
-
 def data_preprocessing(
     data_file_name: str,
     comments_limit: int,
@@ -33,11 +32,15 @@ def data_preprocessing(
     # data = pd.read_csv(data_file_name)[:comments_limit]
 
     data = data.dropna(subset=['comment'])
+    print(f"Number of comments left after dropping NA: {len(data)}...")
 
     # Collect the text and the corresponding labels from the data.
     # np.ndarray
     text = data['comment'].values
     labels = data['label'].values
+
+    # print(f"text type: {type(text)}...")
+    # print(f"text length: {len(text)}...")
 
     # Generate a list of unique words from the text.
     # Generate a co-occurrence matrix from the unique words by scanning through the comments.
@@ -50,39 +53,18 @@ def data_preprocessing(
         )
     )
 
-    # Generate a co-occurence matrix DataFrame.
-    print("Creating co-occurrence matrix DataFrame...")
-    cooccurence_matrix_dataframe = (
-        pd.DataFrame(
-            cooccurrence_matrix,
-            index=unique_words,
-            columns=unique_words
-        )
-    )
+    # Compute probabilities from the 2D co-occurrence matrix.
+    print("Calculating co-occurrence probabilities from the co-occurrnce matrix...")
+    row_totals = cooccurrence_matrix.sum(axis=1, keepdims=True)
+    # Avoid division by zero.
+    row_totals[row_totals == 0] = 1
+    probabilities = cooccurrence_matrix / row_totals
 
-    # Generate a co-occurrence matrix dictionary where each unique word is a key and the
-    # corresponding value is list of co-occurrences with all of the other words.
-    print("Converting co-occurrence matrix DataFrame to dictionary...")
-    cooccurrence_matrix_dict = cooccurence_matrix_dataframe.to_dict()
+    # Optionally, create a dictionary if needed elsewhere.
+    # cooccurrence_matrix_dict = {
+    #     row_word: {col_word: cooccurrence_matrix[i][j] for j, col_word in enumerate(unique_words)}
+    #     for i, row_word in enumerate(unique_words)
+    # }
 
-    # Convert co-occurrence frequencies into probabilities.
-    print("Calculating co-occurrence probabilities...")
-    totals, probabilities = (
-        functions.helper_functions.cooccurrence_probability.cooccurrence_probability(
-            cooccurrence_matrix_dict
-        )
-    )
-
-    # Convert the probabilities dictionary into a DataFrame.
-    print("Converting co-occurrence probabilities dictionary to DataFrame...")
-    probabilities = pd.DataFrame.from_dict(
-        probabilities,
-        orient='index'
-    )
-
-    # Convert the probabilities DataFrame into a 2D array.
-    print("Converting co-occurrence probabilities DataFrame to 2D array...")
-    probabilities = probabilities.to_numpy()
-
-    return unique_words, cooccurrence_matrix_dict, probabilities, text, labels
+    return unique_words, cooccurrence_matrix, probabilities, text, labels
 

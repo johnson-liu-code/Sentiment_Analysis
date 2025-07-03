@@ -63,38 +63,38 @@ if __name__ == "__main__":
         unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name,
-                comments_limit=1500, # Make sure there are enough rows in the CSV file, or else this will drop data.
+                comments_limit=10000, # Make sure there are enough rows in the CSV file, or else this will drop data.
                 window_size=10,
             )
         )
 
-        # save_dir = 'testing_scrap_misc/training_01/'
+        save_dir = 'testing_scrap_misc/training_01/preprocessing/'
 
-        # unique_words_save_file = save_dir + 'unique_words.npy'
-        # cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
-        # probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
-        # text_save_file = save_dir + 'text.npy'
-        # labels_save_file = save_dir + 'labels.npy'
+        unique_words_save_file = save_dir + 'unique_words.npy'
+        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
+        probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
+        text_save_file = save_dir + 'text.npy'
+        labels_save_file = save_dir + 'labels.npy'
 
-        # print(f"Saving preprocessed data to files in {save_dir}...")        
-        # np.save( unique_words_save_file, unique_words )
-        # np.save( cooccurrence_matrix_save_file, cooccurrence_matrix )
-        # np.save( probabilities_save_file, probabilities )
-        # np.save( text_save_file, text )
-        # np.save( labels_save_file, labels )
+        print(f"Saving preprocessed data to files in {save_dir}...")        
+        np.save( unique_words_save_file, unique_words )
+        np.save( cooccurrence_matrix_save_file, cooccurrence_matrix )
+        np.save( probabilities_save_file, probabilities )
+        np.save( text_save_file, text )
+        np.save( labels_save_file, labels )
     ############################################################
 
     ############################################################
     elif part == 'train_word_vectors':
 
-        save_dir = 'testing_scrap_misc/training_01/'
-        unique_words_save_file = save_dir + 'unique_words.npy'
-        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
-        probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
-        text_save_file = save_dir + 'text.npy'
+        preprocess_save_dir = 'testing_scrap_misc/training_01/preprocessing/'
+        unique_words_save_file = preprocess_save_dir + 'unique_words.npy'
+        cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npy'
+        probabilities_save_file = preprocess_save_dir + 'cooccurrence_probability_matrix.npy'
+        text_save_file = preprocess_save_dir + 'text.npy'
 
         # Load the preprocessed data.
-        print(f"Loading preprocessed data from files in {save_dir}...")
+        print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooccurrence_matrix = np.load(cooccurrence_matrix_save_file, allow_pickle=True)
         probabilities = np.load(probabilities_save_file, allow_pickle=True)
@@ -102,6 +102,8 @@ if __name__ == "__main__":
         # Convert the cooccurrence matrix to a Torch tensor.
         cooccurrence_probability_tensor = torch.tensor(probabilities)
         cooccurrence_probability_tensor = cooccurrence_probability_tensor.to('cuda' if torch.cuda.is_available() else 'cpu')
+
+        training_save_dir = 'testing_scrap_misc/training_01/word_vector_training/'
 
         # Train the word vectors using Torch.
         print("Training word vectors using PyTorch...")
@@ -114,14 +116,14 @@ if __name__ == "__main__":
             x_max=100,
             alpha=0.75,
             num_workers=4,
-            save_dir=save_dir + 'word_vector_training/training_logs/',
+            training_save_dir=training_save_dir,
             use_gpu=True
         )
     ############################################################
 
     ############################################################
     elif part == 'vectorize_comments':
-        text_save_file = 'testing_scrap_misc/scrap_02/text.npy'
+        text_save_file = 'testing_scrap_misc/training_01/preprocessing/text.npy'
         text = np.load(text_save_file, allow_pickle=True)
 
         non_string_indices = [(i, t) for i, t in enumerate(text) if not isinstance(t, str)]
@@ -148,11 +150,11 @@ if __name__ == "__main__":
         word_to_idx = {word: idx for idx, word in enumerate(vectorizer.get_feature_names_out())}
 
         print("Loading the trained word vectors...")
-        trained_word_vectors_file = 'testing_scrap_misc/scrap_02/training_logs/final_word_vectors.pt'
+        trained_word_vectors_file = 'testing_scrap_misc/training_01/word_vector_training/training_logs/weights_epoch_57.pt'
         word_vectors_matrix = torch.load(trained_word_vectors_file)
 
         print("Creating the vectorized comments...")
-        output_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
+        output_file_name = 'testing_scrap_misc/training_01/vectorized_comments.npy'
         functions.comment_representation.tf_idf_vectorization.vectorize_comments_with_tfidf(
             text, vectorizer, word_vectors_matrix, output_file_name )
 # ----> should have the function return the data and save the data here in main?
@@ -161,9 +163,9 @@ if __name__ == "__main__":
     ############################################################
     elif part == 'train_fnn':
         print("Loading vectorized comments and corresponding labels...")
-        vectorized_comments_file_name = 'testing_scrap_misc/scrap_02/fnn/vectorized_comments.npy'
+        vectorized_comments_file_name = 'testing_scrap_misc/training_01/vectorized_comments.npy'
         vectorized_comments = np.load(vectorized_comments_file_name)
-        labels = np.load('testing_scrap_misc/scrap_02/labels.npy')
+        labels = np.load('testing_scrap_misc/training_01/preprocessing/labels.npy')
 
         print(f"Number of training datapoints...{len(labels)}")
 
@@ -280,6 +282,11 @@ if __name__ == "__main__":
         # Save to file.
         stacked_word_vectors_save_file_name = 'testing_scrap_misc/scrap_02/cnn/stacked_word_vectors.npy'
         np.save(stacked_word_vectors_save_file_name, sentence_matrices)
+    ############################################################
+
+    ############################################################
+    elif part == 'train_cnn':
+        pass
     ############################################################
 
     ############################################################

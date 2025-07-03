@@ -1,21 +1,21 @@
 
-# Recognizing Sarcasm in Reddit Comments
+# Sarcasm Analysis
 
-<p align="center">
+<!-- <p align="center">
 <img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=80%/>
-</p>
+</p> -->
 
-<br>
-<br>
+<!-- <br>
+<br> -->
 <p align="center">
 --- Work in progress ---
 </p>
-<br>
-<br>
+<!-- <br>
+<br> -->
 
-2025 Spring\
-Diablo Valley College\
-Project Bracket Computer Science Club
+2025 April — Present
+<!-- Diablo Valley College\
+Project Bracket Computer Science Club -->
 <!-- <br>
 ---
 <br>
@@ -26,7 +26,7 @@ Project Bracket Computer Science Club
 
 --- -->
 
-### __Team__
+<!-- ### __Team__ -->
 
 Johnson Liu\
 <sub><small>
@@ -35,16 +35,6 @@ GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
 <sup><small>
 Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 </small></sup>
-
-Heidi\
-<sub><small>
-GitHub: [@heidi415D](https://github.com/heidi415D)
-</small></sub>
-
-Bryan\
-<sub><small>
-GitHub: [@hBrymiri](https://github.com/hBrymiri)
-</small></sub>
 
 ## __Contents__
 
@@ -55,12 +45,15 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.3. [Word2Vec](#word2vec)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1.4. [GloVe](#glove)\
     1.2. [Data Used](#data-used)\
-    1.3. [Variable Definitions](#variable-definitions)\
-    1.4. [Mathematical Foundations](#mathematical-foundations)\
-    1.5. [Workflow](#workflow)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.1. [Collect comments classified as sarcastic/not sarcastic](#collect-comments-classified-as-sarcasticnot-sarcastic)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.2. [GloVe model](#glove-model)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5.3. [Collect comments and classify them](#collect-comments-and-classify-them)
+    1.3. [Mathematical Foundations](#mathematical-foundations)\
+    1.4. [Workflow](#workflow)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.1. [Data Preprocessing]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.2. [Word Vector Training]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3. [Neural Network Training]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.1 [Feedforward Neural Network]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
+---
 2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
@@ -74,16 +67,21 @@ GitHub: [@hBrymiri](https://github.com/hBrymiri)
     2.5. [Other Theoretical Backgrounds](#other-theoretical-backgrounds)\
     2.6. [Mathematical References](#mathematical-references)\
     2.7. [Graphical Visualization Guides](#graphical-visualization-guides)
+---
 3. [Graphics](#graphics)\
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
+---
 4. [Results](#results)
+---
 5. [The Codebase](#the-codebase)\
     5.1. [Python Libraries Used](#python-libraries-used)
+---
 6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+---
 7. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
-    6.1. [Important Dates](#important-dates)\
-    6.2. [Records](#records)
+    7.1. [Important Dates](#important-dates)\
+    7.2. [Records](#records)
 
 
 
@@ -226,21 +224,26 @@ General workflow when applying the GloVe model ...
 
     1. ...text here...
 
-1. Train the neural network.
+1. Train the neural networks.
 
-    1. In order to able to pass our data as input into the neural network, the input shape across all comments must be uniform. Since each comment in the dataset can have varying number of words, we have to decide on a way of aggregating all of the words in a comment into a single input.
+    1. Feedforward Neural Network (FNN)
 
-        1. ... text here on one possibility ... using the Frechet mean ... \
-        One possibility is to take the average of all of the word vectors contained within a comment.
+        1. In order to able to pass our data as input into the neural network, the input shape across all comments must be uniform. Since each comment in the dataset can have varying number of words, we have to decide on a way of aggregating all of the words in a comment into a single input.
 
-            1. ... text here about the Frechet mean being a measure of central tendency ...
+            1. ... text here on one possibility ... using the Frechet mean ... \
+            One possibility is to take the average of all of the word vectors contained within a comment.
 
-            1. In the context of this project, the Frechet mean for all of the word vectors associated with a specific comment is simply the arithmetic mean of the collection of vectors. This mean is found by taking the component-wise mean of each vector component.
+                1. ... text here about the Frechet mean being a measure of central tendency ...
 
-    1. ... text here on structure of neural network ...
+                1. In the context of this project, the Frechet mean for all of the word vectors associated with a specific comment is simply the arithmetic mean of the collection of vectors. This mean is found by taking the component-wise mean of each vector component.
 
-    1. ... text here on passing the data as input into the neural network ...
+                1. ... TF-IDF ... weighting word vectors ...
 
+        1. ... text here on structure of neural network ...
+
+    1. Convolutional Neural Network (CNN)
+
+    1. Recurrent Neural Network (RNN)
 
 ##### <ins>Collect comments and classify them</ins>
 
@@ -269,7 +272,7 @@ General workflow when applying the GloVe model ...
 
 1. [Word2vec model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Word2vec)
 
-1. [CBOW — Word2Vec <br> –Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+1. [CBOW — Word2Vec <br> – Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
 
 1. [*Efficient Estimation of Word Representations in Vector Space* <br> – Original academic paper ( arxiv.org ).](https://arxiv.org/abs/1301.3781v3)
 
@@ -300,7 +303,7 @@ General workflow when applying the GloVe model ...
 ### __Other Theoretical Backgrounds__
 1. [Machine Learning Tutorial <br> – General overview/tutorial on machine learning ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/machine-learning/)
 
-1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website)).](https://www.geeksforgeeks.org/ai-ml-ds/)
+1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Bag-of-words_model)
 
@@ -310,7 +313,13 @@ General workflow when applying the GloVe model ...
 
 1. [Least squares <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Least_squares)
 
-1. [Tf-idf ( term frequency-inverse document frequency ) <br> –Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+1. [Tf-idf ( term frequency-inverse document frequency ) <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+
+1. [Feedforward neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Feedforward_neural_network)
+
+1. [Convolutional neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Convolutional_neural_network)
+
+1. [Recurrent neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Recurrent_neural_network)
 
 ### __Mathematical References__
 
@@ -339,14 +348,16 @@ General workflow when applying the GloVe model ...
 
 ### __Data Visualization__
 
+** Note to self: maybe it's better to interject the graphics throughout the write-up than to aggregate all of them in a single section.
+
 _**Preliminary figures.\
 Not for use in final product.**_
 
 ##### <ins>Word cloud - Sarcastic</ins>
 ![placeholder-text](figures/raw_data_visualization/wordcloud_sarcastic.png)
 
-##### <ins>Word cloud - Not Sarcastic</ins>
-![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png)
+<!-- ##### <ins>Word cloud - Not Sarcastic</ins>
+![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png) -->
 
 ##### <ins>Word frequency within comments</ins>
 ![placeholder-text](figures/raw_data_visualization/words_in_comments.png)
@@ -362,13 +373,9 @@ Not for use in final product.**_
 _**Figures used for testing.\
 Not for use in final product.**_
 
-_..........**Fix this**.........._\
-v v v v v v v v v v v v\
-![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)\
+![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
 
-![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)\
-^^^^^^^^^^^^^\
-_..........**Fix this**.........._
+![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
 
 
 
@@ -395,19 +402,20 @@ Not for use in final product.**_
 
 
 ## __Future Direction and Possible Improvements__
-1. Machine learning / classification.
+1. Machine learning
     1. Extend project to sentiment and tone classificaiton of text.
+    1. Extend project to multimodal classification where multiple input modalities (images, video, audio, etc.) are used together for prediction/classification.
 
-1. Browser application.
-    1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website.
-    1. Develop the app further to display in real time the predicted tone of all of the Reddit comments seen in the current browser window.
+1. (–stretch goal–) Browser application
+    1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website (or from a screenshot).
+    1. Develop the app further to display in real time the predicted tone of all of the comments seen in the current browser window.
 
 
 
 
-## Miscellaneous notes for collaborators working on the project
+## (—OUTDATED— saved for posterity) Miscellaneous notes for collaborators working on the project
 
-### __Important Dates__
+### __Important Dates Set by DVC Computer Science Club Leadership__
 
 ##### <ins>Week 5/6 — April 16 & April 23, 2025</ins>
 Development continues on in week 5 in preparation for the **mid-semester showcase in week 6**. Groups are now in the middle of the semester meaning that they will present what progress they have so far. The mid-semester showcase does not mean that groups have to be halfway done with their projects.
