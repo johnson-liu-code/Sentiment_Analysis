@@ -1,5 +1,5 @@
 
-# Sarcasm Analysis
+# Sentiment Analysis in Informal Text
 
 <!-- <p align="center">
 <img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=80%/>
@@ -53,7 +53,7 @@ Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.1 [Feedforward Neural Network]()\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
----
+____
 2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
@@ -67,19 +67,19 @@ Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
     2.5. [Other Theoretical Backgrounds](#other-theoretical-backgrounds)\
     2.6. [Mathematical References](#mathematical-references)\
     2.7. [Graphical Visualization Guides](#graphical-visualization-guides)
----
+____
 3. [Graphics](#graphics)\
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
----
+____
 4. [Results](#results)
----
+____
 5. [The Codebase](#the-codebase)\
     5.1. [Python Libraries Used](#python-libraries-used)
----
+____
 6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
----
-7. [Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
+____
+7. [(—OUTDATED—) Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
     7.1. [Important Dates](#important-dates)\
     7.2. [Records](#records)
 
@@ -240,6 +240,15 @@ General workflow when applying the GloVe model ...
                 1. ... TF-IDF ... weighting word vectors ...
 
         1. ... text here on structure of neural network ...
+
+        1. Binary Cross Entropy
+            BCE(p,y)=−(y⋅log(p)+(1−y)⋅log(1−p))
+
+        1. Batch Normalization
+        1. Regularization
+            1. Dropout
+            1. Weight decay
+
 
     1. Convolutional Neural Network (CNN)
 
@@ -412,7 +421,7 @@ Not for use in final product.**_
 
 
 
-
+---
 ## (—OUTDATED— saved for posterity) Miscellaneous notes for collaborators working on the project
 
 ### __Important Dates Set by DVC Computer Science Club Leadership__

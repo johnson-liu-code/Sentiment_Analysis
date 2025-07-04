@@ -163,9 +163,14 @@ if __name__ == "__main__":
     ############################################################
     elif part == 'train_fnn':
         print("Loading vectorized comments and corresponding labels...")
-        vectorized_comments_file_name = 'testing_scrap_misc/training_01/vectorized_comments.npy'
+        vectorized_comments_file_name = 'testing_scrap_misc/training_01/fnn/vectorized_comments.npy'
         vectorized_comments = np.load(vectorized_comments_file_name)
         labels = np.load('testing_scrap_misc/training_01/preprocessing/labels.npy')
+
+        num_zeros = np.sum(labels == 0)
+        num_ones = np.sum(labels == 1)
+        print(f"Number of 0 labels: {num_zeros}")
+        print(f"Number of 1 labels: {num_ones}")
 
         print(f"Number of training datapoints...{len(labels)}")
 
@@ -174,7 +179,11 @@ if __name__ == "__main__":
                 vectorized_comments,
                 labels,
                 epochs = 100,
-                patience = 100
+                patience = 10,
+                batch_size = 32,
+                learning_rate = 0.01,
+                num_workers = 0,
+                seed = 94
             )
     ############################################################
     
