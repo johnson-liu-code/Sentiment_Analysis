@@ -63,12 +63,14 @@ if __name__ == "__main__":
         unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name,
-                comments_limit=10000, # Make sure there are enough rows in the CSV file, or else this will drop data.
+                comments_limit=1010771, # Make sure there are enough rows in the CSV file, or else this will drop data.
                 window_size=10,
+                min_len=4,
+                max_len=100
             )
         )
 
-        save_dir = 'testing_scrap_misc/training_01/preprocessing/'
+        save_dir = 'testing_scrap_misc/training_02/preprocessing/'
 
         unique_words_save_file = save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'

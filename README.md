@@ -36,6 +36,18 @@ GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
 Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 </small></sup>
 
+
+_To do_:
+1. Restructure/reorganize README.
+2. Try using pretrained, know word vector libraries?
+
+_Notes_:
+1. Log problems that we ran into during training.
+
+<!-- Scope of project getting kinda big ... need to try to limit scope and focus on most important parts ... -->
+
+---
+
 ## __Contents__
 
 1. [Project Overview](#project-overview)\
@@ -224,6 +236,14 @@ General workflow when applying the GloVe model ...
 
     1. ...text here...
 
+    1. Word similarity tests
+
+    1. Word analogy tests
+
+    1. Amount of tokens too little
+
+    1. Trim vocabulary?
+
 1. Train the neural networks.
 
     1. Feedforward Neural Network (FNN)
@@ -248,7 +268,24 @@ General workflow when applying the GloVe model ...
         1. Regularization
             1. Dropout
             1. Weight decay
+        
+        1. Training struggles ...
+            1. Per-Class Precision And Recall (Validation Set)
+                <img src="figures/training_troubleshooting/fnn/per_class_precision_recall.png.png" width="50%" height="50%"/>
 
+            1. Prediction Confidence Histogram
+                <img src="figures/training_troubleshooting/fnn/prediction_confidence_histogram.png.png" width="50%" height="50%"/>
+
+
+            1. Your model has learned some separation, but not enough to make confident predictions.
+
+            Many predictions fall near the decision threshold (0.5), which is where models are most unsure.
+
+
+            1. PCA analysis
+            <img src="figures/training_troubleshooting/fnn/PCA_projection_of_real_feature_space.png.png" width="50%" height="50%"/>
+
+            1. 
 
     1. Convolutional Neural Network (CNN)
 
