@@ -2,7 +2,7 @@
 
 if __name__ == "__main__":
     ############################################################
-    # For testing purposes.
+    # For consistency in testing.
     import random
     random.seed(1994)
     ############################################################
@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     ############################################################
     import os
-    # import argparse
+    import argparse
     ############################################################
     import numpy as np
     import pandas as pd
@@ -35,206 +35,98 @@ if __name__ == "__main__":
 
 
 
-    """
-    parser_description = "This script contains the code for running the word vector training as well as running the neural network."
+    ############################################################
+    parser_description = "Sarcasm/Sentiment Analysis."
     parser = argparse.ArgumentParser(description=parser_description)
 
-    # Parse the command line arguments to tell the script whether to run the GloVe training or to pull data from .npy files that already exist.
     parser.add_argument(
-        "--input_file_name",
-        default="data/project_data/raw_data/trimmed_training_data.csv",
-        help="Path to data used for training.",
-    )
-    parser.add_argument(
-        "--output_file_name",
-        default="data/project_data/training_data/test/project_word_vectors_over_time_01.npy",
-        help="Path to save word vector training data.",
-    )
-    parser.add_argument(
-        "--load_file_name",
-        default="test_trained_word_vectors.npy",
-        help="Path to load saved word vector training data.",
-    )
-    parser.add_argument(
-        "--train_glove",
-        action="store_true",
-        default=False,
-        help="Run the GloVe training.",
-    )
-    parser.add_argument(
-        "--save_glove_training_data",
-        action="store_true",
-        default=False,
-        help="Save the trained GloVe vectors to file.",
-    )
-    parser.add_argument(
-        "--train_nn",
-        action="store_true",
-        default=False,
-        help="Train the neural network.",
-    )
-    parser.add_argument(
-        "--save_weights",
-        action="store_true",
-        default=False,
-        help="Save the weights in each epoch to a single file as a dictionary (key: epoch, value: weights)."
+        "--part",
+        help = "Tell the script which modular job to perform.",
+        choices =   {
+                        'preprocess_data',
+                        'train_word_vectors',
+                        'vectorize_comments',
+                        'train_fnn',
+                        'stack_word_vectors',
+                        'train_cnn',
+                        'train_rnn'
+                    }
     )
 
-    # args = parser.parse_args()
+    args = parser.parse_args()
+    part = args.part
 
-    # data_file_name = args.input_file_name
-    # word_vectors_over_time_save_file = args.output_file_name
-    # load_file_name = args.load_file_name
-    # run_train_word_vectors = args.train_glove
-    # save_data = args.save_glove_training_data
-    # train_nn = args.train_nn
-    # save_weights = args.save_weights
-    """
-
-    # part = 'preprocess_data'
-    # part = 'train_word_vectors'
-    # part = 'vectorize_comments'
-    part = 'train_neural_network'
-
-
-    # J_over_time_save_file = 'testing_scrap_misc/scrap_02/J_over_time.npy'
-    # word_vectors_over_time_save_file = 'testing_scrap_misc/scrap_02/word_vectors_over_time.npy'
-
+    ############################################################
     if part == 'preprocess_data':
-        # unique_words, cooccurrence_matrix, probabilities, J_over_time, word_vectors_over_time = functions.machine_learning.glove_vector_training.GloVe_train_word_vectors(
-        #     data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
-        #     comments_limit=100,
-        #     window_size=10,
-        #     word_vector_length=100,
-        #     x_max = 100,
-        #     alpha = 0.75,
-        #     iter = 1,
-        #     eta = 0.01,
-        #     save_dir="testing_scrap_misc/scrap_02"
-        # )
-        
+        data_file_name='data/project_data/raw_data/trimmed_training_data.csv'
+        print(f"Preprocessing training data extracting from {data_file_name}...")
+
         unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
-                data_file_name="data/project_data/raw_data/trimmed_training_data.csv",
-                comments_limit=1000,
+                data_file_name,
+                comments_limit=10000, # Make sure there are enough rows in the CSV file, or else this will drop data.
                 window_size=10,
             )
         )
 
-        save_dir = 'testing_scrap_misc/scrap_02/'
+        save_dir = 'testing_scrap_misc/training_01/preprocessing/'
+
         unique_words_save_file = save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
         probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
         text_save_file = save_dir + 'text.npy'
         labels_save_file = save_dir + 'labels.npy'
 
-        # Save data to files.
-        print(f'Save preprocessed data to files in {save_dir}...')
-        np.save(
-            unique_words_save_file,
-            unique_words
-        )
-        
-        np.save(
-            cooccurrence_matrix_save_file,
-            cooccurrence_matrix
-        )
+        print(f"Saving preprocessed data to files in {save_dir}...")        
+        np.save( unique_words_save_file, unique_words )
+        np.save( cooccurrence_matrix_save_file, cooccurrence_matrix )
+        np.save( probabilities_save_file, probabilities )
+        np.save( text_save_file, text )
+        np.save( labels_save_file, labels )
+    ############################################################
 
-        # Save data to files.
-
-        np.save(
-            unique_words_save_file,
-            unique_words
-        )
-        
-        np.save(
-            cooccurence_matrix_save_file,
-            cooccurrence_matrix
-        )
-
-        np.save(
-            probabilities_save_file,
-            probabilities
-        )
-
-        np.save(
-            J_over_time_save_file,
-            J_over_time
-        )
-
-        # word_vectors_over_time is a list of list of word vectors.
-        np.save(
-            probabilities_save_file,
-            probabilities
-        )
-
-        np.save(
-            text_save_file,
-            text
-        )
-
-        np.save(
-            labels_save_file,
-            labels
-        )
-        # np.save(
-        #     J_over_time_save_file,
-        #     J_over_time
-        # )
-
-        # word_vectors_over_time is a list of list of word vectors.
-        # np.save(
-        #     word_vectors_over_time_save_file,
-        #     word_vectors_over_time
-        # )
-
+    ############################################################
     elif part == 'train_word_vectors':
 
-        save_dir = 'testing_scrap_misc/scrap_02/'
-        unique_words_save_file = save_dir + 'unique_words.npy'
-        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
-        probabilities_save_file = save_dir + 'cooccurrence_probability_matrix.npy'
-        text_save_file = save_dir + 'text.npy'
+        preprocess_save_dir = 'testing_scrap_misc/training_01/preprocessing/'
+        unique_words_save_file = preprocess_save_dir + 'unique_words.npy'
+        cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npy'
+        probabilities_save_file = preprocess_save_dir + 'cooccurrence_probability_matrix.npy'
+        text_save_file = preprocess_save_dir + 'text.npy'
 
         # Load the preprocessed data.
-        print(f'Loading preprocessed data from files in {save_dir}...')
+        print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooccurrence_matrix = np.load(cooccurrence_matrix_save_file, allow_pickle=True)
         probabilities = np.load(probabilities_save_file, allow_pickle=True)
 
-        # Convert the cooccurrence matrix to a torch tensor.
+        # Convert the cooccurrence matrix to a Torch tensor.
         cooccurrence_probability_tensor = torch.tensor(probabilities)
         cooccurrence_probability_tensor = cooccurrence_probability_tensor.to('cuda' if torch.cuda.is_available() else 'cpu')
 
-        # Train the word vectors using PyTorch.
+        training_save_dir = 'testing_scrap_misc/training_01/word_vector_training/'
+
+        # Train the word vectors using Torch.
         print("Training word vectors using PyTorch...")
         word_vectors_over_time = functions.machine_learning.LogBilinearModel.train(
             cooc_matrix=cooccurrence_probability_tensor,
             embedding_dim=200,
-            epochs=1,
+            epochs=100,
             batch_size=256,
             learning_rate=0.01,
             x_max=100,
             alpha=0.75,
             num_workers=4,
-            save_dir=save_dir + 'training_logs',
+            training_save_dir=training_save_dir,
             use_gpu=True
         )
+    ############################################################
 
+    ############################################################
     elif part == 'vectorize_comments':
-        # data_file_name="data/project_data/raw_data/trimmed_training_data.csv"
-        # comments_limit = 1000
-        # print(f"Reading data from {data_file_name} with a limit of {comments_limit} comments...")
-        # data = pd.read_csv(data_file_name).sample(n=comments_limit, random_state=94)
-        # data = pd.read_csv(data_file_name)[:comments_limit]
-        # data = data.dropna(subset=['comment'])
-        # Collect only the text from the data.
-        # np.ndarray
-        # text = data['comment'].values
-        text_save_file = 'testing_scrap_misc/scrap_02/text.npy'
+        text_save_file = 'testing_scrap_misc/training_01/preprocessing/text.npy'
         text = np.load(text_save_file, allow_pickle=True)
 
-        # Print indices and values where text is not a string
         non_string_indices = [(i, t) for i, t in enumerate(text) if not isinstance(t, str)]
         if non_string_indices:
             print("Non-string values found in 'text' at the following indices:")
@@ -243,267 +135,181 @@ if __name__ == "__main__":
         else:
             print("All values in 'text' are strings.")
 
-        # print(text[:3])
-        # print(type(text))
-        # print(text.shape)
-
         # ---------------------------
         # Step 1: Fit a TF-IDF Vectorizer
         # ---------------------------
-        # This calculates both TF and IDF values across the corpus
-        print('Initializing tf-idf vectorizer...')
+        # This calculates both TF and IDF values across the corpus.
+        print("Initializing TF-IDF vectorizer...")
         vectorizer = TfidfVectorizer(lowercase=True, tokenizer=str.split, token_pattern=None)
         vectorizer.fit(text)
 
         # ---------------------------
-        # Step 2: Build Vocabulary and Fake Word Embeddings
+        # Step 2: Build the Vocabulary
         # ---------------------------
         # Vocabulary: word → index
-        print('Indexing unqiue words...')
+        print("Indexing unqiue words...")
         word_to_idx = {word: idx for idx, word in enumerate(vectorizer.get_feature_names_out())}
 
-        # print('word_to_idx:')
-        # print(word_to_idx)
+        print("Loading the trained word vectors...")
+        trained_word_vectors_file = 'testing_scrap_misc/training_01/word_vector_training/training_logs/weights_epoch_57.pt'
+        word_vectors_matrix = torch.load(trained_word_vectors_file)
 
-        # Fake embeddings for demonstration (dim=50)
-        # embedding_dim = 50
-        # embedding_matrix = torch.randn(len(word_to_idx), embedding_dim)
-        # print(embedding_matrix)
+        print("Creating the vectorized comments...")
+        output_file_name = 'testing_scrap_misc/training_01/vectorized_comments.npy'
+        functions.comment_representation.tf_idf_vectorization.vectorize_comments_with_tfidf(
+            text, vectorizer, word_vectors_matrix, output_file_name )
+# ----> should have the function return the data and save the data here in main?
+    ############################################################
 
-        print('Loading the trained word vectors...')
+    ############################################################
+    elif part == 'train_fnn':
+        print("Loading vectorized comments and corresponding labels...")
+        vectorized_comments_file_name = 'testing_scrap_misc/training_01/fnn/vectorized_comments.npy'
+        vectorized_comments = np.load(vectorized_comments_file_name)
+        labels = np.load('testing_scrap_misc/training_01/preprocessing/labels.npy')
+
+        num_zeros = np.sum(labels == 0)
+        num_ones = np.sum(labels == 1)
+        print(f"Number of 0 labels: {num_zeros}")
+        print(f"Number of 1 labels: {num_ones}")
+
+        print(f"Number of training datapoints...{len(labels)}")
+
+        print("Training the feedforward neural network...")
+        functions.machine_learning.feedforward_neural_network.custom_fnn(
+                vectorized_comments,
+                labels,
+                epochs = 100,
+                patience = 10,
+                batch_size = 32,
+                learning_rate = 0.01,
+                num_workers = 0,
+                seed = 94
+            )
+    ############################################################
+    
+    ############################################################
+    elif part == 'stack_word_vectors':
+        text_save_file = 'testing_scrap_misc/scrap_02/text.npy'
+        text = np.load(text_save_file, allow_pickle=True)
+
+        import torch
+        import torch.nn as nn
+
+        def generate_word_to_idx(vocab, add_special_tokens=True):
+            """
+            Generate a word-to-index dictionary from a list of unique words.
+
+            Args:
+                vocab (List[str]): List of unique words.
+                add_special_tokens (bool): Whether to add <PAD> and <UNK> tokens at the start.
+
+            Returns:
+                Dict[str, int]: Mapping from word to integer index.
+            """
+            word_to_idx = {}
+
+            idx = 0
+
+            if add_special_tokens:
+                word_to_idx['<PAD>'] = idx
+                idx += 1
+                word_to_idx['<UNK>'] = idx
+                idx += 1
+
+            for word in vocab:
+                if word not in word_to_idx:  # skip if already in (e.g. duplicates)
+                    word_to_idx[word] = idx
+                    idx += 1
+            
+            return word_to_idx
+
+        def encode_sentence(sentence, word_to_idx, embedding_layer, sequence_length):
+            """
+            Encode a sentence into a stacked word vector matrix using nn.Embedding.
+
+            Args:
+                sentence (str): The input sentence.
+                word_to_idx (Dict[str, int]): Mapping from word to index.
+                word_vectors_matrix:
+                sequence_length (int): Desired fixed length.
+
+            Returns:
+                torch.Tensor: Shape [sequence_length, embedding_dim]
+            """
+            tokens = sentence.lower().split()
+            indices = [word_to_idx.get(tok, word_to_idx.get('<UNK>', 0)) for tok in tokens]
+
+            # Pad or truncate
+            if len(indices) < sequence_length:
+                indices += [word_to_idx.get('<PAD>', 0)] * (sequence_length - len(indices))
+            else:
+                indices = indices[:sequence_length]
+
+            idx_tensor = torch.tensor(indices, dtype=torch.long)  # shape: [sequence_length]
+            return embedding_layer(idx_tensor)  # shape: [sequence_length, embedding_dim]
+
+            # matrix = []
+
+            # for index in indices:
+            #     # print(index)
+            #     matrix.append(word_vectors_matrix[index])
+
+            # return matrix
+
+        print("Extracting list of unique words from file...")
+        unique_words = np.load('testing_scrap_misc/scrap_02/unique_words.npy')
+
+        print("Creating dictionary to map word to index...")
+        word_to_idx = generate_word_to_idx(unique_words)
+
+        print("Loading trained word vectors...")
         trained_word_vectors_file = 'testing_scrap_misc/scrap_02/training_logs/final_word_vectors.pt'
         word_vectors_matrix = torch.load(trained_word_vectors_file)
-        # print(word_vectors)
 
-        # comment = text[1]
-        # print('Aggregating word vectors in comment using TF-IDF weighting...')
-        # sentence_vector = functions.comment_representation.tf_idf.embed_comment_tfidf(comment, vectorizer, word_to_idx, word_vectors_matrix)
-        # print('comment:')
-        # print(comment)
-        # print('sentence_vector:')
-        # print(sentence_vector)
-        # print(sentence_vector.shape)
+        print("Adding <PAD> and <UNK> to word_vectors_matrix...")
+        # If word_vectors_matrix is a torch.Tensor of shape [vocab_size, embedding_dim]
+        num_special_tokens = 2  # <PAD> and <UNK>
+        embedding_dim = word_vectors_matrix.shape[1]
+        if word_vectors_matrix.shape[0] < len(word_to_idx):
+            extra_rows = torch.zeros((len(word_to_idx) - word_vectors_matrix.shape[0], embedding_dim))
+            word_vectors_matrix = torch.cat([extra_rows, word_vectors_matrix], dim=0)
 
-        print('Saving the vectorized comments...')
-        output_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
-        functions.comment_representation.tf_idf_vectorization.vectorize_comments_with_tfidf(text, vectorizer, word_vectors_matrix, output_file_name)
+        print("Converting word vectors matrix to torch.nn.Embedding layer...")
+        # Not sure why we need to do this...
+        embedding_layer = nn.Embedding.from_pretrained(word_vectors_matrix, padding_idx=word_to_idx['<PAD>'])
 
+        # matrix = encode_sentence(text[0], word_to_idx, embedding_layer, 5)
 
+        # Converting all sentences to matrices of stacked word vectors.
+        stack_size = 20
+        sentence_matrices = [ encode_sentence(
+                                sentence,
+                                word_to_idx,
+                                embedding_layer,
+                                stack_size ) for sentence in text ]
+    
+        # Save to file.
+        stacked_word_vectors_save_file_name = 'testing_scrap_misc/scrap_02/cnn/stacked_word_vectors.npy'
+        np.save(stacked_word_vectors_save_file_name, sentence_matrices)
+    ############################################################
 
-    elif part == 'train_neural_network':
-        print('Loading vectorized comments and corresponding labels...')
-        vectorized_comments_file_name = 'testing_scrap_misc/scrap_02/vectorized_comments.npy'
-        vectorized_comments = np.load(vectorized_comments_file_name)
-        # print(vectorized_comments.shape)
-        labels = np.load('testing_scrap_misc/scrap_02/labels.npy')
-        # print(labels.shape[0])
+    ############################################################
+    elif part == 'train_cnn':
+        pass
+    ############################################################
 
-        print('Training the feedforward neural network...')
-        functions.machine_learning.feedforward_neural_network.custom_fnn(vectorized_comments, labels)
-
-        
-
+    ############################################################
     elif part == 'use_trained_model':
         pass
+    ############################################################
 
+    ############################################################
     else:
         pass
+    ############################################################
 
 
-    # Load trained word vectors.
-        # if run_train_word_vectors:
-
-    # else:
-    #     word_vectors_over_time = np.load(
-    #         load_file_name,
-    #         allow_pickle=True
-    #     )
-    ###############
-
-
-
-    '''
-    # Extract the last list of word vectors.
-    trained_word_vectors = word_vectors_over_time[-1]
-
-    # Train the neural network.
-    if train_nn:
-        ############################################################
-        import keras
-        ############################################################
-
-        # Number of data points.
-        comments_limit = 64
-        data = pd.read_csv(data_file_name)
-        # Randomly collect data points.
-        data = random.sample(data, comments_limit)
-        
-        # Extract only the actual comments and their labels ( either sarcastic or not sarcastic ).
-        # Each comment is a single string.
-        comments = data['comment'].values
-        labels = data['label'].values
-
-        # Split each comment into a list of strings and store all of these lists into a list.
-        # comments = [ [ *comment01* ], [ *comment02* ], ... ]
-        # [ *comment01* ] = [ *substring01*, *substring02*, *substring03*, ... ]
-        comments = [ comment.split() for comment in comments ]
-
-        # Remove words in each comment that does not appear in the trained_word_vectors dictionary.
-        # 20250610 note: Why is this neccessary? Elaborate.
-        comments = [
-            [ word for word in comment if word in trained_word_vectors
-            ] for comment in comments
-        ]
-
-        # Each word in each comment is represented by an embedding vector.
-        vectorized_comments = [
-            [ trained_word_vectors[word] for word in comment
-            ] for comment in comments
-        ]
-
-        # Taking a central measure of all of the word vectores in a comment so that each
-        # data point ( comment ) is represented by a single vector.
-        centered_comments = functions.helper_functions.frechet_mean.frechet_mean(
-            vectorized_comments,
-            word_vector_length = 8
-        )
-
-        # Train the neural network on the comments.
-        functions.machine_learning.neural_network_training.custom_nn(
-            centered_comments,
-            labels
-        )
-    
-    if save_weights:
-        import keras
-
-        reconstructed_model = keras.models.load_model("my_model.keras")
-
-        checkpoint_dir = 'data/testing_data/nn_weights_01/'
-
-        weights_over_time = []
-
-        epochs = len([name for name in os.listdir('.') if os.path.isfile(checkpoint_dir)])
-
-        for epoch in epochs:
-            # Load weights for the current epoch.
-            weights_path = os.path.join(checkpoint_dir, f'weights_{epoch:02d}.weights.h5')
-            reconstructed_model.load_weights(weights_path)
-            weights = reconstructed_model.get_weights()
-            weights_over_time.append(weights)
-
-        # Save the weights to a file.
-        weights_dict = {f'epoch_{i+1:04}': weights for i, weights in enumerate(weights_over_time)}
-        np.save('weights_over_time.npy', weights_dict)
-
-    saved_weights_over_time = np.load('weights_over_time.npy', allow_pickle=True) 
-    epoch_keys = saved_weights_over_time.item().keys()
-
-    # Collect the weights for each epoch into a list.
-    weights_over_time = [saved_weights_over_time.item()[key] for key in epoch_keys]
-
-    frames = len(weights_over_time)
-    
-    nn_viz = functions.data_visualization.draw_neural_network.NeuralNetworkVisualizer()
-    nn_viz.add_layer(8, "Input Layer")
-    nn_viz.add_layer(8, "Hidden Layer 1 (Dense)")
-    nn_viz.add_layer(8, "Hidden Layer 2 (Dense)")
-    nn_viz.add_layer(8, "Hidden Layer 3 (Dense)")
-    nn_viz.add_layer(1, "Output Layer")
-
-    initial_weights = weights_over_time[0]
-
-    nn_viz.initialize_weights(initial_weights)
-
-    nn_viz.draw(neuron_spacing=0.06, animate=True, save_figure=True, frames=frames, weight_frames=weights_over_time)
-
-    nn_viz.draw(neuron_spacing=0.06, animate=False, save_figure=True, frames=frames, weight_frames=weights_over_time)
-
-
-    # Plot the weights for each layer over time.
-    weights_difference_over_time = []
-    for i in range(len(weights_over_time)-1):
-        weights_difference = []
-        for j in range(len(weights_over_time[i])):
-            weights_difference.append(weights_over_time[i+1][j] - weights_over_time[i][j])
-        weights_difference_over_time.append(weights_difference)
-
-
-    # Plot the difference in weights for the hidden layers over time.
-    first_layer_weights_difference_over_time = [weights_difference[0] for weights_difference in weights_difference_over_time]
-
-    # Plot the difference in weights for the first hidden layer over time as a heatmap.
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-    # Extract the weight differences for the first hidden layer over time.
-    first_hidden_layer_weights_diff = [
-        weights_difference[1] for weights_difference in weights_difference_over_time
-    ]
-
-    # Convert the list of weight differences into a 2D array for plotting.
-    # Each row corresponds to an epoch, and each column corresponds to a weight.
-    heatmap_data = np.array([weights.flatten() for weights in first_hidden_layer_weights_diff])
-
-    # Take the log of the absolute value of the differences.
-    log_heatmap_data = np.log(np.abs(heatmap_data) + 1e-8)  # Add a small value to avoid log(0).
-
-    # Plot the heatmap.
-    fig, ax = plt.subplots(figsize=(10, 6))
-    cax = ax.imshow(log_heatmap_data, aspect='auto', cmap='viridis', interpolation='nearest')
-
-    # Add colorbar for reference.
-    fig.colorbar(cax, ax=ax)
-
-    # Add labels and title.
-    ax.set_title("Log of Weight Differences Over Time (First Hidden Layer)")
-    ax.set_xlabel("Weight Index")
-    ax.set_ylabel("Epoch")
-
-    # Show the plot.
-    plt.show()
-
-
-    # Animate the change in weights for the first layer over time.
-    import matplotlib.animation as animation
-
-    # Extract the weight differences for the first layer over time.
-    first_layer_weights_difference_over_time = [
-        weights_difference[0] for weights_difference in weights_difference_over_time
-    ]
-
-    # Ensure the weights are reshaped into 8x8 matrices for the heatmap.
-    heatmap_data = [weights.reshape(8, 8) for weights in first_layer_weights_difference_over_time]
-
-    # Create the figure and axis for the animation.
-    fig, ax = plt.subplots(figsize=(6, 6))
-    cax = ax.imshow(heatmap_data[0], cmap='viridis', interpolation='nearest', aspect='auto')
-    fig.colorbar(cax, ax=ax)
-
-    # Add labels and title.
-    ax.set_title("Change in Weights Over Time (First Layer)")
-    ax.set_xlabel("Neuron Index")
-    ax.set_ylabel("Neuron Index")
-
-    # Function to update the heatmap for each frame.
-    def update(frame):
-        cax.set_array(heatmap_data[frame])
-        ax.set_title(f"Change in Weights Over Time (Epoch {frame + 1})")
-        return cax,
-
-    # Create the animation.
-    ani = animation.FuncAnimation(
-        fig, update, frames=len(heatmap_data), interval=500, blit=False
-    )
-
-    # Show the animation.
-    plt.show()
-
-    # Optionally, save the animation as a video or GIF.
-    # ani.save("weights_change_animation.mp4", writer="ffmpeg")
-
-
-'''
 
 ######################################################################################################
 # Notes

@@ -7,12 +7,12 @@ import numpy as np  # Add this import
 import matplotlib.colors as mcolors  # Add this import
 
 
-def create_cooccurrence_matrix(text:str, window_size:int):
+def create_cooccurrence_matrix(text:np.ndarray, window_size:int):
     """
     Creates a co-occurrence matrix for the given text.
 
     Args:
-        1. text (str): The input text.
+        1. text (np.ndarray): The input text as an array of strings with each string representing a single comment.
         2. window_size (int): The size of the context window.
 
     The Function:
@@ -27,16 +27,19 @@ def create_cooccurrence_matrix(text:str, window_size:int):
         1. unique_words (list): List of unique words in the text.
         2. cooccurrence_matrix (numpy.ndarray): The co-occurrence matrix.
     """
-    
-    # Remove punctuation from the text and convert everything to lowercase.
-    text = ''.join([char for char in str(text) if char not in string.punctuation]).lower()
 
-    # Split the text into words.
-    words = text.split()
-    
+
+    # Process each sentence: remove punctuation, lowercase, split into words, then flatten all words into a single list.
+    words = []
+    for sentence in text:
+        # Do not need to remove punctuation here. We already removed punctuation when we processed the raw CSV data.
+        cleaned = ''.join([char for char in str(sentence)])
+        words.extend(cleaned.split())
+
     # Remove duplicates from the list of words and sort them alphabetically.
     # This is the vocabulary V.
     unique_words = sorted(set(words))
+    print(f'Number of unique words: {len(unique_words)}')
 
     # Create a dictionary to map each word to its index in the vocabulary.
     word_to_index = {word: index for index, word in enumerate(unique_words)}
