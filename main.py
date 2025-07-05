@@ -60,6 +60,7 @@ if __name__ == "__main__":
     if part == 'preprocess_data':
         data_file_name='data/project_data/raw_data/trimmed_training_data.csv'
         print(f"Preprocessing training data extracting from {data_file_name}...")
+
         unique_words, cooccurrence_matrix, probabilities, text, labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name,
