@@ -1,8 +1,0 @@
-{
-    "python.analysis.diagnosticSeverityOverrides": {
-      "reportMissingImports": "warning"  // Downgrade to warning (recommended)
-    },
-    "python.linting.pylintArgs": [
-      "--disable=F0401"  // Disable pylint's import error separately
-    ]
-  }

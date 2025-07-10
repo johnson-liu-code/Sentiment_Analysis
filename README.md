@@ -217,7 +217,10 @@ General workflow when applying the GloVe model ...
         1. The vocabulary is the set containing all of the words present within the corpus ( dataset ).
 
 1. Compute the co-occurrence probability matrix.
-
+    #################################################################################
+    ####### NEED TO FIX THIS -                                                #######
+    ####### WE DO NOT USE THE PROBABILITIES, WE USE THE FREQUENCIES DIRECTLY. #######
+    #################################################################################
     1. Compute the co-occurence matrix with a specified context window size.
 
         1. The co-occurence matrix tabulates the amount of times word $w_i$ appears in the context of word $w_j$.
