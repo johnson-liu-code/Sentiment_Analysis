@@ -5,8 +5,11 @@ import nltk
 import string
 
 
-def process_data(input_csv, output_csv):
-    """
+def process_data(
+        input_csv:str,
+        output_csv:str
+    ):
+    """_summary_
     Processes the input CSV file by removing punctuation and stopwords from the text columns 
     and saves the cleaned data to an output CSV file.
 
@@ -20,7 +23,7 @@ def process_data(input_csv, output_csv):
         3. Saves the cleaned DataFrame to the output CSV file.
 
     Returns:
-        1. None
+        1. n/a
     """
     # Extract data.
     data = extract_data.extract_data(csv_file_name=input_csv)

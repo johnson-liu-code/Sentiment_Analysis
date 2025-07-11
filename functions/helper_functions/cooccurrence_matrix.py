@@ -1,12 +1,32 @@
 
 from collections import defaultdict, Counter
 from scipy.sparse import coo_matrix
+import numpy as np
 
 def create_sparse_cooccurrence_matrix(
-        comments,
-        window_size=10,
-        max_vocab_size=30000
+        comments:list,
+        window_size:int=10,
+        max_vocab_size:int=30000
     ):
+    """_summary_
+    This expects the sentences in the comments list to already be processed - stopwords
+    and punctuation already removed from the sentences.
+    ( See functions.data_extraction.get_relevant_data )
+
+    Args:
+        comments (list): _description_
+        window_size (int, optional): _description_. Defaults to 10.
+        max_vocab_size (int, optional): _description_. Defaults to 30000.
+
+    Function:
+        ...
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        _type_: _description_
+    """
     # Build vocabulary
     word_freqs = Counter()
     for sentence in comments:

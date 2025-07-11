@@ -45,6 +45,8 @@ if __name__ == "__main__":
 
     ############################################################
     if part == 'preprocess_data':
+        from scipy.sparse import save_npz
+        
         import functions.helper_functions.data_preprocessing
 
 
@@ -76,13 +78,13 @@ if __name__ == "__main__":
         save_dir = 'testing_scrap_misc/training_02/preprocessing/'
 
         unique_words_save_file = save_dir + 'unique_words.npy'
-        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npy'
+        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npz'
         text_save_file = save_dir + 'text.npy'
         labels_save_file = save_dir + 'labels.npy'
 
         print(f"Saving preprocessed data to files in {save_dir}...")        
         np.save( unique_words_save_file, unique_words )
-        np.save( cooccurrence_matrix_save_file, cooc_matrix_sparse )
+        save_npz( cooccurrence_matrix_save_file, cooc_matrix_sparse )
         np.save( text_save_file, filtered_comments )
         np.save( labels_save_file, filtered_labels )
     ############################################################
@@ -95,43 +97,34 @@ if __name__ == "__main__":
 
 
 
-        preprocess_save_dir = 'testing_scrap_misc/training_01/preprocessing/'
+        preprocess_save_dir = 'testing_scrap_misc/training_02/preprocessing/'
         unique_words_save_file = preprocess_save_dir + 'unique_words.npy'
-        cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npy'
-        # probabilities_save_file = preprocess_save_dir + 'cooccurrence_probability_matrix.npy'
-
-        probabilities_save_file = save_dir + 'cooc_prob_matrix_sparse.npz'
-
+        cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npz'
         text_save_file = preprocess_save_dir + 'text.npy'
 
         # Load the preprocessed data.
         print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
-        cooc_matrix_sparse = np.load(cooccurrence_matrix_save_file, allow_pickle=True)
-        # cooc_prob_matrix_sparse = np.load(probabilities_save_file, allow_pickle=True)
+        cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
-        cooc_prob_matrix_sparse = load_npz(probabilities_save_file)
 
-        # Convert the cooccurrence matrix to a Torch tensor.
-        # cooccurrence_probability_tensor = torch.tensor(probabilities)
-        # cooccurrence_probability_tensor = cooccurrence_probability_tensor.to('cuda' if torch.cuda.is_available() else 'cpu')
-
-        training_save_dir = 'testing_scrap_misc/training_01/word_vector_training/'
+        training_save_dir = 'testing_scrap_misc/training_02/word_vector_training/'
 
         # Train the word vectors using Torch.
         print("Training word vectors using PyTorch...")
-        word_vectors_over_time = functions.machine_learning.LogBilinearModel.train(
-            # cooc_prob_matrix=cooccurrence_probability_tensor,
-            cooc_prob_matrix_sparse=cooc_prob_matrix_sparse,
+        word_vectors_over_time = functions.machine_learning.LogBilinearModel.train_sparse_glove(
+            cooc_sparse=cooc_matrix_sparse,
             embedding_dim=200,
             epochs=100,
             batch_size=256,
             learning_rate=0.01,
             x_max=100,
             alpha=0.75,
-            num_workers=4,
-            training_save_dir=training_save_dir,
-            use_gpu=True
+            num_workers=8,
+            training_save_dir='training_logs/',
+            use_gpu=True,
+            resume_checkpoint=True,
+            checkpoint_interval=1
         )
     ############################################################
 

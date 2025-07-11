@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, random_split
 import os
+import glob
 from tqdm import tqdm
 
 class SparseCoocDataset(Dataset):
@@ -37,9 +38,27 @@ def weighting_function(x, x_max=100, alpha=0.75):
     wx = (x / x_max) ** alpha
     return torch.where(x < x_max, wx, torch.ones_like(x))
 
-def train_sparse_glove(cooc_sparse, embedding_dim=200, epochs=100, batch_size=256,
-                       learning_rate=0.01, x_max=100, alpha=0.75, num_workers=4,
-                       training_save_dir='training_logs/', use_gpu=True):
+def find_latest_checkpoint(directory):
+    checkpoints = glob.glob(os.path.join(directory, 'checkpoint_epoch_*.pt'))
+    if not checkpoints:
+        return None
+    latest = max(checkpoints, key=lambda f: int(f.split('_')[-1].split('.')[0]))
+    return latest
+
+def train_sparse_glove(
+        cooc_sparse,
+        embedding_dim=200,
+        epochs=100,
+        batch_size=256,
+        learning_rate=0.01,
+        x_max=100,
+        alpha=0.75,
+        num_workers=4,
+        training_save_dir='training_logs/',
+        use_gpu=True,
+        resume_checkpoint=False,
+        checkpoint_interval=1
+    ):
     os.makedirs(training_save_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() and use_gpu else "cpu")
 
@@ -50,7 +69,7 @@ def train_sparse_glove(cooc_sparse, embedding_dim=200, epochs=100, batch_size=25
     dataset = SparseCoocDataset(i, j, x_ij)
     val_size = int(len(dataset) * 0.1)
     train_size = len(dataset) - val_size
-    generator = torch.Generator().manual_seed(42)
+    generator = torch.Generator().manual_seed(94)
     train_dataset, val_dataset = random_split(dataset, [train_size, val_size], generator=generator)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
@@ -59,7 +78,17 @@ def train_sparse_glove(cooc_sparse, embedding_dim=200, epochs=100, batch_size=25
     model = LogBilinearModel(vocab_size, embedding_dim).to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    for epoch in range(epochs):
+    start_epoch = 0
+    if resume_checkpoint:
+        latest_checkpoint = find_latest_checkpoint(training_save_dir)
+        if latest_checkpoint:
+            checkpoint = torch.load(latest_checkpoint)
+            model.load_state_dict(checkpoint['model_state'])
+            optimizer.load_state_dict(checkpoint['optimizer_state'])
+            start_epoch = checkpoint['epoch'] + 1
+            print(f"Resumed training from {latest_checkpoint}")
+
+    for epoch in range(start_epoch, epochs):
         model.train()
         total_loss = 0
         for word_idx, context_idx, count in tqdm(train_loader, desc=f"Epoch {epoch + 1}/{epochs}"):
@@ -76,5 +105,12 @@ def train_sparse_glove(cooc_sparse, embedding_dim=200, epochs=100, batch_size=25
 
         avg_loss = total_loss / len(train_dataset)
         print(f"Train Loss (Epoch {epoch + 1}): {avg_loss:.4f}")
+
+        if (epoch + 1) % checkpoint_interval == 0:
+            torch.save({
+                'epoch': epoch,
+                'model_state': model.state_dict(),
+                'optimizer_state': optimizer.state_dict(),
+            }, os.path.join(training_save_dir, f'checkpoint_epoch_{epoch + 1}.pt'))
 
     torch.save(model.word_embeddings.weight.cpu().detach(), os.path.join(training_save_dir, 'final_word_vectors.pt'))
