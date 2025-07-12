@@ -107,11 +107,10 @@ if __name__ == "__main__":
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
-
         training_save_dir = 'testing_scrap_misc/training_02/word_vector_training/'
 
-        # Train the word vectors using Torch.
-        print("Training word vectors using PyTorch...")
+        # Train the word vectors using PyTorch.
+        print("Training word vectors through log bilinear regression...")
         word_vectors_over_time = functions.machine_learning.LogBilinearModel.train_sparse_glove(
             cooc_sparse=cooc_matrix_sparse,
             embedding_dim=200,
@@ -121,10 +120,10 @@ if __name__ == "__main__":
             x_max=100,
             alpha=0.75,
             num_workers=8,
-            training_save_dir='training_logs/',
+            training_save_dir=training_save_dir,
             use_gpu=True,
             resume_checkpoint=True,
-            checkpoint_interval=1
+            checkpoint_interval=2
         )
     ############################################################
 
