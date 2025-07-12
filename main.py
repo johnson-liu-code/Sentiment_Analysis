@@ -178,6 +178,13 @@ if __name__ == "__main__":
 
 
 
+        print("Creating the vectorized comments...")
+        output_file_name = 'testing_scrap_misc/training_01/vectorized_comments.npy'
+        functions.comment_representation.tf_idf_vectorization.vectorize_comments_with_tfidf(
+            text, vectorizer, word_vectors_matrix, output_file_name )
+# ----> should have the function return the data and save the data here in main?
+    ############################################################
+
         print("Loading vectorized comments and corresponding labels...")
         vectorized_comments_file_name = 'testing_scrap_misc/training_01/fnn/vectorized_comments.npy'
         vectorized_comments = np.load(vectorized_comments_file_name)

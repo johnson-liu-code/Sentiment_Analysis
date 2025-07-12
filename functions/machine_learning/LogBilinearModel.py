@@ -106,7 +106,7 @@ def train_sparse_glove(
         model.train()
         total_loss = 0
         for word_idx, context_idx, log_count_batch, weight_batch in tqdm(train_loader, desc=f"Epoch {epoch + 1}/{epochs}"):
-            
+
             word_idx = word_idx.to(device)
             context_idx = context_idx.to(device)
             log_count_batch = log_count_batch.to(device)

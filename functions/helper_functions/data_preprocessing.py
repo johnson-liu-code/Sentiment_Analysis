@@ -1,5 +1,4 @@
 
-
 def filter_comments_by_length(
         comments: list,
         labels: list,
@@ -15,7 +14,6 @@ def filter_comments_by_length(
             filtered_comments.append(comment)
             filtered_labels.append(label)
     return filtered_comments, filtered_labels
-
 
 
 def data_preprocessing(
