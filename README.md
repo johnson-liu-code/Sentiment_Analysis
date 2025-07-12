@@ -1,32 +1,11 @@
+# Sarcasm Detection in Social Media Text
 
-# Sentiment Analysis in Informal Text
-
-<!-- <p align="center">
-<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=80%/>
-</p> -->
-
-<!-- <br>
-<br> -->
 <p align="center">
 --- Work in progress ---
 </p>
-<!-- <br>
-<br> -->
 
 2025 April — Present
-<!-- Diablo Valley College\
-Project Bracket Computer Science Club -->
-<!-- <br>
----
-<br>
 
-<img src="figures/unrelated_gifs_for_README/kitty-stuck.gif" width="50%" height="50%"/><img src="figures/unrelated_gifs_for_README/matrix-cat.gif" width="50%" height="50%"/>
-
-<small>The above gifs are retrieved from [tenor.com](https://tenor.com).</small>
-
---- -->
-
-<!-- ### __Team__ -->
 
 Johnson Liu\
 <sub><small>
@@ -88,13 +67,17 @@ ____
 
 ## __Project Overview__
 
-### __Background__
+This project aims to experiment with applying natural language processing techniques to classify comments found in informal, conversational, or otherwise casual text found through social media as either sarcastic or not.
+The current scope of this project involves training neural network models on prelabeled comments from a dataset retrieved from Kaggle and using the trained models to predict the presence of sarcastic intent in Reddit comments.
+One possible future extension of this project is extending sarcasm detection to general sentiment analysis in social media posts.
+Another possible avenue to explore is sentiment analysis through multimodal input ( including images alongside text ).
 
-**... write some text talking about the background of sentiment analysis ...**
+
+
 
 ##### <ins>Natural Language Processing - NLP</ins>
 
-Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data—like social media posts, emails, and other forms of natural text—into a form that machines can work with by applying text classification techniques.
+Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data, like social media posts, emails, and other forms of natural text, into a form that machines can work with by applying text classification techniques.
 
 This is usually done by training a classifier on a dataset that has been labeled in advance. For example, some texts might be labeled as sarcastic while others are not. The classifier learns patterns in the language based on these labels and tries to apply what it learns to new, unseen data.
 
@@ -205,7 +188,10 @@ General workflow when applying the GloVe model ...
         1. The vocabulary is the set containing all of the words present within the corpus ( dataset ).
 
 1. Compute the co-occurrence probability matrix.
-
+    #################################################################################
+    ####### NEED TO FIX THIS -                                                #######
+    ####### WE DO NOT USE THE PROBABILITIES, WE USE THE FREQUENCIES DIRECTLY. #######
+    #################################################################################
     1. Compute the co-occurence matrix with a specified context window size.
 
         1. The co-occurence matrix tabulates the amount of times word $w_i$ appears in the context of word $w_j$.
@@ -223,6 +209,14 @@ General workflow when applying the GloVe model ...
     1. ...text here...
 
     1. ...text here...
+
+    1. Word similarity tests
+
+    1. Word analogy tests
+
+    1. Amount of tokens too little
+
+    1. Trim vocabulary?
 
 1. Train the neural networks.
 
@@ -248,7 +242,24 @@ General workflow when applying the GloVe model ...
         1. Regularization
             1. Dropout
             1. Weight decay
+        
+        1. Training struggles ...
+            1. Per-Class Precision And Recall (Validation Set)
+                <img src="figures/training_troubleshooting/fnn/per_class_precision_recall.png.png" width="50%" height="50%"/>
 
+            1. Prediction Confidence Histogram
+                <img src="figures/training_troubleshooting/fnn/prediction_confidence_histogram.png.png" width="50%" height="50%"/>
+
+
+            1. Your model has learned some separation, but not enough to make confident predictions.
+
+            Many predictions fall near the decision threshold (0.5), which is where models are most unsure.
+
+
+            1. PCA analysis
+            <img src="figures/training_troubleshooting/fnn/PCA_projection_of_real_feature_space.png.png" width="50%" height="50%"/>
+
+            1. 
 
     1. Convolutional Neural Network (CNN)
 
@@ -418,94 +429,3 @@ Not for use in final product.**_
 1. (–stretch goal–) Browser application
     1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website (or from a screenshot).
     1. Develop the app further to display in real time the predicted tone of all of the comments seen in the current browser window.
-
-
-
----
-## (—OUTDATED— saved for posterity) Miscellaneous notes for collaborators working on the project
-
-### __Important Dates Set by DVC Computer Science Club Leadership__
-
-##### <ins>Week 5/6 — April 16 & April 23, 2025</ins>
-Development continues on in week 5 in preparation for the **mid-semester showcase in week 6**. Groups are now in the middle of the semester meaning that they will present what progress they have so far. The mid-semester showcase does not mean that groups have to be halfway done with their projects.
-
-##### <ins>Week 7 — April 30, 2025</ins>
-At this point **groups should be more than halfway done with their project** or close to finished in preparation for the final week as well as finals. Project managers should check with members on the final schedule to ensure projects are done and not rushed in the final week.
-
-##### <ins>Week 8 — May 7, 2025</ins>
-**Groups should be close to wrapping up their projects** or should be completely done with the projects. This week will be focused mainly on the final project showcase in which judges will determine who has the best project. Groups may want to **prepare ahead of time with presentations**, graphics, and props to enhance their presentations.
-
----
-
-### __Records__
-
-#### <ins>20250404</ins>
-
-##### Notes
-— Johnson
-1. Heidi and Brymiri, I will be using this file to keep track of out progress and to assign tasks amongst the team members.
-2. I will also use this file to keep track of important dates specified by the club.
-3. Please use this file to record any important thoughts that you come up with during the course of the project.
-4. You can also use this file to add important notes that you want the team to remember.
-
-##### To-do —
-###### For Johnson:
-1. [x] Create Github repository.
-1. [x] Look up relavant resources.
-1. [x] Look up relavant data.
-1. [ ] Plan out our timeline and general to-do's / tasks for each team member.
-
----
-
-#### <ins>20250408</ins>
-
-##### To-do —
-###### For Heidi:
-1. [x] Review the theoretical resources and begin drafting a short write-up for our team to reference.
-1. [ ] Optional - Also look up introductory machine learning resources to clarify specific topics in the write-up, especially if you think they’d be helpful for the team.
-
-###### For Bryan:
-1. [x] Write code to extract a specific Reddit post, along with its parent post and the name of the subreddit where it was posted.
-
----
-
-#### <ins>20250412</ins>
-
-##### Notes
-— Johnson
-1. Organized files into folders based on their purpose for better structure and clarity.
-2. Expanded and refined the files used for data extraction.
-3. Developed files dedicated to data visualization.
-4. Generated figures to help us better understand the data.
-
----
-
-#### <ins>20250418</ins>
-
-##### To-do —
-###### For Heidi:
-1. [ ] Experiment / explore with creating and training neural networks.
-1. [ ] Familiarize yourself with the use of the Gensim Python module for word vectors.
-1. [ ] Start building and training neural networks to take in word vectors as input and outputs a binary classification ( sarcastic or not sarcastic ).
-
-###### For Bryan:
-1. [x] Continue working on code to extract a specific comment from Reddit along with its parent comment and subreddit name.
-2. [ ] Possible future feature: create an app that can be used in the browser to predict whether a selected comment is sarcastic or not.
-
----
-
-#### <ins>20250421</ins>
-
-##### To-do —
-###### For Heidi:
-1. [ ] Continue updating WriteUp.md as you better understand the theory behind the word embedding and machine learning techniques used in the project.
-
-###### For Johnson:
-1. [ ] Start documenting the directory structure and its organization.
-1. [ ] Start documenting the workflow and the theory and mathematics behind each model that we use.
-
----
-
-<br>
-
-<img src="figures/unrelated_pngs_gifs_for_README/pblogo01.png" width=100%/>

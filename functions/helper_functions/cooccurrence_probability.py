@@ -1,9 +1,39 @@
 
 
 
-import pandas as pd
+from scipy.sparse import csr_matrix
 
 
+def cooccurrence_probability_sparse(cooc_matrix_sparse):
+    row_sums = np.array(cooc_matrix_sparse.sum(axis=1)).flatten()  # Sum over rows
+
+    # Avoid divide-by-zero
+    row_sums[row_sums == 0] = 1
+
+    # Build a new sparse probability matrix
+    data = cooc_matrix_sparse.data / row_sums[cooc.row]
+    prob_matrix_sparse = csr_matrix(
+        ( data, (cooc_matrix_sparse.row, cooc_matrix_sparse.col) ),
+        shape=cooc_matrix_sparse.shape
+    )
+
+    return prob_matrix_sparse
+
+    # from collections import defaultdict
+
+    # totals = defaultdict(float)
+    # probabilities = defaultdict(dict)
+
+    # for i, j, val in zip(cooc_matrix.row, cooc_matrix.col, cooc_matrix.data):
+    #     totals[i] += val
+
+    # for i, j, val in zip(cooc_matrix.row, cooc_matrix.col, cooc_matrix.data):
+    #     probabilities[i][j] = val / totals[i] if totals[i] > 0 else 0
+
+    # return totals, probabilities
+
+########################################################################################################
+'''
 def cooccurrence_probability(cooccurrence_matrix:dict):
     """
     Calculate the co-occurrence probability of terms in a given co-occurrence matrix.
@@ -42,7 +72,8 @@ def cooccurrence_probability(cooccurrence_matrix:dict):
         probabilities[row] = row_probabilities
 
     return totals, probabilities
-
+'''
+########################################################################################################
 
 # Example usage:
 if __name__ == "__main__":
