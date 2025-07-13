@@ -25,6 +25,12 @@ def data_preprocessing(
         min_len: int,
         max_len: int,
         max_vocab_size: int
+        data_file_name: str,
+        comments_limit: int,
+        window_size: int,
+        min_len: int,
+        max_len: int,
+        max_vocab_size: int
     ):
     """
     Preprocess data for training word vectors using GloVe.
@@ -33,6 +39,9 @@ def data_preprocessing(
         - data_file_name (str): Name of the input file with the training data.
         - comments_limit (int): The number of comments to use to collect words from.
         - window_size (int): Window size for collecting context words.
+        - min_len (int): 
+        - max_len (int): 
+        - max_vocab_size (int): 
         - min_len (int): 
         - max_len (int): 
         - max_vocab_size (int): 
@@ -56,12 +65,42 @@ def data_preprocessing(
 
     data = data.dropna(subset=['comment'])
     print(f"Number of comments left after dropping NA: {len(data)}...")
+    print(f"Number of comments left after dropping NA: {len(data)}...")
 
     # Collect the text and the corresponding labels from the data.
     # np.ndarray
     text = data['comment'].values
     labels = data['label'].values
 
+    filtered_comments, filtered_labels = filter_comments_by_length(
+        text, labels, min_len, max_len
+    )
+
+    print(f"There are {len(filtered_comments)} comments left after filtering out comments that "
+          f"contain less than {min_len} words and more than {max_len} words...")
+
+
+    # There's got to be better way of doing this ...
+    import sys
+    import os
+
+    # Add the parent directory (i.e., project/) to the path.
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+
+    import count_tokens
+    import cooccurrence_matrix
+
+    total_tokens, vocab_size, word_freqs = count_tokens.count_total_tokens(filtered_comments)
+    print(f"The new dataset has {total_tokens} total tokens.")
+    print(f"The new dataset has {vocab_size} unique words.")
+    
+    print(f"Generating unique words and co-occurrence matrix using the most frequent {max_vocab_size} words...")
+
+    unique_words, cooc_matrix_sparse = cooccurrence_matrix.create_sparse_cooccurrence_matrix(
+            filtered_comments,
+            window_size,
+            max_vocab_size
+        )
     filtered_comments, filtered_labels = filter_comments_by_length(
         text, labels, min_len, max_len
     )

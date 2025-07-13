@@ -33,6 +33,15 @@ Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
 ____
+    1.3. [Mathematical Foundations](#mathematical-foundations)\
+    1.4. [Workflow](#workflow)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.1. [Data Preprocessing]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.2. [Word Vector Training]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3. [Neural Network Training]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.1 [Feedforward Neural Network]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
+____
 2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
@@ -47,16 +56,24 @@ ____
     2.6. [Mathematical References](#mathematical-references)\
     2.7. [Graphical Visualization Guides](#graphical-visualization-guides)
 ____
+____
 3. [Graphics](#graphics)\
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
 ____
+____
 4. [Results](#results)
+____
 ____
 5. [The Codebase](#the-codebase)\
     5.1. [Python Libraries Used](#python-libraries-used)
 ____
+____
 6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+____
+7. [(—OUTDATED—) Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
+    7.1. [Important Dates](#important-dates)\
+    7.2. [Records](#records)
 ____
 7. [(—OUTDATED—) Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
     7.1. [Important Dates](#important-dates)\
@@ -74,9 +91,17 @@ Another possible avenue to explore is sentiment analysis through multimodal inpu
 
 
 
+This project aims to experiment with applying natural language processing techniques to classify comments found in informal, conversational, or otherwise casual text found through social media as either sarcastic or not.
+The current scope of this project involves training neural network models on prelabeled comments from a dataset retrieved from Kaggle and using the trained models to predict the presence of sarcastic intent in Reddit comments.
+One possible future extension of this project is extending sarcasm detection to general sentiment analysis in social media posts.
+Another possible avenue to explore is sentiment analysis through multimodal input ( including images alongside text ).
+
+
+
 
 ##### <ins>Natural Language Processing - NLP</ins>
 
+Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data, like social media posts, emails, and other forms of natural text, into a form that machines can work with by applying text classification techniques.
 Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data, like social media posts, emails, and other forms of natural text, into a form that machines can work with by applying text classification techniques.
 
 This is usually done by training a classifier on a dataset that has been labeled in advance. For example, some texts might be labeled as sarcastic while others are not. The classifier learns patterns in the language based on these labels and tries to apply what it learns to new, unseen data.
@@ -192,6 +217,10 @@ General workflow when applying the GloVe model ...
     ####### NEED TO FIX THIS -                                                #######
     ####### WE DO NOT USE THE PROBABILITIES, WE USE THE FREQUENCIES DIRECTLY. #######
     #################################################################################
+    #################################################################################
+    ####### NEED TO FIX THIS -                                                #######
+    ####### WE DO NOT USE THE PROBABILITIES, WE USE THE FREQUENCIES DIRECTLY. #######
+    #################################################################################
     1. Compute the co-occurence matrix with a specified context window size.
 
         1. The co-occurence matrix tabulates the amount of times word $w_i$ appears in the context of word $w_j$.
@@ -221,20 +250,68 @@ General workflow when applying the GloVe model ...
 1. Train the neural networks.
 
     1. Feedforward Neural Network (FNN)
+    1. Word similarity tests
 
+    1. Word analogy tests
+
+    1. Amount of tokens too little
+
+    1. Trim vocabulary?
+
+1. Train the neural networks.
+
+    1. Feedforward Neural Network (FNN)
+
+        1. In order to able to pass our data as input into the neural network, the input shape across all comments must be uniform. Since each comment in the dataset can have varying number of words, we have to decide on a way of aggregating all of the words in a comment into a single input.
         1. In order to able to pass our data as input into the neural network, the input shape across all comments must be uniform. Since each comment in the dataset can have varying number of words, we have to decide on a way of aggregating all of the words in a comment into a single input.
 
             1. ... text here on one possibility ... using the Frechet mean ... \
             One possibility is to take the average of all of the word vectors contained within a comment.
+            1. ... text here on one possibility ... using the Frechet mean ... \
+            One possibility is to take the average of all of the word vectors contained within a comment.
 
                 1. ... text here about the Frechet mean being a measure of central tendency ...
+                1. ... text here about the Frechet mean being a measure of central tendency ...
 
+                1. In the context of this project, the Frechet mean for all of the word vectors associated with a specific comment is simply the arithmetic mean of the collection of vectors. This mean is found by taking the component-wise mean of each vector component.
                 1. In the context of this project, the Frechet mean for all of the word vectors associated with a specific comment is simply the arithmetic mean of the collection of vectors. This mean is found by taking the component-wise mean of each vector component.
 
                 1. ... TF-IDF ... weighting word vectors ...
 
         1. ... text here on structure of neural network ...
+                1. ... TF-IDF ... weighting word vectors ...
 
+        1. ... text here on structure of neural network ...
+
+        1. Binary Cross Entropy
+            BCE(p,y)=−(y⋅log(p)+(1−y)⋅log(1−p))
+
+        1. Batch Normalization
+        1. Regularization
+            1. Dropout
+            1. Weight decay
+        
+        1. Training struggles ...
+            1. Per-Class Precision And Recall (Validation Set)
+                <img src="figures/training_troubleshooting/fnn/per_class_precision_recall.png.png" width="50%" height="50%"/>
+
+            1. Prediction Confidence Histogram
+                <img src="figures/training_troubleshooting/fnn/prediction_confidence_histogram.png.png" width="50%" height="50%"/>
+
+
+            1. Your model has learned some separation, but not enough to make confident predictions.
+
+            Many predictions fall near the decision threshold (0.5), which is where models are most unsure.
+
+
+            1. PCA analysis
+            <img src="figures/training_troubleshooting/fnn/PCA_projection_of_real_feature_space.png.png" width="50%" height="50%"/>
+
+            1. 
+
+    1. Convolutional Neural Network (CNN)
+
+    1. Recurrent Neural Network (RNN)
         1. Binary Cross Entropy
             BCE(p,y)=−(y⋅log(p)+(1−y)⋅log(1−p))
 
@@ -293,6 +370,7 @@ General workflow when applying the GloVe model ...
 1. [Word2vec model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Word2vec)
 
 1. [CBOW — Word2Vec <br> – Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+1. [CBOW — Word2Vec <br> – Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
 
 1. [*Efficient Estimation of Word Representations in Vector Space* <br> – Original academic paper ( arxiv.org ).](https://arxiv.org/abs/1301.3781v3)
 
@@ -324,6 +402,7 @@ General workflow when applying the GloVe model ...
 1. [Machine Learning Tutorial <br> – General overview/tutorial on machine learning ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/machine-learning/)
 
 1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/ai-ml-ds/)
+1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Bag-of-words_model)
 
@@ -333,6 +412,13 @@ General workflow when applying the GloVe model ...
 
 1. [Least squares <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Least_squares)
 
+1. [Tf-idf ( term frequency-inverse document frequency ) <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+
+1. [Feedforward neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Feedforward_neural_network)
+
+1. [Convolutional neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Convolutional_neural_network)
+
+1. [Recurrent neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Recurrent_neural_network)
 1. [Tf-idf ( term frequency-inverse document frequency ) <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
 1. [Feedforward neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Feedforward_neural_network)
@@ -370,12 +456,16 @@ General workflow when applying the GloVe model ...
 
 ** Note to self: maybe it's better to interject the graphics throughout the write-up than to aggregate all of them in a single section.
 
+** Note to self: maybe it's better to interject the graphics throughout the write-up than to aggregate all of them in a single section.
+
 _**Preliminary figures.\
 Not for use in final product.**_
 
 ##### <ins>Word cloud - Sarcastic</ins>
 ![placeholder-text](figures/raw_data_visualization/wordcloud_sarcastic.png)
 
+<!-- ##### <ins>Word cloud - Not Sarcastic</ins>
+![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png) -->
 <!-- ##### <ins>Word cloud - Not Sarcastic</ins>
 ![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png) -->
 
@@ -394,7 +484,9 @@ _**Figures used for testing.\
 Not for use in final product.**_
 
 ![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
+![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
 
+![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
 ![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
 
 
@@ -423,7 +515,13 @@ Not for use in final product.**_
 
 ## __Future Direction and Possible Improvements__
 1. Machine learning
+1. Machine learning
     1. Extend project to sentiment and tone classificaiton of text.
+    1. Extend project to multimodal classification where multiple input modalities (images, video, audio, etc.) are used together for prediction/classification.
+
+1. (–stretch goal–) Browser application
+    1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website (or from a screenshot).
+    1. Develop the app further to display in real time the predicted tone of all of the comments seen in the current browser window.
     1. Extend project to multimodal classification where multiple input modalities (images, video, audio, etc.) are used together for prediction/classification.
 
 1. (–stretch goal–) Browser application
