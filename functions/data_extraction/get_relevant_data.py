@@ -42,14 +42,14 @@ def process_data(
 
     # Remove punctuation from individual words in the 'comment' and 'parent_comment' columns.
     data['comment'] = data['comment'].apply(lambda x: ''.join([char for char in x if char not in punctuation]))
-    data['parent_comment'] = data['parent_comment'].apply(lambda x: ''.join([char for char in x if char not in punctuation]))
+    # data['parent_comment'] = data['parent_comment'].apply(lambda x: ''.join([char for char in x if char not in punctuation]))
 
     # Remove stopwords from the text in 'comment' and 'parent_comment' columns.
     data['comment'] = data['comment'].apply(lambda x: ' '.join([word.lower() for word in x.split() if word.lower() not in stopwords_list]))
-    data['parent_comment'] = data['parent_comment'].apply(lambda x: ' '.join([word.lower() for word in x.split() if word.lower() not in stopwords_list]))
+    # data['parent_comment'] = data['parent_comment'].apply(lambda x: ' '.join([word.lower() for word in x.split() if word.lower() not in stopwords_list]))
 
-    # Write the cleaned data to the output CSV file.
-    data.to_csv(output_csv, index=False)
+    # Write the cleaned data to the output CSV file (only 'label' and 'comment').
+    data[['label', 'comment']].to_csv(output_csv, index=False)
 
 
 # Sample usage of the process_data function.

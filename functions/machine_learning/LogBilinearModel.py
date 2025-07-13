@@ -56,7 +56,7 @@ def train_sparse_glove(
         embedding_dim=200,
         epochs=100,
         batch_size=256,
-        learning_rate=0.01,
+        learning_rate=0.001,
         x_max=100,
         alpha=0.75,
         num_workers=4,
@@ -140,9 +140,9 @@ def train_sparse_glove(
         scheduler.step(avg_loss)
         new_lr = optimizer.param_groups[0]['lr']
         if new_lr < old_lr:
-            print(f"Learning rate reduced: {old_lr:.6f} → {new_lr:.6f}")
+            print(f"Learning rate reduced: {old_lr:.6f} --> {new_lr:.6f}")
             with open(os.path.join(training_save_dir, "training_log.txt"), "a") as f:
-                f.write(f"LR reduced: {old_lr:.6f} → {new_lr:.6f}\n")
+                f.write(f"Learning rate reduced: {old_lr:.6f} --> {new_lr:.6f}\n")
 
         if (epoch + 1) % checkpoint_interval == 0:
             torch.save({

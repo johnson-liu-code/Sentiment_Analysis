@@ -26,10 +26,10 @@ def extract_data(csv_file_name):
     # Extract the columns we need.
     data_redux = data_all_columns[
         [
-            "comment", 
-            "subreddit", 
-            "parent_comment", 
-            "label"
+            "label",
+            "comment",
+            "subreddit",
+            "parent_comment",
         ]
     ]
 

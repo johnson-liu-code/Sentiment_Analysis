@@ -75,7 +75,7 @@ if __name__ == "__main__":
             )
         )
 
-        save_dir = 'testing_scrap_misc/training_02/preprocessing/'
+        save_dir = 'data/training_data/test_training_01/preprocessing/'
 
         unique_words_save_file = save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npz'
@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
 
 
-        preprocess_save_dir = 'testing_scrap_misc/training_02/preprocessing/'
+        preprocess_save_dir = 'data/training_data/test_training_01/preprocessing/'
         unique_words_save_file = preprocess_save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npz'
         text_save_file = preprocess_save_dir + 'text.npy'
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
-        training_save_dir = 'testing_scrap_misc/training_02/word_vector_training/'
+        training_save_dir = 'data/training_data/test_training_01/word_vector_training/'
 
         # Train the word vectors using PyTorch.
         print("Training word vectors through log bilinear regression...")
@@ -116,7 +116,7 @@ if __name__ == "__main__":
             embedding_dim=200,
             epochs=100,
             batch_size=256,
-            learning_rate=0.01,
+            learning_rate=0.001,
             x_max=100,
             alpha=0.75,
             num_workers=8,
