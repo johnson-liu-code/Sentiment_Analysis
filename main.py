@@ -3,7 +3,6 @@
 if __name__ == "__main__":
     ############################################################
     # For consistency in testing.
-    # For consistency in testing.
     import random
     random.seed(1994)
     ############################################################
@@ -20,36 +19,15 @@ if __name__ == "__main__":
 
     ############################################################
     # import functions.data_visualization.draw_neural_network
-    # import functions.data_visualization.draw_neural_network
     ############################################################
 
 
 
-
-    ############################################################
-    parser_description = "Sarcasm/Sentiment Analysis."
     ############################################################
     parser_description = "Sarcasm/Sentiment Analysis."
     parser = argparse.ArgumentParser(description=parser_description)
 
     parser.add_argument(
-        "--part",
-        help = "Tell the script which modular job to perform.",
-        choices =   {
-                        'preprocess_data',
-                        'train_word_vectors',
-                        'vectorize_comments',
-                        'train_fnn',
-                        'stack_word_vectors',
-                        'train_cnn',
-                        'train_rnn'
-                    }
-    )
-
-    args = parser.parse_args()
-    part = args.part
-
-    ############################################################
         "--part",
         help = "Tell the script which modular job to perform.",
         choices =   {
@@ -88,33 +66,13 @@ if __name__ == "__main__":
         print(f"We are throwing out comments that have less than {min_len} words or greater than {max_len} words...")
 
         unique_words, cooc_matrix_sparse, filtered_comments, filtered_labels = (
-        from scipy.sparse import save_npz
-        
-        import functions.helper_functions.data_preprocessing
-
-
-
-        data_file_name='data/project_data/raw_data/trimmed_training_data.csv'
-        print(f"Preprocessing training data extracting from {data_file_name}...")
-
-        comments_limit=1010771 # Make sure there are enough rows in the CSV file, or else this will drop data.
-        window_size=10
-        min_len=4
-        max_len=100
-        max_vocab_size=30000
-
-        print(f"We are using a maximum of -{comments_limit}- data points...")
-        print(f"Co-occurrence computed with a window size of -{window_size}-...")
-        print(f"We are throwing out comments that have less than {min_len} words or greater than {max_len} words...")
-
-        unique_words, cooc_matrix_sparse, filtered_comments, filtered_labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
                 data_file_name,
                 comments_limit,
                 window_size,
                 min_len,
                 max_len,
-                max_vocab_size
+                max_vocab_size,
                 data_file_name,
                 comments_limit,
                 window_size,
@@ -128,7 +86,6 @@ if __name__ == "__main__":
 
         unique_words_save_file = save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npz'
-        cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npz'
         text_save_file = save_dir + 'text.npy'
         labels_save_file = save_dir + 'labels.npy'
 
@@ -139,13 +96,6 @@ if __name__ == "__main__":
         np.save( labels_save_file, filtered_labels )
     ############################################################
 
-    ############################################################
-        print(f"Saving preprocessed data to files in {save_dir}...")        
-        np.save( unique_words_save_file, unique_words )
-        save_npz( cooccurrence_matrix_save_file, cooc_matrix_sparse )
-        np.save( text_save_file, filtered_comments )
-        np.save( labels_save_file, filtered_labels )
-    ############################################################
 
     ############################################################
     elif part == 'train_word_vectors':
@@ -165,7 +115,6 @@ if __name__ == "__main__":
         print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
-        cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
         training_save_dir = 'data/training_data/test_training_01/word_vector_training/'
 
@@ -173,26 +122,13 @@ if __name__ == "__main__":
         print("Training word vectors through log bilinear regression...")
         word_vectors_over_time = functions.machine_learning.LogBilinearModel.train_sparse_glove(
             cooc_sparse=cooc_matrix_sparse,
-        print("Training word vectors through log bilinear regression...")
-        word_vectors_over_time = functions.machine_learning.LogBilinearModel.train_sparse_glove(
-            cooc_sparse=cooc_matrix_sparse,
             embedding_dim=200,
-            epochs=100,
             epochs=100,
             batch_size=256,
             learning_rate=0.001,
             x_max=100,
             alpha=0.75,
-            num_workers=8,
-            training_save_dir=training_save_dir,
-            use_gpu=True,
-            resume_checkpoint=True,
-            checkpoint_interval=2
-        )
-    ############################################################
-
-    ############################################################
-            num_workers=8,
+            num_workers=4,
             training_save_dir=training_save_dir,
             use_gpu=True,
             resume_checkpoint=True,
@@ -202,13 +138,6 @@ if __name__ == "__main__":
 
     ############################################################
     elif part == 'vectorize_comments':
-        import torch
-        from sklearn.feature_extraction.text import TfidfVectorizer
-        import functions.comment_representation.tf_idf_vectorization
-
-
-
-        text_save_file = 'testing_scrap_misc/training_01/preprocessing/text.npy'
         import torch
         from sklearn.feature_extraction.text import TfidfVectorizer
         import functions.comment_representation.tf_idf_vectorization

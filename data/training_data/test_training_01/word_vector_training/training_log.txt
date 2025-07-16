@@ -6,3 +6,17 @@ Epoch 5, Loss: 0.049141
 Epoch 6, Loss: 0.045672
 Epoch 7, Loss: 0.042629
 Epoch 8, Loss: 0.040118
+Epoch 9, Loss: 0.037713
+Epoch 10, Loss: 0.035575
+Epoch 11, Loss: 0.033403
+Epoch 12, Loss: 0.031491
+Epoch 13, Loss: 0.029559
+Epoch 14, Loss: 0.027803
+Epoch 15, Loss: 0.026137
+Epoch 16, Loss: 0.024597
+Epoch 17, Loss: 0.023154
+Epoch 18, Loss: 0.021850
+Epoch 19, Loss: 0.020625
+Epoch 20, Loss: 0.019532
+Epoch 21, Loss: 0.018543
+Epoch 22, Loss: 0.017676

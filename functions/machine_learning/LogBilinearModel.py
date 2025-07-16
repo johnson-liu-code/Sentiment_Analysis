@@ -5,24 +5,18 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, random_split
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-import os
-import glob
-from torch.utils.data import Dataset, DataLoader, random_split
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-
 import os
 import glob
 from tqdm import tqdm
 
 
 
-class SparseCoocDataset(Dataset):
-    def __init__(self, i, j, log_count, weight):
-        self.i = i
-        self.j = j
-        self.log_count = log_count
-        self.weight = weight
+# class SparseCoocDataset(Dataset):
+#     def __init__(self, i, j, log_count, weight):
+#         self.i = i
+#         self.j = j
+#         self.log_count = log_count
+#         self.weight = weight
 
 
 
@@ -35,10 +29,8 @@ class SparseCoocDataset(Dataset):
 
     def __len__(self):
         return len(self.i)
-        return len(self.i)
 
     def __getitem__(self, idx):
-        return self.i[idx], self.j[idx], self.log_count[idx], self.weight[idx]
         return self.i[idx], self.j[idx], self.log_count[idx], self.weight[idx]
 
 class LogBilinearModel(nn.Module):
@@ -106,42 +98,12 @@ def train_sparse_glove(
 
     vocab_size = cooc_sparse.shape[0]
 
-    i = torch.tensor(cooc_sparse.row, dtype=torch.long)
-    j = torch.tensor(cooc_sparse.col, dtype=torch.long)
-    x_ij = torch.tensor(cooc_sparse.data, dtype=torch.float32)
-    log_count = torch.log(x_ij + 1e-10)
-    weight = weighting_function(x_ij, x_max=x_max, alpha=alpha)
-
-    # -------------------------------------------
-    # dataset = SparseCoocDataset(i, j, x_ij)
-    # -------------------------------------------
-    dataset = SparseCoocDataset(i, j, log_count, weight)
-    val_size = int(len(dataset) * 0.1)
-    train_size = len(dataset) - val_size
-    generator = torch.Generator().manual_seed(94)
-    train_dataset, val_dataset = random_split(dataset, [train_size, val_size], generator=generator)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-
-    vocab_size = cooc_sparse.shape[0]
     model = LogBilinearModel(vocab_size, embedding_dim).to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
 
     start_epoch = 0
-    if resume_checkpoint:
-        latest_checkpoint = find_latest_checkpoint(checkpoint_dir)
-        if latest_checkpoint:
-            checkpoint = torch.load(latest_checkpoint)
-            model.load_state_dict(checkpoint['model_state'])
-            optimizer.load_state_dict(checkpoint['optimizer_state'])
-            start_epoch = checkpoint['epoch'] + 1
-            print(f"Resumed training from {latest_checkpoint}")
 
-    for epoch in range(start_epoch, epochs):
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
-
-    start_epoch = 0
     if resume_checkpoint:
         latest_checkpoint = find_latest_checkpoint(checkpoint_dir)
         if latest_checkpoint:
@@ -171,17 +133,8 @@ def train_sparse_glove(
             # loss = weight * (prediction - log_count) ** 2
             # --------------------------------------------------------------
             loss = weight_batch.to(device) * (prediction - log_count_batch.to(device)) ** 2
-            # --------------------------------------------------------------
-            # log_count = torch.log(count + 1e-10)
-            # weight = weighting_function(count, x_max=x_max, alpha=alpha)
-            # loss = weight * (prediction - log_count) ** 2
-            # --------------------------------------------------------------
-            loss = weight_batch.to(device) * (prediction - log_count_batch.to(device)) ** 2
             loss = loss.mean()
-            loss.backward()
-
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-            
+            loss.backward()            
 
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             
@@ -199,6 +152,7 @@ def train_sparse_glove(
         old_lr = optimizer.param_groups[0]['lr']
         scheduler.step(avg_loss)
         new_lr = optimizer.param_groups[0]['lr']
+        
         if new_lr < old_lr:
             print(f"Learning rate reduced: {old_lr:.6f} --> {new_lr:.6f}")
             with open(os.path.join(training_save_dir, "training_log.txt"), "a") as f:
