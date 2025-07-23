@@ -112,7 +112,6 @@ if __name__ == "__main__":
 
         # Load the preprocessed data.
         print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
-        print(f"Loading preprocessed data from files in {preprocess_save_dir}...")
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
