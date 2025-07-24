@@ -1,8 +1,12 @@
+
+
+
 import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import torch.nn.functional as F
 
 def generate_word_to_idx(vocab, add_special_tokens=False):
     """
@@ -57,12 +61,8 @@ def check_word_analogy(word_a, word_b, word_c, embedding_matrix, word_to_idx, id
     b = embedding_matrix[word_to_idx[word_b]]
     c = embedding_matrix[word_to_idx[word_c]]
     target_vec = a - b + c
-
-    # Normalize for cosine similarity
-    target_vec = F.normalize(target_vec.unsqueeze(0), dim=1)
-    all_vecs = F.normalize(embedding_matrix, dim=1)
-    
-    cosine_sim = torch.matmul(all_vecs, target_vec.T).squeeze()
+   
+    cosine_sim = torch.matmul(embedding_matrix, target_vec.T).squeeze()
     top_vals, top_idxs = torch.topk(cosine_sim, top_k)
 
     results = []
@@ -86,19 +86,39 @@ def check_word_analogy(word_a, word_b, word_c, embedding_matrix, word_to_idx, id
 
 
 if __name__ == '__main__':
-    trained_word_vectors_file = 'testing_scrap_misc/training_01/word_vector_training/training_logs/weights_epoch_57.pt'
-    word_vectors_matrix = torch.load(trained_word_vectors_file)
-    
-    unique_words_file = 'testing_scrap_misc/training_01/preprocessing/unique_words.npy'
+    trained_word_vectors_file = 'data/training_data/test_training_01/word_vector_training/training_logs/checkpoint_epoch_38.pt'
+    # word_vectors_matrix = torch.load(trained_word_vectors_file)
+
+    ckpt = torch.load(trained_word_vectors_file, map_location="cpu")
+    # print("checkpoint keys       :", ckpt.keys())
+
+    state = ckpt["model_state"]
+    # print("model_state keys      :", state.keys())
+
+    target_matrix = state['word_embeddings.weight']
+    context_matrix = state['context_embeddings.weight']
+    embedding_matrix = target_matrix + context_matrix
+
+    # print("vocab size   :", embedding_matrix.shape[0])
+    # print("embed dim    :", embedding_matrix.shape[1])
+
+    E_norm = F.normalize(embedding_matrix, dim=1)            # each row has norm=1
+
+    unique_words_file = 'data/training_data/test_training_01/preprocessing/unique_words.npy'
     unique_words = np.load(unique_words_file)
 
     word_to_idx = generate_word_to_idx(unique_words)
     idx_to_word = invert_word_index_map(word_to_idx)
 
-    # word_list = ['dog', 'cat', 'king', 'queen', 'man', 'woman']
-    word_a, word_b, word_c = 'king', 'man', 'queen'
+    word_a, word_b, word_c = 'king', 'man', 'woman'
+    # word_a, word_b, word_c = 'walking', 'walk', 'swim'
+    # word_a, word_b, word_c = 'paris', 'france', 'berlin'
 
-    results = check_word_analogy(   word_a, word_b, word_c, 
-                                    word_vectors_matrix,
-                                    word_to_idx, idx_to_word,
-                                    top_k=10)
+    results = check_word_analogy(   word_a,
+                                    word_b,
+                                    word_c, 
+                                    E_norm,
+                                    word_to_idx,
+                                    idx_to_word,
+                                    top_k=10
+                                )

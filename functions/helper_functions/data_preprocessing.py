@@ -24,7 +24,7 @@ def data_preprocessing(
         window_size: int,
         min_len: int,
         max_len: int,
-        max_vocab_size: int
+        max_vocab_size: int,
         data_file_name: str,
         comments_limit: int,
         window_size: int,

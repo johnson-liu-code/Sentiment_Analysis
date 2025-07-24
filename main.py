@@ -72,12 +72,6 @@ if __name__ == "__main__":
                 window_size,
                 min_len,
                 max_len,
-                max_vocab_size,
-                data_file_name,
-                comments_limit,
-                window_size,
-                min_len,
-                max_len,
                 max_vocab_size
             )
         )
