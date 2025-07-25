@@ -4,9 +4,9 @@ from scipy.sparse import coo_matrix
 import numpy as np
 
 def create_sparse_cooccurrence_matrix(
-        comments:list,
-        window_size:int=10,
-        max_vocab_size:int=30000
+        comments: list,
+        window_size: int = 10,
+        min_word_count: int = 50
     ):
     """_summary_
     This expects the sentences in the comments list to already be processed - stopwords
@@ -16,10 +16,7 @@ def create_sparse_cooccurrence_matrix(
     Args:
         comments (list): _description_
         window_size (int, optional): _description_. Defaults to 10.
-        max_vocab_size (int, optional): _description_. Defaults to 30000.
-
-    Function:
-        ...
+        min_word_count (int, optional): _description_. Defaults to 30000.
 
     Raises:
         ValueError: _description_
@@ -27,14 +24,17 @@ def create_sparse_cooccurrence_matrix(
     Returns:
         _type_: _description_
     """
-    # Build vocabulary
+    print(f"Generating unique words and co-occurrence matrix for tokens ≥{min_word_count} occurrences...")
+
+    # Build vocabulary by absolute frequency threshold
     word_freqs = Counter()
     for sentence in comments:
-        words = str(sentence).split()
-        word_freqs.update(words)
+        word_freqs.update(str(sentence).split())
 
-    most_common = word_freqs.most_common(max_vocab_size)
-    vocab = [w for w, _ in most_common]
+    # keep only words occurring at least `min_count` times,
+    # sorted by descending frequency
+    vocab = [w for w, f in word_freqs.items() if f >= min_word_count]
+    vocab.sort(key=lambda w: word_freqs[w], reverse=True)
     word_to_index = {w: i for i, w in enumerate(vocab)}
     vocab_size = len(vocab)
 

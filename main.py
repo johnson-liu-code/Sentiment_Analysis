@@ -2,25 +2,14 @@
 
 if __name__ == "__main__":
     ############################################################
+    import os
+    import argparse
+    ############################################################
+    import numpy as np
     # For consistency in testing.
     import random
     random.seed(1994)
     ############################################################
-
-
-    ############################################################
-    import os
-    import argparse
-    import argparse
-    ############################################################
-    import numpy as np
-    ############################################################
-
-
-    ############################################################
-    # import functions.data_visualization.draw_neural_network
-    ############################################################
-
 
 
     ############################################################
@@ -31,7 +20,7 @@ if __name__ == "__main__":
         "--part",
         help = "Tell the script which modular job to perform.",
         choices =   {
-                        'preprocess_data',
+                        'preprocess',
                         'train_word_vectors',
                         'vectorize_comments',
                         'train_fnn',
@@ -45,25 +34,25 @@ if __name__ == "__main__":
     part = args.part
 
     ############################################################
-    if part == 'preprocess_data':
+    if part == 'preprocess':
         from scipy.sparse import save_npz
         
         import functions.helper_functions.data_preprocessing
-
-
+        ########################################################
 
         data_file_name='data/project_data/raw_data/trimmed_training_data.csv'
         print(f"Preprocessing training data extracting from {data_file_name}...")
 
         comments_limit=1010771 # Make sure there are enough rows in the CSV file, or else this will drop data.
-        window_size=10
+        window_size=15
         min_len=4
         max_len=100
-        max_vocab_size=30000
+        min_word_count=50
 
         print(f"We are using a maximum of -{comments_limit}- data points...")
         print(f"Co-occurrence computed with a window size of -{window_size}-...")
         print(f"We are throwing out comments that have less than {min_len} words or greater than {max_len} words...")
+        print(f"We are keeping only words that occur at least {min_word_count} times in the comments...")
 
         unique_words, cooc_matrix_sparse, filtered_comments, filtered_labels = (
             functions.helper_functions.data_preprocessing.data_preprocessing(
@@ -72,11 +61,11 @@ if __name__ == "__main__":
                 window_size,
                 min_len,
                 max_len,
-                max_vocab_size
+                min_word_count
             )
         )
 
-        save_dir = 'data/training_data/test_training_01/preprocessing/'
+        save_dir = 'data/training_data/test_training_02/preprocessing/'
 
         unique_words_save_file = save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = save_dir + 'cooccurrence_matrix.npz'
@@ -96,10 +85,10 @@ if __name__ == "__main__":
         from scipy.sparse import load_npz
 
         import functions.machine_learning.LogBilinearModel
+        ########################################################
 
 
-
-        preprocess_save_dir = 'data/training_data/test_training_01/preprocessing/'
+        preprocess_save_dir = 'data/training_data/test_training_02/preprocessing/'
         unique_words_save_file = preprocess_save_dir + 'unique_words.npy'
         cooccurrence_matrix_save_file = preprocess_save_dir + 'cooccurrence_matrix.npz'
         text_save_file = preprocess_save_dir + 'text.npy'
@@ -109,7 +98,7 @@ if __name__ == "__main__":
         unique_words = np.load(unique_words_save_file, allow_pickle=True)
         cooc_matrix_sparse = load_npz(cooccurrence_matrix_save_file)
 
-        training_save_dir = 'data/training_data/test_training_01/word_vector_training/'
+        training_save_dir = 'data/training_data/test_training_02/word_vector_training/'
 
         # Train the word vectors using PyTorch.
         print("Training word vectors through log bilinear regression...")
@@ -167,8 +156,6 @@ if __name__ == "__main__":
         print("Indexing unqiue words...")
         word_to_idx = {word: idx for idx, word in enumerate(vectorizer.get_feature_names_out())}
 
-        print("Loading the trained word vectors...")
-        trained_word_vectors_file = 'testing_scrap_misc/training_01/word_vector_training/training_logs/weights_epoch_57.pt'
         print("Loading the trained word vectors...")
         trained_word_vectors_file = 'testing_scrap_misc/training_01/word_vector_training/training_logs/weights_epoch_57.pt'
         word_vectors_matrix = torch.load(trained_word_vectors_file)
@@ -460,18 +447,6 @@ if __name__ == "__main__":
         pass
     ############################################################
 
-    ############################################################
-    elif part == 'use_trained_model':
-        pass
-    ############################################################
-    ############################################################
-
-    ############################################################
-    ############################################################
-    else:
-        pass
-    ############################################################
-    ############################################################
 
 
 

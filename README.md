@@ -239,9 +239,11 @@ General workflow when applying the GloVe model ...
 
     1. ...text here...
 
+    1. Difficulties training the word vectors ... not sure what's going on ... could be due to small corpus (although there are hundreds of thousands of comments -- check this)
+
     1. Word similarity tests
 
-    1. Word analogy tests
+    1. Word analogy tests (cosine similarity)
 
     1. Amount of tokens too little
 
