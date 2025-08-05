@@ -2,7 +2,8 @@
 # Sarcasm Detection in Social Media Text
 
 <p align="center">
---- Work in progress ---
+--- Work in progress --- <br>
+--- Pardon the mess ---
 </p>
 
 2025 April — Present
@@ -11,9 +12,41 @@ Johnson Liu\
 <sub><small>
 GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
 </small></sub>
-<sup><small>
-Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
-</small></sup>
+
+## Quick‑start & Code Overview
+
+**Goal**  
+Classify Reddit comments as *sarcastic / not sarcastic* using custom word‑embeddings + neural nets.
+
+### Repo layout
+| Path | Notes |
+|------|-------|
+| `landing.py` / `main.py` | CLI entry points (data prep, train, evaluate, predict). |
+| `functions/helper_functions/` | Tokenisation, cleaning, TF‑IDF, train/test split. |
+| `functions/machine_learning/LogBilinearModel.py` | GloVe embedding trainer. |
+| `functions/machine_learning/feedforward_neural_network.py` | FNN classifier. |
+| `data/` | Training data. |
+
+<!-- ### How to run
+```bash
+pip install -r requirements.txt   # gensim, numpy, torch …
+python landing.py preprocess      # cleans & tokenises
+python landing.py train-glove     # trains embeddings
+python landing.py train-fnn       # trains classifier
+``` -->
+
+### Issues
+* Mixed tabs / spaces → run *black / ruff*.  
+* Hard‑coded absolute paths (`C:\Users\…`) – switch to `Path(__file__).parent / 'data'`.  
+* Recursive `print` debugging – replace with `logging`.  
+* No evaluation scripts for CNN / RNN yet.
+
+<!-- ### Next steps
+1. Move CLI to `typer` / `argparse` for clearer UX.  
+2. Package as `pip install -e .` module with `setup.cfg`.  
+3. Add unit tests for preprocessing & vectoriser.   -->
+
+---
 
 ## __Contents__
 
@@ -32,16 +65,9 @@ Email: [liujohnson.jl@gmail.com](mailto:liujohnson.jl@gmail.com)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.1 [Feedforward Neural Network]()\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
-____
-    1.3. [Mathematical Foundations](#mathematical-foundations)\
-    1.4. [Workflow](#workflow)\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.1. [Data Preprocessing]()\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.2. [Word Vector Training]()\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3. [Neural Network Training]()\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.1 [Feedforward Neural Network]()\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.2 [Convolutional Neural Network]()\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.4.3.3 [Recurrent Neural Network]()
-____
+
+---
+
 2. [Resources and Background Information](#resources-and-background-information)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
@@ -55,29 +81,27 @@ ____
     2.5. [Other Theoretical Backgrounds](#other-theoretical-backgrounds)\
     2.6. [Mathematical References](#mathematical-references)\
     2.7. [Graphical Visualization Guides](#graphical-visualization-guides)
-____
-____
+
+---
+
 3. [Graphics](#graphics)\
     3.1. [Data Visualization](#data-visualization)\
     3.2. [Machine Learning Visualization](#machine-learning-visualization)
-____
-____
+
+---
+
 4. [Results](#results)
-____
-____
+
+---
+
 5. [The Codebase](#the-codebase)\
     5.1. [Python Libraries Used](#python-libraries-used)
-____
-____
+
+---
+
 6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
-____
-7. [(—OUTDATED—) Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
-    7.1. [Important Dates](#important-dates)\
-    7.2. [Records](#records)
-____
-7. [(—OUTDATED—) Miscellaneous notes for collaborators working on the project](#miscellaneous-notes-for-collaborators-working-on-the-project)\
-    7.1. [Important Dates](#important-dates)\
-    7.2. [Records](#records)
+
+---
 
 
 
@@ -91,17 +115,24 @@ Another possible avenue to explore is sentiment analysis through multimodal inpu
 
 
 
-This project aims to experiment with applying natural language processing techniques to classify comments found in informal, conversational, or otherwise casual text found through social media as either sarcastic or not.
-The current scope of this project involves training neural network models on prelabeled comments from a dataset retrieved from Kaggle and using the trained models to predict the presence of sarcastic intent in Reddit comments.
-One possible future extension of this project is extending sarcasm detection to general sentiment analysis in social media posts.
-Another possible avenue to explore is sentiment analysis through multimodal input ( including images alongside text ).
+------------------
+--- Check this ---
+------------------
+The general idea - scan through a large amount of text, for each unique word in the vocabulary, tally up the number of times each other word (*context* words) in the vocabulary shows up within the local vicinity of the *target* word.
+Take the word 'cake' as the target word, and consider the context words 'strawberry' and 'computer'.
+A human reader would understand connections between the target word and the context words in different contexts.
+The model learns these relationships through the frequency in which pairs of words show up in the training text.
+By reading through a set of text, we would expect that the word 'strawberry' to show up near the word 'cake' more often than the word 'computer' would show up near 'cake'.
+Although the model does not understand the specific meanings of 'cake', 'strawberry', and 'computer', it sees that the relationship between the words 'cake' and 'strawberry' is relatively stronger than the relationship between the words 'cake' and 'computer'.
+The model does not understand why 'cake' is more related to 'strawberry' than 'computer' the same way that a human would, but it does understand that the relative strengths of the relationships between these pairs of words.
 
-
+word vectors -
+Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'.
+The amalgamation of the words in each sentence expresses the general meaning of the sentence even if the model does not understand these sentences the same way a human reader would.
 
 
 ##### <ins>Natural Language Processing - NLP</ins>
 
-Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data, like social media posts, emails, and other forms of natural text, into a form that machines can work with by applying text classification techniques.
 Natural Language Processing (NLP) can be used for sentiment analysis, which helps identify whether a piece of text expresses a positive, negative, or neutral emotion. NLP allows us to organize unstructured data, like social media posts, emails, and other forms of natural text, into a form that machines can work with by applying text classification techniques.
 
 This is usually done by training a classifier on a dataset that has been labeled in advance. For example, some texts might be labeled as sarcastic while others are not. The classifier learns patterns in the language based on these labels and tries to apply what it learns to new, unseen data.
@@ -225,7 +256,7 @@ General workflow when applying the GloVe model ...
 
         1. The co-occurence matrix tabulates the amount of times word $w_i$ appears in the context of word $w_j$.
 
-        2. The context window is the range centered on the target word from which we count the number of times the context word shows up.
+        1. The context window is the range centered on the target word from which we count the number of times the context word shows up.
 
     1. Compute the pairwise co-occurrence probabilities using the co-occurrence matrix.
 
@@ -372,7 +403,7 @@ General workflow when applying the GloVe model ...
 1. [Word2vec model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Word2vec)
 
 1. [CBOW — Word2Vec <br> – Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
-1. [CBOW — Word2Vec <br> – Introduction to the continous bag of words (CBOW) and word2vec models ( _Medium_ website ).](https://medium.com/@anmoltalwar/cbow-word2vec-854a043ee8f3)
+
 
 1. [*Efficient Estimation of Word Representations in Vector Space* <br> – Original academic paper ( arxiv.org ).](https://arxiv.org/abs/1301.3781v3)
 
@@ -380,6 +411,9 @@ General workflow when applying the GloVe model ...
 1. [GloVe model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/GloVe)
 
 1. [*GloVe: Global Vectors for Word Representation* <br> – Original manusript/academic paper ( Standford NLP Group ).](https://nlp.stanford.edu/pubs/glove.pdf)
+
+##### <ins>Sentiment Analysis</ins>
+1. [Detection of emotion by text analysis using machine learning <br> – Article published in _Frontiers of Psychology_.](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1190326/full)
 
 ### __Sample Works__
 1. [Sarcasm Detection with GloVe/Word2Vec <br> – Project on Kaggle applying the word2vec and GloVe models to classifying news headlines from _The Onion_ and the _The Huffington Post_.](https://www.kaggle.com/code/madz2000/sarcasm-detection-with-glove-word2vec-83-accuracy)
@@ -404,7 +438,6 @@ General workflow when applying the GloVe model ...
 1. [Machine Learning Tutorial <br> – General overview/tutorial on machine learning ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/machine-learning/)
 
 1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/ai-ml-ds/)
-1. [AI ML DS - How To Get Started? <br> – General overview on artificial intelligence, machine learning, and data science ( _GeeksforGeeks_ website ).](https://www.geeksforgeeks.org/ai-ml-ds/)
 
 1. [Bag of words model <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Bag-of-words_model)
 
@@ -421,6 +454,7 @@ General workflow when applying the GloVe model ...
 1. [Convolutional neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 
 1. [Recurrent neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Recurrent_neural_network)
+
 1. [Tf-idf ( term frequency-inverse document frequency ) <br> – Wikipedia article.](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
 
 1. [Feedforward neural network <br> - Wikipedia article.](https://en.wikipedia.org/wiki/Feedforward_neural_network)
@@ -486,9 +520,7 @@ _**Figures used for testing.\
 Not for use in final product.**_
 
 ![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
-![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
 
-![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
 ![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
 
 
@@ -517,7 +549,6 @@ Not for use in final product.**_
 
 ## __Future Direction and Possible Improvements__
 1. Machine learning
-1. Machine learning
     1. Extend project to sentiment and tone classificaiton of text.
     1. Extend project to multimodal classification where multiple input modalities (images, video, audio, etc.) are used together for prediction/classification.
 
@@ -525,7 +556,3 @@ Not for use in final product.**_
     1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website (or from a screenshot).
     1. Develop the app further to display in real time the predicted tone of all of the comments seen in the current browser window.
     1. Extend project to multimodal classification where multiple input modalities (images, video, audio, etc.) are used together for prediction/classification.
-
-1. (–stretch goal–) Browser application
-    1. Develop an app that can be used in a web browser that allows the user to directly take a comment and its associated data straight from the Reddit website (or from a screenshot).
-    1. Develop the app further to display in real time the predicted tone of all of the comments seen in the current browser window.

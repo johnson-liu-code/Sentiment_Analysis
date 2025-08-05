@@ -21,7 +21,7 @@ if __name__ == "__main__":
         help = "Tell the script which modular job to perform.",
         choices =   {
                         'preprocess',
-                        'train_word_vectors',
+                        'train_vectors',
                         'vectorize_comments',
                         'train_fnn',
                         'stack_word_vectors',
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 
     ############################################################
-    elif part == 'train_word_vectors':
+    elif part == 'train_vectors':
         from scipy.sparse import load_npz
 
         import functions.machine_learning.LogBilinearModel
