@@ -6,7 +6,7 @@
 --- Pardon the mess ---
 </p>
 
-2025 April — Present
+2025 June — Present
 
 Johnson Liu\
 <sub><small>
@@ -15,36 +15,28 @@ GitHub: [@johnson-liu-code](https://github.com/johnson-liu-code)\
 
 ## Quick‑start & Code Overview
 
-**Goal**  
-Classify Reddit comments as *sarcastic / not sarcastic* using custom word‑embeddings + neural nets.
+### Purpose
+Classify Reddit comments as *sarcastic / not sarcastic* using word‑embeddings + neural nets.
 
-### Repo layout
+### Repository Layout
 | Path | Notes |
 |------|-------|
 | `landing.py` / `main.py` | CLI entry points (data prep, train, evaluate, predict). |
 | `functions/helper_functions/` | Tokenisation, cleaning, TF‑IDF, train/test split. |
 | `functions/machine_learning/LogBilinearModel.py` | GloVe embedding trainer. |
 | `functions/machine_learning/feedforward_neural_network.py` | FNN classifier. |
-| `data/` | Training data. |
+<!-- | `data/` | Training and generated data. | -->
 
-<!-- ### How to run
+### How to Run
 ```bash
-pip install -r requirements.txt   # gensim, numpy, torch …
-python landing.py preprocess      # cleans & tokenises
-python landing.py train-glove     # trains embeddings
-python landing.py train-fnn       # trains classifier
-``` -->
+--- to be added ---
+```
 
 ### Issues
 * Mixed tabs / spaces → run *black / ruff*.  
 * Hard‑coded absolute paths (`C:\Users\…`) – switch to `Path(__file__).parent / 'data'`.  
 * Recursive `print` debugging – replace with `logging`.  
 * No evaluation scripts for CNN / RNN yet.
-
-<!-- ### Next steps
-1. Move CLI to `typer` / `argparse` for clearer UX.  
-2. Package as `pip install -e .` module with `setup.cfg`.  
-3. Add unit tests for preprocessing & vectoriser.   -->
 
 ---
 
@@ -68,7 +60,7 @@ python landing.py train-fnn       # trains classifier
 
 ---
 
-2. [Resources and Background Information](#resources-and-background-information)\
+2. [Resources and Helpful References](#resources-and-helpful-references)\
     2.1. [Data](#data)\
     2.2. [Theoretical Foundations](#theoretical-foundations)\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1. [Natural Language Processing](#natural-language-processing)\
@@ -84,22 +76,12 @@ python landing.py train-fnn       # trains classifier
 
 ---
 
-3. [Graphics](#graphics)\
-    3.1. [Data Visualization](#data-visualization)\
-    3.2. [Machine Learning Visualization](#machine-learning-visualization)
+
+3. [Implementation](#implementation)
 
 ---
 
-4. [Results](#results)
-
----
-
-5. [The Codebase](#the-codebase)\
-    5.1. [Python Libraries Used](#python-libraries-used)
-
----
-
-6. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
+4. [Future Direction and Possible Improvements](#future-direction-and-possible-improvements)
 
 ---
 
@@ -115,8 +97,8 @@ Another possible avenue to explore is sentiment analysis through multimodal inpu
 
 
 
-------------------
---- Check this ---
+
+--- Check this --- this is Johnson's rambling ... not sure if it is correct
 ------------------
 The general idea - scan through a large amount of text, for each unique word in the vocabulary, tally up the number of times each other word (*context* words) in the vocabulary shows up within the local vicinity of the *target* word.
 Take the word 'cake' as the target word, and consider the context words 'strawberry' and 'computer'.
@@ -130,6 +112,7 @@ word vectors -
 Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'.
 The amalgamation of the words in each sentence expresses the general meaning of the sentence even if the model does not understand these sentences the same way a human reader would.
 
+## Background
 
 ##### <ins>Natural Language Processing - NLP</ins>
 
@@ -381,7 +364,7 @@ General workflow when applying the GloVe model ...
 
 1. ... text here ...
 
-## __Resources and Background Information__
+## __Resources and Helpful References__
 
 ### __Data__
 1. [Sarcasm on Reddit <br> – Kaggle dataset with Reddit posts classified as either sarcastic or not sarcastic ( _Kaggle_ website ).](https://www.kaggle.com/datasets/danofer/sarcasm/data?select=train-balanced-sarcasm.csv)
@@ -486,65 +469,7 @@ General workflow when applying the GloVe model ...
 
 
 
-## __Graphics__
-
-### __Data Visualization__
-
-** Note to self: maybe it's better to interject the graphics throughout the write-up than to aggregate all of them in a single section.
-
-** Note to self: maybe it's better to interject the graphics throughout the write-up than to aggregate all of them in a single section.
-
-_**Preliminary figures.\
-Not for use in final product.**_
-
-##### <ins>Word cloud - Sarcastic</ins>
-![placeholder-text](figures/raw_data_visualization/wordcloud_sarcastic.png)
-
-<!-- ##### <ins>Word cloud - Not Sarcastic</ins>
-![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png) -->
-<!-- ##### <ins>Word cloud - Not Sarcastic</ins>
-![placeholder-text](figures/raw_data_visualization/wordcloud_not_sarcastic.png) -->
-
-##### <ins>Word frequency within comments</ins>
-![placeholder-text](figures/raw_data_visualization/words_in_comments.png)
-
-##### <ins>Co-occurrence probabilities</ins>
-![placeholder-text](figures/testing/testing_02/cooccurrence_probability_heatmap.png)
-
-
-
-
-### __Machine Learning Visualization__
-
-_**Figures used for testing.\
-Not for use in final product.**_
-
-![](figures/testing/testing_01/J_and_log_J_over_time_animation.gif)
-
-![placeholder-text](figures/testing/testing_01/test_word_vectors_over_time_animation.gif)
-
-
-
-_**Figures used for testing.\
-Not for use in final product.**_
-
-<img src="figures/neural_net_visualization/model.png" width="50%" height="50%"/>
-
-<img src="figures/neural_net_visualization/neural_network_animation.gif" width="100%" height="100%"/>
-
-_**Figures used for testing.\
-Not for use in final product.**_
-
-## __Results__
-
-**... text here ...**
-
-**... text here ...**
-
-
-## __The Codebase__
-
-#### Python Libraries Used
+## __Implementation__
 
 
 ## __Future Direction and Possible Improvements__
