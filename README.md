@@ -3,7 +3,8 @@
 
 <p align="center">
 --- Work in progress --- <br>
---- Pardon the mess ---
+--- Pardon the mess --- <br>
+--- Working on fixing inacurracies in background information ---
 </p>
 
 2025 June — Present
@@ -92,25 +93,25 @@ Classify Reddit comments as *sarcastic / not sarcastic* using word‑embeddings 
 
 This project aims to experiment with applying natural language processing techniques to classify comments found in informal, conversational, or otherwise casual text found through social media as either sarcastic or not.
 The current scope of this project involves training neural network models on prelabeled comments from a dataset retrieved from Kaggle and using the trained models to predict the presence of sarcastic intent in Reddit comments.
-One possible future extension of this project is extending sarcasm detection to general sentiment analysis in social media posts.
-Another possible avenue to explore is sentiment analysis through multimodal input ( including images alongside text ).
+A possible future extension is applying sarcasm detection to broader sentiment analysis to general sentiment analysis in social media posts.
+Another possible avenue to explore is sentiment analysis through multimodal input (including images alongside text).
 
 
 
 
 --- Check this --- this is Johnson's rambling ... not sure if it is correct
 ------------------
-The general idea - scan through a large amount of text, for each unique word in the vocabulary, tally up the number of times each other word (*context* words) in the vocabulary shows up within the local vicinity of the *target* word.
+The general idea is that we scan through a large amount of text, for each unique word in the vocabulary, tally up the number of times each other word (*context* words) in the vocabulary shows up within the local vicinity of the *target* word.
 Take the word 'cake' as the target word, and consider the context words 'strawberry' and 'computer'.
 A human reader would understand connections between the target word and the context words in different contexts.
 The model learns these relationships through the frequency in which pairs of words show up in the training text.
 By reading through a set of text, we would expect that the word 'strawberry' to show up near the word 'cake' more often than the word 'computer' would show up near 'cake'.
 Although the model does not understand the specific meanings of 'cake', 'strawberry', and 'computer', it sees that the relationship between the words 'cake' and 'strawberry' is relatively stronger than the relationship between the words 'cake' and 'computer'.
-The model does not understand why 'cake' is more related to 'strawberry' than 'computer' the same way that a human would, but it does understand that the relative strengths of the relationships between these pairs of words.
+The model does not understand why 'cake' is more related to 'strawberry' than 'computer' the same way that a human would, but it does recognize the relative strengths of the relationships between these pairs of words.
 
 word vectors -
-Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'.
-The amalgamation of the words in each sentence expresses the general meaning of the sentence even if the model does not understand these sentences the same way a human reader would.
+Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'. A simple sentence embedding can be obtained by averaging (or summing) its word vectors. This yields a fixed-length vector that roughly captures the overall meaning, though it ignores word order.
+
 
 ## Background
 
@@ -121,15 +122,16 @@ Natural Language Processing (NLP) can be used for sentiment analysis, which help
 This is usually done by training a classifier on a dataset that has been labeled in advance. For example, some texts might be labeled as sarcastic while others are not. The classifier learns patterns in the language based on these labels and tries to apply what it learns to new, unseen data.
 
 ##### <ins>Word Embedding</ins>
-ML algorthims struggle to work well with words. Instead we will work with numbers by assigning random numbers to words. Since words can be used in different contexts, like in *sarcasm* assigning certain words more than one number is best practice so that the **Neural Network** can adjust based on context.
+We represent each word as a continuous vector of real numbers. These vectors are initialized (often randomly) and then trained so that words used in similar contexts end up with similar embeddings. Traditional embeddings assign one vector per word type. Contextual embeddings (e.g., ELMo, BERT) produce different vectors for the same word in different sentences.
 
 ##### <ins>Word2Vec</ins>
 Word2Vec is a model that learns word meanings based on the words that commonly appear around them. For example, the words “*doctor*” and “*nurse*” often show up in similar contexts, so Word2Vec places them close together in vector space. This helps the model understand how words relate to one another. In sarcasm detection, understanding context is key, and Word2Vec helps capture that by noticing patterns in how words are used together.
 
 ##### <ins>GloVe</ins>
-Global Vectors for Word Representation, is another word embedding model. Unlike Word2Vec, which focuses on small windows of text, GloVe looks at word co-occurrence across an entire dataset. This gives it a more global understanding of word relationships. GloVe can help highlight unusual or ironic word pairings—something that often happens in sarcastic sentences.
+Global Vectors for Word Representation (GloVe), is another word embedding model. Unlike Word2Vec, which focuses on small windows of text, GloVe looks at word co-occurrence across an entire dataset. This gives it a more global understanding of word relationships. GloVe can help highlight unusual or ironic word pairings—something that often happens in sarcastic sentences.
 
-Some users on Kaggle have successfully used Word2Vec and GloVe to detect sarcasm in news headlines. In one project, they trained their model using headlines from The Onion (a satirical site) and The Huffington Post (a more traditional news source). The model achieved around 83% accuracy in detecting sarcasm.
+Some users on Kaggle have successfully used Word2Vec and GloVe to detect sarcasm in news headlines. Some public Kaggle kernels (e.g., detecting sarcasm in headlines) report accuracies in the low- to mid-80% range. In one project, the users trained their model using headlines from The Onion (a satirical site) and The Huffington Post (a more traditional news source).
+---insert link/reference here
 
 We can apply a similar approach in our project using Reddit posts. Instead of news headlines, we’ll train our model on a dataset of labeled Reddit comments, using Word2Vec or GloVe to create embeddings. This will allow our classifier to learn the difference between sincere and sarcastic language based on context—just like in the Kaggle example.
 
