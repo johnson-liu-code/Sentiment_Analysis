@@ -2,8 +2,8 @@
 # Sarcasm Detection in Social Media Text
 
 <p align="center">
---- Work in progress --- <br>
---- Pardon the mess --- <br>
+--- Mostly a pedagogical project to learn about LLMs, nothing new being explored! --- <br>
+--- Work in progress, pardon the mess --- <br>
 --- Working on fixing inacurracies in background information ---
 </p>
 
@@ -99,7 +99,7 @@ Another possible avenue to explore is sentiment analysis through multimodal inpu
 
 
 
---- Check this --- this is Johnson's rambling ... not sure if it is correct
+<!-- --- Check this --- this is Johnson's rambling ... not sure if it is correct
 ------------------
 The general idea is that we scan through a large amount of text, for each unique word in the vocabulary, tally up the number of times each other word (*context* words) in the vocabulary shows up within the local vicinity of the *target* word.
 Take the word 'cake' as the target word, and consider the context words 'strawberry' and 'computer'.
@@ -110,7 +110,7 @@ Although the model does not understand the specific meanings of 'cake', 'strawbe
 The model does not understand why 'cake' is more related to 'strawberry' than 'computer' the same way that a human would, but it does recognize the relative strengths of the relationships between these pairs of words.
 
 word vectors -
-Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'. A simple sentence embedding can be obtained by averaging (or summing) its word vectors. This yields a fixed-length vector that roughly captures the overall meaning, though it ignores word order.
+Consider the sentences 'this ice cream tastes great' and 'you need to take the general chemistry course before the physical chemistry course'. A simple sentence embedding can be obtained by averaging (or summing) its word vectors. This yields a fixed-length vector that roughly captures the overall meaning, though it ignores word order. -->
 
 
 ## Background
